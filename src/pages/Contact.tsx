@@ -36,7 +36,7 @@ export default function Contact() {
               Get in touch.
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground mb-10">
-              We'd love to hear from you — whether you have a question about our knitwear, need help with an order, or want to discuss a custom commission. Our small team typically responds within one business day.
+              We'd love to hear from you — whether you have a question about our products, need help with an order, or want to discuss a custom commission. Our small team typically responds within one business day.
             </p>
             <div className="space-y-1">
               <p className="text-lg text-foreground font-medium">
