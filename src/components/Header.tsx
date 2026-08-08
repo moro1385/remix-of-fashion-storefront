@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, Instagram } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/stores/cartStore";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,9 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const { totalItems } = useCart();
+  const totalItems = useCartStore(state =>
+    state.items.reduce((sum, i) => sum + i.quantity, 0)
+  );
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -45,7 +47,7 @@ export default function Header() {
             transparent ? "text-white" : "text-foreground"
           )}
         >
-          Terra Studios
+          Jami Mode
         </Link>
 
         {/* Desktop nav */}
