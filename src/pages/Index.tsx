@@ -15,7 +15,7 @@ export default function Index() {
     <>
       {/* Hero — full bleed, header overlays this */}
       <section className="w-full h-[70vh] relative -mt-[72px]">
-        <img src={heroBg} alt="Everyday essentials and knitwear" className="w-full h-full object-cover" />
+        <img src={heroBg} alt="Everyday essentials by Jami Mode" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[hsl(30_30%_22%/0.3)]" />
         <div className="absolute bottom-0 left-0 right-0 px-6 pb-16 md:pb-20">
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-white tracking-wide max-w-7xl mx-auto leading-none">

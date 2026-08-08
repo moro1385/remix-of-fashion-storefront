@@ -14,7 +14,7 @@ export default function About() {
           Jami Mode began with a simple conviction: that the clothes we wear should carry the warmth of the hands that made them. Every piece in our collection is hand-knitted from natural fibers — merino, alpaca, cashmere, and heritage breed wools — sourced from small farms and independent spinners who share our commitment to ethical, sustainable practice.
         </p>
         <p>
-          Our process is slow by design. Each garment begins as a skein of yarn, carefully wound and paired with a pattern developed in-house. From there, skilled artisans work stitch by stitch, shaping fabric that moves and breathes with the body. The result is knitwear with a depth of texture and character that no machine can replicate — pieces that age gracefully, soften over time, and become more personal with every wear.
+          Our process is slow by design. Each garment begins as a skein of yarn, carefully wound and paired with a pattern developed in-house. From there, skilled artisans work stitch by stitch, shaping fabric that moves and breathes with the body. The result is garments with a depth of texture and character that no machine can replicate — pieces that age gracefully, soften over time, and become more personal with every wear.
         </p>
       </div>
 
