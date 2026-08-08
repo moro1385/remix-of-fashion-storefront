@@ -1,29 +1,83 @@
-import { useParams, Navigate, Link } from "react-router-dom";
-import { useState } from "react";
-import { getProductBySlug, getRelatedProducts } from "@/data/products";
-import { useCart } from "@/context/CartContext";
+import { useMemo, useState } from "react";
+import { Link, Navigate, useParams } from "react-router-dom";
+import { Loader2 } from "lucide-react";
+import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { formatPrice, productImage, type ShopifyProduct } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
 import { useToast } from "@/hooks/use-toast";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
+import { cn } from "@/lib/utils";
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const product = getProductBySlug(slug || "");
-  const { addItem } = useCart();
+  const { data: product, isLoading } = useShopifyProduct(slug);
+  const { data: allProducts } = useShopifyProducts();
+  const addItem = useCartStore((s) => s.addItem);
+  const isCartLoading = useCartStore((s) => s.isLoading);
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
+  const [selected, setSelected] = useState<Record<string, string>>({});
+
+  const variants = product?.node.variants.edges.map((e) => e.node) ?? [];
+  const options = product?.node.options ?? [];
+
+  const activeOptions = useMemo(() => {
+    const result: Record<string, string> = {};
+    options.forEach((o) => {
+      result[o.name] = selected[o.name] ?? o.values[0];
+    });
+    return result;
+  }, [options, selected]);
+
+  const selectedVariant = useMemo(() => {
+    if (variants.length === 0) return undefined;
+    return (
+      variants.find((v) =>
+        v.selectedOptions.every((o) => activeOptions[o.name] === o.value)
+      ) ?? variants[0]
+    );
+  }, [variants, activeOptions]);
+
+  const related = useMemo(() => {
+    if (!allProducts || !product) return [] as ShopifyProduct[];
+    return allProducts
+      .filter(
+        (p) =>
+          p.node.handle !== product.node.handle &&
+          p.node.productType === product.node.productType
+      )
+      .slice(0, 3);
+  }, [allProducts, product]);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center py-32">
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
 
   if (!product) return <Navigate to="/shop" replace />;
 
-  const related = getRelatedProducts(product.slug, 3);
-  const isSoldOut = product.badge === "sold-out";
+  const isSoldOut = !selectedVariant?.availableForSale;
+  const price = selectedVariant?.price ?? product.node.priceRange.minVariantPrice;
 
-  const handleAddToCart = () => {
-    if (isSoldOut) return;
-    addItem({ slug: product.slug, name: product.name, price: product.price, image: product.image }, quantity);
+  const handleAddToCart = async () => {
+    if (!selectedVariant || isSoldOut) return;
+    await addItem({
+      variantId: selectedVariant.id,
+      productTitle: product.node.title,
+      productHandle: product.node.handle,
+      variantTitle: selectedVariant.title,
+      image: productImage(product),
+      price: selectedVariant.price,
+      quantity,
+      selectedOptions: selectedVariant.selectedOptions,
+    });
     toast({
       title: "Added to cart",
-      description: `${quantity}× ${product.name} added to your cart.`,
+      description: `${quantity}× ${product.node.title} added to your cart.`,
     });
     setQuantity(1);
   };
@@ -34,32 +88,66 @@ export default function ProductDetail() {
         <nav className="text-sm text-muted-foreground mb-6">
           <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
           <span className="mx-2">›</span>
-          <span className="text-foreground">{product.name}</span>
+          <span className="text-foreground">{product.node.title}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Image */}
           <div className="w-full aspect-[4/5] bg-warm-bg">
-            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+            <img
+              src={productImage(product)}
+              alt={product.node.title}
+              className="w-full h-full object-cover"
+            />
           </div>
 
-          {/* Info */}
           <div className="flex flex-col">
-            <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">{product.name}</h1>
-            <p className="text-4xl md:text-5xl font-bold text-foreground mb-6">${product.price.toFixed(2)}</p>
-            {product.availability && (
-              <p className="text-sm text-accent font-medium mb-4">{product.availability}</p>
+            <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">
+              {product.node.title}
+            </h1>
+            <p className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              {formatPrice(price.amount, price.currencyCode)}
+            </p>
+            {product.node.description && (
+              <p className="text-base leading-relaxed text-muted-foreground mb-8">
+                {product.node.description}
+              </p>
             )}
-            <p className="text-base leading-relaxed text-muted-foreground mb-8">{product.description}</p>
+
+            {options
+              .filter((o) => o.name !== "Title")
+              .map((option) => (
+                <div key={option.name} className="mb-6">
+                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                    {option.name}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {option.values.map((value) => (
+                      <button
+                        key={value}
+                        onClick={() => setSelected((prev) => ({ ...prev, [option.name]: value }))}
+                        className={cn(
+                          "px-4 py-2 text-sm border transition-colors",
+                          activeOptions[option.name] === value
+                            ? "border-foreground text-foreground"
+                            : "border-border text-muted-foreground hover:text-foreground"
+                        )}
+                      >
+                        {value}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
 
             {!isSoldOut ? (
               <div className="flex items-stretch gap-3">
                 <QuantitySelector quantity={quantity} onChange={setQuantity} />
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+                  disabled={isCartLoading}
+                  className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center"
                 >
-                  Add To Cart
+                  {isCartLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add To Cart"}
                 </button>
               </div>
             ) : (
@@ -78,8 +166,8 @@ export default function ProductDetail() {
         <section className="max-w-6xl mx-auto px-6 py-16">
           <h2 className="text-2xl font-light text-foreground mb-8">You Might Also Like</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {related.map(p => (
-              <ProductCard key={p.slug} product={p} />
+            {related.map((p) => (
+              <ProductCard key={p.node.id} product={p} />
             ))}
           </div>
         </section>
