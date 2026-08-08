@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-12">
           <div>
-            <h3 className="text-2xl font-light tracking-wide text-foreground mb-3">Terra Studios</h3>
+            <h3 className="text-2xl font-light tracking-wide text-foreground mb-3">Jami Mode</h3>
             <p className="text-sm text-muted-foreground">Handcrafted knitwear, made with care.</p>
             <div className="flex gap-4 mt-6">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
