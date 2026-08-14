@@ -31,7 +31,7 @@ export default function CollectionSlider() {
   }, [emblaApi]);
 
   return (
-    <section className="relative w-full -mt-[104px]" aria-label="Collections">
+    <section className="relative w-full -mt-[88px] md:-mt-[104px]" aria-label="Collections">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {collections.map((collection, index) => (
