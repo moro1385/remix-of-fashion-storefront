@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, Instagram } from "lucide-react";
+import { ShoppingCart, Menu, X, Instagram, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
