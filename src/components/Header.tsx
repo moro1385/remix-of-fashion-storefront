@@ -89,8 +89,11 @@ export default function Header() {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-4">
+          <Link to="/account" aria-label="Account">
+            <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
+          </Link>
           <Link to="/cart" className="relative" aria-label="Shopping cart">
-            <ShoppingCart className={cn("w-5 h-5 transition-colors", transparent ? "text-white" : "text-foreground")} />
+            <ShoppingCart className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
             {totalItems > 0 && (
               <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
                 {totalItems}
@@ -99,8 +102,8 @@ export default function Header() {
           </Link>
           <button onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle menu">
             {mobileOpen
-              ? <X className={cn("w-6 h-6", transparent ? "text-white" : "text-foreground")} />
-              : <Menu className={cn("w-6 h-6", transparent ? "text-white" : "text-foreground")} />
+              ? <X className={cn("w-6 h-6", transparent ? "text-primary-foreground" : "text-foreground")} />
+              : <Menu className={cn("w-6 h-6", transparent ? "text-primary-foreground" : "text-foreground")} />
             }
           </button>
         </div>
@@ -108,7 +111,7 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav className="md:hidden border-t border-border bg-white px-6 py-6 space-y-4">
+        <nav className="md:hidden border-t border-border bg-background px-6 py-6 space-y-4">
           {navLinks.map(link => (
             <Link
               key={link.to}
@@ -122,8 +125,16 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <Link
+            to="/account"
+            onClick={() => setMobileOpen(false)}
+            className="block text-sm uppercase tracking-wider text-muted-foreground"
+          >
+            Account
+          </Link>
         </nav>
       )}
+
     </header>
   );
 }
