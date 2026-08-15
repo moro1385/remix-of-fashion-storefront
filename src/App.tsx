@@ -38,9 +38,12 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
 
               <Route path="/cart" element={<Cart />} />
+              <Route path="/account" element={<Account />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/collections/core" element={<CoreCollection />} />
               <Route path="/collections/sets-and-pairs" element={<SetsAndPairs />} />
+              <Route path="/collections/:handle" element={<CollectionPage />} />
+
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
