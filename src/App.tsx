@@ -15,7 +15,16 @@ import ProductDetail from "./pages/ProductDetail";
 import CoreCollection from "./pages/CoreCollection";
 import SetsAndPairs from "./pages/SetsAndPairs";
 import CollectionPage from "./pages/CollectionPage";
-import Account from "./pages/Account";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import OtpRequest from "./pages/OtpRequest";
+import OtpVerify from "./pages/OtpVerify";
+import PersonalInformation from "./pages/account/PersonalInformation";
+import Addresses from "./pages/account/Addresses";
+import Wallet from "./pages/account/Wallet";
+import Orders from "./pages/account/Orders";
+import RequireAuth from "./components/auth/RequireAuth";
+import RedirectIfAuthenticated from "./components/auth/RedirectIfAuthenticated";
 import NotFound from "./pages/NotFound";
 
 
@@ -38,12 +47,24 @@ const App = () => {
               <Route path="/contact" element={<Contact />} />
 
               <Route path="/cart" element={<Cart />} />
-              <Route path="/account" element={<Account />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/collections/core" element={<CoreCollection />} />
               <Route path="/collections/sets-and-pairs" element={<SetsAndPairs />} />
               <Route path="/collections/:handle" element={<CollectionPage />} />
 
+              <Route element={<RedirectIfAuthenticated />}>
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signin/otp" element={<OtpRequest />} />
+                <Route path="/signin/otp/verify" element={<OtpVerify />} />
+                <Route path="/signup" element={<SignUp />} />
+              </Route>
+
+              <Route element={<RequireAuth />}>
+                <Route path="/account" element={<PersonalInformation />} />
+                <Route path="/account/addresses" element={<Addresses />} />
+                <Route path="/account/wallet" element={<Wallet />} />
+                <Route path="/account/orders" element={<Orders />} />
+              </Route>
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
