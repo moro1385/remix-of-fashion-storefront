@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, Instagram, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,10 @@ export default function Header() {
   const totalItems = useCartStore(state =>
     state.items.reduce((sum, i) => sum + i.quantity, 0)
   );
+  const session = useAuthStore(state => state.session);
+  const isAuthenticated = !!session && session.expiresAt > Date.now();
+  const accountHref = isAuthenticated ? "/account" : "/signin";
+  const accountLabel = isAuthenticated ? "My account" : "Sign in";
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -73,7 +78,7 @@ export default function Header() {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Instagram className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </a>
-          <Link to="/account" aria-label="Account">
+          <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </Link>
           <Link to="/cart" className="relative" aria-label="Shopping cart">
@@ -89,7 +94,7 @@ export default function Header() {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-4">
-          <Link to="/account" aria-label="Account">
+          <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
           <Link to="/cart" className="relative" aria-label="Shopping cart">
@@ -126,11 +131,11 @@ export default function Header() {
             </Link>
           ))}
           <Link
-            to="/account"
+            to={accountHref}
             onClick={() => setMobileOpen(false)}
             className="block text-sm uppercase tracking-wider text-muted-foreground"
           >
-            Account
+            {isAuthenticated ? "My account" : "Sign in"}
           </Link>
         </nav>
       )}
