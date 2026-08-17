@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, Instagram, User } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +16,10 @@ export default function Header() {
   const totalItems = useCartStore(state =>
     state.items.reduce((sum, i) => sum + i.quantity, 0)
   );
+  const session = useAuthStore(state => state.session);
+  const isAuthenticated = !!session && session.expiresAt > Date.now();
+  const accountHref = isAuthenticated ? "/account" : "/signin";
+  const accountLabel = isAuthenticated ? "My account" : "Sign in";
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
