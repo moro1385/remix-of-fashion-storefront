@@ -78,7 +78,7 @@ export default function Header() {
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Instagram className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </a>
-          <Link to="/account" aria-label="Account">
+          <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </Link>
           <Link to="/cart" className="relative" aria-label="Shopping cart">
@@ -94,7 +94,7 @@ export default function Header() {
 
         {/* Mobile */}
         <div className="flex md:hidden items-center gap-4">
-          <Link to="/account" aria-label="Account">
+          <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
           <Link to="/cart" className="relative" aria-label="Shopping cart">
@@ -131,11 +131,11 @@ export default function Header() {
             </Link>
           ))}
           <Link
-            to="/account"
+            to={accountHref}
             onClick={() => setMobileOpen(false)}
             className="block text-sm uppercase tracking-wider text-muted-foreground"
           >
-            Account
+            {isAuthenticated ? "My account" : "Sign in"}
           </Link>
         </nav>
       )}
