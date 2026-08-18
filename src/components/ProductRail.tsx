@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useProducts } from "@/hooks/useProducts";
 
 interface ProductRailProps {
   eyebrow: string;
@@ -22,7 +22,7 @@ export default function ProductRail({
   ctaLabel = "View all",
   className,
 }: ProductRailProps) {
-  const { data: products, isLoading } = useShopifyProducts(query, count);
+  const { data: products, isLoading } = useProducts(query, count);
   const items = (products ?? []).slice(0, count);
 
   return (

@@ -1,10 +1,10 @@
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useProducts } from "@/hooks/useProducts";
 import setsImg from "@/assets/collections/sets-and-pairs.jpg";
 
 export default function SetsAndPairs() {
-  const { data: products, isLoading } = useShopifyProducts("tag:underwear OR tag:undershirt");
+  const { data: products, isLoading } = useProducts("tag:underwear OR tag:undershirt");
 
   return (
     <>

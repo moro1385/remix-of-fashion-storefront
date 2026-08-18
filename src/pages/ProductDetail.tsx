@@ -1,8 +1,8 @@
 import { useMemo, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
-import { useShopifyProduct, useShopifyProducts } from "@/hooks/useShopifyProducts";
-import { formatPrice, productImage, type ShopifyProduct } from "@/lib/shopify";
+import { useProduct, useProducts } from "@/hooks/useProducts";
+import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { useCartStore } from "@/stores/cartStore";
 import { useToast } from "@/hooks/use-toast";
 import QuantitySelector from "@/components/QuantitySelector";
@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
-  const { data: product, isLoading } = useShopifyProduct(slug);
-  const { data: allProducts } = useShopifyProducts();
+  const { data: product, isLoading } = useProduct(slug);
+  const { data: allProducts } = useProducts();
   const addItem = useCartStore((s) => s.addItem);
   const isCartLoading = useCartStore((s) => s.isLoading);
   const { toast } = useToast();
@@ -40,7 +40,7 @@ export default function ProductDetail() {
   }, [variants, activeOptions]);
 
   const related = useMemo(() => {
-    if (!allProducts || !product) return [] as ShopifyProduct[];
+    if (!allProducts || !product) return [] as CatalogProduct[];
     return allProducts
       .filter(
         (p) =>
