@@ -1,13 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useProducts } from "@/hooks/useProducts";
 import { getCollection } from "@/data/collections";
 
 export default function CollectionPage() {
   const { handle } = useParams();
   const collection = getCollection(handle);
-  const { data: products, isLoading } = useShopifyProducts(collection?.query);
+  const { data: products, isLoading } = useProducts(collection?.query);
 
   if (!collection) {
     return (

@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import ProductCard from "@/components/ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useProducts } from "@/hooks/useProducts";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function Shop() {
-  const { data: products, isLoading, error } = useShopifyProducts();
+  const { data: products, isLoading, error } = useProducts();
   const [activeType, setActiveType] = useState<string>("All");
 
   const types = useMemo(() => {

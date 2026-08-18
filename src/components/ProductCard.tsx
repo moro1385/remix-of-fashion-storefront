@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { formatPrice, productImage, type ShopifyProduct } from "@/lib/shopify";
+import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 
-export default function ProductCard({ product }: { product: ShopifyProduct }) {
+export default function ProductCard({ product }: { product: CatalogProduct }) {
   const { title, handle, productType, priceRange, variants } = product.node;
   const inStock = variants.edges.some((v) => v.node.availableForSale);
   const price = priceRange.minVariantPrice;

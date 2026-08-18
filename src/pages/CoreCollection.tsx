@@ -1,10 +1,10 @@
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useShopifyProducts } from "@/hooks/useShopifyProducts";
+import { useProducts } from "@/hooks/useProducts";
 import coreCollectionImg from "@/assets/collections/core-collection.jpg";
 
 export default function CoreCollection() {
-  const { data: products, isLoading } = useShopifyProducts("product_type:Socks");
+  const { data: products, isLoading } = useProducts("product_type:Socks");
 
   return (
     <>
