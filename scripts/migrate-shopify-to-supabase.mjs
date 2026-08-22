@@ -1,18 +1,22 @@
 import { createClient } from "@supabase/supabase-js";
 
 const SHOPIFY_API_VERSION = "2025-07";
-const SHOPIFY_STORE_PERMANENT_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN || "remix-of-fashion-storefront-h831i-e01mmfmk.myshopify.com";
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN || "53dc3d8fdaf4df67a28ec98a2967d2b3";
 
+const SHOPIFY_STORE_PERMANENT_DOMAIN = process.env.SHOPIFY_STORE_DOMAIN;
+const SHOPIFY_STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_TOKEN;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-  console.error("Error: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be provided as environment variables.");
+if (!SHOPIFY_STORE_PERMANENT_DOMAIN || !SHOPIFY_STOREFRONT_TOKEN || !SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
+  console.error("Error: The following environment variables are required:");
+  console.error("- SHOPIFY_STORE_DOMAIN");
+  console.error("- SHOPIFY_STOREFRONT_TOKEN");
+  console.error("- SUPABASE_URL");
+  console.error("- SUPABASE_SERVICE_ROLE_KEY");
   process.exit(1);
 }
 
+const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_STORE_PERMANENT_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 
 const PRODUCT_FIELDS = `
@@ -93,13 +97,14 @@ async function uploadImageToSupabase(imageUrl, handle, index) {
       if (ext.length > 5) ext = 'jpg'; // Basic safeguard
     }
 
-    const path = `${handle}/${index}-${Date.now()}.${ext}`;
+    // Deterministic path based on product handle and image index
+    const path = `${handle}/${index}.${ext}`;
 
     const { data, error } = await supabase.storage
       .from('product-images')
       .upload(path, buffer, {
         contentType: response.headers.get('content-type') || 'image/jpeg',
-        upsert: true
+        upsert: true // Overwrite if it already exists to maintain idempotency
       });
 
     if (error) {
@@ -231,37 +236,26 @@ async function runMigration() {
 
         const vPrice = parseFloat(sv.price.amount);
 
-        // Find existing variant for this product matching size and color
-        let vQuery = supabase
+        // Find existing variant using the stable Shopify variant ID metadata
+        const { data: existingVariant, error: vSearchError } = await supabase
           .from('product_variants')
           .select('id')
-          .eq('product_id', productId);
+          .eq('shopify_variant_id', sv.id)
+          .maybeSingle();
 
-        if (size === null) {
-          vQuery = vQuery.is('size', null);
-        } else {
-          vQuery = vQuery.eq('size', size);
-        }
+        if (vSearchError) throw new Error(`Error searching variant for ${sp.handle}: ${vSearchError.message}`);
 
-        if (color === null) {
-          vQuery = vQuery.is('color', null);
-        } else {
-          vQuery = vQuery.eq('color', color);
-        }
-
-        const { data: existingVariants, error: vSearchError } = await vQuery;
-
-        if (vSearchError) throw new Error(`Error searching variants for ${sp.handle}: ${vSearchError.message}`);
-
-        if (existingVariants && existingVariants.length > 0) {
-          // Update
+        if (existingVariant) {
+          // Update existing variant based strictly on shopify_variant_id
           const { error: vUpdateError } = await supabase
             .from('product_variants')
             .update({
               price: isNaN(vPrice) ? null : vPrice,
+              size,
+              color,
               // Intentionally leaving stock_quantity as is or 0
             })
-            .eq('id', existingVariants[0].id);
+            .eq('id', existingVariant.id);
 
           if (vUpdateError) throw new Error(`Error updating variant: ${vUpdateError.message}`);
         } else {
@@ -270,6 +264,7 @@ async function runMigration() {
             .from('product_variants')
             .insert({
               product_id: productId,
+              shopify_variant_id: sv.id,
               size,
               color,
               price: isNaN(vPrice) ? null : vPrice,
@@ -285,24 +280,37 @@ async function runMigration() {
       // 4. Process Images
       const images = sp.images.edges.map(e => e.node);
 
-      // We'll clear existing images for this product and re-insert to maintain sync and sort order,
-      // but avoid re-uploading if possible. Actually, to be safe and truly idempotent with uploads,
-      // it's tricky without a checksum. For now, we will upload all and overwrite existing DB rows.
-      // A better approach for idempotency: check if product_images already has the same number of images.
       const { data: existingImages, error: eiError } = await supabase
         .from('product_images')
-        .select('id, image_url')
-        .eq('product_id', productId)
-        .order('sort_order');
+        .select('id, sort_order, alt_text')
+        .eq('product_id', productId);
 
       if (eiError) throw new Error(`Error fetching existing images for ${sp.handle}: ${eiError.message}`);
 
-      // Simple strategy: If there are no images, upload and insert.
-      // If there are images, skip uploading to save time, assuming they are correct.
-      // This might not capture image updates, but is safer for idempotency.
-      if (!existingImages || existingImages.length === 0) {
-        for (let i = 0; i < images.length; i++) {
-          const img = images[i];
+      // To handle partial migrations smoothly:
+      // Loop over expected images. Map index -> sort_order.
+      for (let i = 0; i < images.length; i++) {
+        const img = images[i];
+
+        // Check if this particular index/sort_order already exists in the database
+        const existingRecord = existingImages?.find(dbImg => dbImg.sort_order === i);
+
+        let shouldUploadAndInsert = false;
+
+        if (!existingRecord) {
+          shouldUploadAndInsert = true;
+        } else if (existingRecord.alt_text !== img.altText) {
+          // If it exists but metadata is different, we can simply update the row
+          const { error: updateImgError } = await supabase
+            .from('product_images')
+            .update({ alt_text: img.altText })
+            .eq('id', existingRecord.id);
+
+          if (updateImgError) throw new Error(`Error updating image row: ${updateImgError.message}`);
+          // Don't reupload the binary if just alt_text changed to save time, assuming storage is deterministic.
+        }
+
+        if (shouldUploadAndInsert) {
           const storagePath = await uploadImageToSupabase(img.url, sp.handle, i);
 
           if (storagePath) {
@@ -345,4 +353,6 @@ async function runMigration() {
   }
 }
 
+// NOTE: This script is for dry-run/syntax verification purposes during development only.
+// DO NOT execute against real production environments unintentionally!
 runMigration();
