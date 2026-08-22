@@ -6,10 +6,10 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
+  { to: "/", label: "Home" },
   { to: "/shop", label: "Shop" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
-  
 ];
 
 export default function Header() {

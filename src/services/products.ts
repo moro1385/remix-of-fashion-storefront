@@ -1,5 +1,4 @@
 import { supabase } from "@/integrations/supabase/client";
-import { mockProducts } from "@/data/mockProducts";
 
 /* ---------------- Types (shape-compatible with the previous storefront layer) ---------------- */
 
@@ -136,7 +135,6 @@ export interface ProductQueryOptions {
 export async function fetchActiveProducts(options: ProductQueryOptions = {}): Promise<CatalogProduct[]> {
   const { limit = 100, featured, categorySlug, terms } = options;
 
-  /*
   let query = supabase
     .from("products")
     .select(PRODUCT_SELECT)
@@ -161,9 +159,6 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
   if (error) throw error;
 
   let products = ((data ?? []) as unknown as Row[]).map(mapProduct);
-  */
-
-  let products = [...mockProducts];
 
   if (terms && terms.length > 0) {
     const needles = terms.map((t) => t.toLowerCase()).filter(Boolean);
@@ -177,7 +172,7 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
     );
   }
 
-  return products.slice(0, limit);
+  return products;
 }
 
 export async function fetchFeaturedProducts(limit = 8) {
@@ -189,7 +184,6 @@ export async function fetchProductsByCategory(categorySlug: string, limit = 100)
 }
 
 export async function fetchProductBySlug(slug: string): Promise<CatalogProduct | null> {
-  /*
   const { data, error } = await supabase
     .from("products")
     .select(PRODUCT_SELECT)
@@ -198,13 +192,9 @@ export async function fetchProductBySlug(slug: string): Promise<CatalogProduct |
     .maybeSingle();
   if (error) throw error;
   return data ? mapProduct(data as unknown as Row) : null;
-  */
-  const product = mockProducts.find(p => p.node.handle === slug);
-  return product || null;
 }
 
 export async function fetchProductImages(productId: string) {
-  /*
   const { data, error } = await supabase
     .from("product_images")
     .select("id, image_url, alt_text, sort_order")
@@ -212,32 +202,24 @@ export async function fetchProductImages(productId: string) {
     .order("sort_order", { ascending: true });
   if (error) throw error;
   return data ?? [];
-  */
-  return [];
 }
 
 export async function fetchProductVariants(productId: string) {
-  /*
   const { data, error } = await supabase
     .from("product_variants")
     .select("id, size, color, sku, price, stock_quantity")
     .eq("product_id", productId);
   if (error) throw error;
   return data ?? [];
-  */
-  return [];
 }
 
 export async function fetchCategories() {
-  /*
   const { data, error } = await supabase
     .from("categories")
     .select("id, name, slug, description, image_url")
     .order("name", { ascending: true });
   if (error) throw error;
   return data ?? [];
-  */
-  return [];
 }
 
 /* ---------------- Presentation helpers ---------------- */
