@@ -42,6 +42,27 @@ export const useAuthStore = create<AuthStore>()(
           const session = mapSupabaseSession(currentSession);
           if (!session) return;
           if (currentSession?.user) {
+
+            // Check for pending signup profile data before reading
+            const pendingStr = sessionStorage.getItem("jamimode-pending-signup");
+            let newProfileData = null;
+            if (pendingStr) {
+               try {
+                 newProfileData = JSON.parse(pendingStr);
+                 // The session is now active, so RLS permits inserting the profile
+                 await supabase.from("profiles").upsert({
+                    id: currentSession.user.id,
+                    first_name: newProfileData.firstName,
+                    last_name: newProfileData.lastName,
+                    phone: currentSession.user.phone || ""
+                 });
+               } catch (e) {
+                 console.error("Failed to parse or insert pending profile", e);
+               } finally {
+                 sessionStorage.removeItem("jamimode-pending-signup");
+               }
+            }
+
             const { data: profile } = await supabase
               .from("profiles")
               .select("*")
@@ -52,8 +73,8 @@ export const useAuthStore = create<AuthStore>()(
             const user: User = {
               id: currentSession.user.id,
               phone: currentSession.user.phone || profile?.phone || "",
-              firstName: profile?.first_name || "",
-              lastName: profile?.last_name || "",
+              firstName: profile?.first_name || (newProfileData?.firstName ?? ""),
+              lastName: profile?.last_name || (newProfileData?.lastName ?? ""),
               email: currentSession.user.email,
               createdAt: currentSession.user.created_at,
               addresses: currentUser?.addresses || [],
@@ -153,12 +174,11 @@ export const useAuthStore = create<AuthStore>()(
           if (error) throw new Error(error.message);
 
           if (data.user) {
-            await supabase.from("profiles").upsert({
-                id: data.user.id,
-                first_name: input.firstName,
-                last_name: input.lastName,
-                phone: normalized
-            });
+            // Save names for insertion after OTP verify establishes session
+            sessionStorage.setItem("jamimode-pending-signup", JSON.stringify({
+              firstName: input.firstName,
+              lastName: input.lastName
+            }));
 
             if (data.session) {
               const currentUser = get().user;
@@ -189,32 +209,10 @@ export const useAuthStore = create<AuthStore>()(
 
         verifyOtp: async (phone, code) => {
           const normalized = normalizePhone(phone);
-          const { data, error } = await supabase.auth.verifyOtp({ phone: normalized, token: code, type: 'sms' });
+          const { error } = await supabase.auth.verifyOtp({ phone: normalized, token: code, type: 'sms' });
           if (error) throw new Error(error.message);
 
-          if (data.session && data.user) {
-            const { data: profile } = await supabase
-              .from("profiles")
-              .select("*")
-              .eq("id", data.user.id)
-              .single();
-
-            const currentUser = get().user;
-            set({
-              session: mapSupabaseSession(data.session),
-              user: {
-                id: data.user.id,
-                phone: data.user.phone || profile?.phone || normalized,
-                firstName: profile?.first_name || "",
-                lastName: profile?.last_name || "",
-                email: data.user.email,
-                createdAt: data.user.created_at,
-                addresses: currentUser?.addresses || [],
-                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
-                orders: currentUser?.orders || [],
-              }
-            });
-          }
+          // State will be set by the onAuthStateChange listener which centralizes profile fetching and insertion
         },
 
         signOut: async () => {
