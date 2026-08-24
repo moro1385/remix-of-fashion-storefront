@@ -56,8 +56,10 @@ export default function SignUp() {
         lastName: form.lastName,
         password: form.password,
       });
-      toast.success("Your account is ready");
-      navigate("/account", { replace: true });
+      toast.success("Account created. Please verify your phone number.");
+      // Navigate to OTP verify passing the phone number in state
+      const { normalizePhone } = await import("@/lib/phone");
+      navigate("/signin/otp/verify", { state: { phone: normalizePhone(form.phone) }, replace: true });
     } catch (error) {
       const msg = error instanceof Error ? error.message : "Something went wrong. Please try again.";
       setFormError(msg);
