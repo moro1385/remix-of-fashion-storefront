@@ -1,5 +1,4 @@
-import { OTP_RESEND_SECONDS } from "./authClient";
-
+const OTP_RESEND_SECONDS = 60;
 const KEY = "jamimode-otp-sent-at";
 
 export { OTP_RESEND_SECONDS };

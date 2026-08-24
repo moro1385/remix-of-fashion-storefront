@@ -8,13 +8,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductVariantsManager } from "./ProductVariantsManager";
 import { ProductImagesManager } from "./ProductImagesManager";
+import { fetchCategories } from "@/services/products";
+import { X } from "lucide-react";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
+type Category = { id: string; name: string; slug: string };
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -24,6 +29,7 @@ const productSchema = z.object({
   is_active: z.boolean().default(true),
   is_featured: z.boolean().default(false),
   category_id: z.string().optional().nullable(),
+  tags: z.array(z.string()).default([]),
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -37,6 +43,8 @@ interface ProductFormDialogProps {
 
 export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: ProductFormDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [tagInput, setTagInput] = useState("");
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -48,8 +56,21 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       is_active: true,
       is_featured: false,
       category_id: null,
+      tags: [],
     },
   });
+
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const data = await fetchCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      }
+    }
+    loadCategories();
+  }, []);
 
   useEffect(() => {
     if (product) {
@@ -61,6 +82,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         is_active: product.is_active,
         is_featured: product.is_featured,
         category_id: product.category_id,
+        tags: product.tags || [],
       });
     } else {
       form.reset({
@@ -71,9 +93,30 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         is_active: true,
         is_featured: false,
         category_id: null,
+        tags: [],
       });
     }
+    setTagInput("");
   }, [product, form]);
+
+  const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const newTag = tagInput.trim();
+      if (newTag) {
+        const currentTags = form.getValues("tags") || [];
+        if (!currentTags.includes(newTag)) {
+          form.setValue("tags", [...currentTags, newTag]);
+        }
+        setTagInput("");
+      }
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    const currentTags = form.getValues("tags") || [];
+    form.setValue("tags", currentTags.filter((tag) => tag !== tagToRemove));
+  };
 
   async function onSubmit(values: ProductFormValues) {
     setIsSubmitting(true);
@@ -145,19 +188,50 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input type="number" step="0.01" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="flex gap-4">
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Price</FormLabel>
+                    <FormControl>
+                      <Input type="number" step="0.01" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="category_id"
+                render={({ field }) => (
+                  <FormItem className="flex-1">
+                    <FormLabel>Category</FormLabel>
+                    <Select
+                      onValueChange={(val) => field.onChange(val === "null" ? null : val)}
+                      value={field.value || "null"}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="null">None</SelectItem>
+                        {categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <FormField
               control={form.control}
@@ -172,6 +246,43 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                       {...field}
                       value={field.value || ""}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tags</FormLabel>
+                  <FormControl>
+                    <div className="space-y-2">
+                      <Input
+                        placeholder="Add tags (press Enter)"
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        onKeyDown={handleAddTag}
+                      />
+                      {field.value && field.value.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {field.value.map((tag) => (
+                            <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                              {tag}
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveTag(tag)}
+                                className="text-muted-foreground hover:text-foreground"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
