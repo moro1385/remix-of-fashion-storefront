@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import AuthShell from "@/components/auth/AuthShell";
 import FormField from "@/components/auth/FormField";
-import { AuthError, authBackend } from "@/lib/authClient";
+import { useAuthStore } from "@/stores/authStore";
 import { PHONE_HELP, isValidPhone, normalizePhone } from "@/lib/phone";
 import { setOtpSentAt } from "@/lib/otpTimer";
 import { toast } from "sonner";
 
 export default function OtpRequest() {
   const navigate = useNavigate();
+  const requestOtp = useAuthStore((s) => s.requestOtp);
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [formError, setFormError] = useState("");
@@ -24,13 +25,13 @@ export default function OtpRequest() {
     setLoading(true);
     try {
       const normalized = normalizePhone(phone);
-      const result = await authBackend.requestOtp({ phone: normalized });
+      const result = await requestOtp(normalized);
       setOtpSentAt(normalized);
       if (result.devCode) toast.info(`Demo code: ${result.devCode}`, { duration: 15000 });
       else toast.success("Verification code sent");
       navigate("/signin/otp/verify", { state: { phone: normalized } });
     } catch (err) {
-      setFormError(err instanceof AuthError ? err.message : "Could not send the code. Please try again.");
+      setFormError(err instanceof Error ? err.message : "Could not send the code. Please try again.");
     } finally {
       setLoading(false);
     }
