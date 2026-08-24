@@ -3,7 +3,7 @@ import { Check, Loader2, MapPin, Pencil, Plus, Star, Trash2, X } from "lucide-re
 import AccountLayout from "@/components/account/AccountLayout";
 import FormField from "@/components/auth/FormField";
 import { useAuthStore } from "@/stores/authStore";
-import type { Address } from "@/lib/authClient";
+import type { Address } from "@/types/auth";
 import { formatPhone, isValidPhone, normalizePhone } from "@/lib/phone";
 import { toast } from "sonner";
 

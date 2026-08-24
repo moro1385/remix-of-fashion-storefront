@@ -4,7 +4,6 @@ import { Eye, EyeOff, Loader2 } from "lucide-react";
 import AuthShell from "@/components/auth/AuthShell";
 import FormField from "@/components/auth/FormField";
 import { useAuthStore } from "@/stores/authStore";
-import { AuthError } from "@/lib/authClient";
 import { PHONE_HELP, isValidPhone } from "@/lib/phone";
 import { toast } from "sonner";
 
@@ -60,12 +59,9 @@ export default function SignUp() {
       toast.success("Your account is ready");
       navigate("/account", { replace: true });
     } catch (error) {
-      if (error instanceof AuthError) {
-        if (error.field) setErrors({ [error.field]: error.message });
-        else setFormError(error.message);
-      } else {
-        setFormError("Something went wrong. Please try again.");
-      }
+      const msg = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      setFormError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

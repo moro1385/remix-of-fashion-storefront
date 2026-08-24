@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import AuthShell from "@/components/auth/AuthShell";
-import { AuthError, authBackend } from "@/lib/authClient";
 import { formatPhone } from "@/lib/phone";
 import { formatCountdown, getOtpRemainingSeconds, setOtpSentAt } from "@/lib/otpTimer";
 import { useAuthStore } from "@/stores/authStore";
@@ -13,6 +12,7 @@ export default function OtpVerify() {
   const location = useLocation();
   const phone = (location.state as { phone?: string } | null)?.phone ?? "";
   const verifyOtp = useAuthStore((s) => s.verifyOtp);
+  const requestOtp = useAuthStore((s) => s.requestOtp);
 
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
@@ -40,7 +40,7 @@ export default function OtpVerify() {
       toast.success("You're signed in");
       navigate("/account", { replace: true });
     } catch (err) {
-      setError(err instanceof AuthError ? err.message : "Could not verify the code. Please try again.");
+      setError(err instanceof Error ? err.message : "Could not verify the code. Please try again.");
       setCode("");
     } finally {
       setLoading(false);
@@ -51,7 +51,7 @@ export default function OtpVerify() {
     setResending(true);
     setError("");
     try {
-      const result = await authBackend.requestOtp({ phone });
+      const result = await requestOtp(phone);
       setOtpSentAt(phone);
       setRemaining(result.expiresInSeconds);
       setCode("");

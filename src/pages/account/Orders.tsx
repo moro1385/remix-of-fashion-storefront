@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Package } from "lucide-react";
 import AccountLayout from "@/components/account/AccountLayout";
 import { useAuthStore } from "@/stores/authStore";
-import type { OrderStatus } from "@/lib/authClient";
+import type { OrderStatus } from "@/types/auth";
 import { cn } from "@/lib/utils";
 
 const statusStyles: Record<OrderStatus, string> = {

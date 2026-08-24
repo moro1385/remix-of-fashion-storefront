@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { authBackend, type Address, type Session, type User } from "@/lib/authClient";
+import { supabase } from "@/integrations/supabase/client";
+import { normalizePhone } from "@/lib/phone";
+import type { Address, Session, User } from "@/types/auth";
+import type { Session as SupabaseSession } from "@supabase/supabase-js";
 
 interface AuthStore {
   session: Session | null;
@@ -10,6 +13,7 @@ interface AuthStore {
   bootstrap: () => Promise<void>;
   signInWithPassword: (phone: string, password: string) => Promise<void>;
   signUp: (input: { phone: string; firstName: string; lastName: string; password: string }) => Promise<void>;
+  requestOtp: (phone: string) => Promise<{ expiresInSeconds: number; devCode?: string }>;
   verifyOtp: (phone: string, code: string) => Promise<void>;
   signOut: () => Promise<void>;
   updateProfile: (patch: Partial<Pick<User, "firstName" | "lastName" | "email">>) => Promise<void>;
@@ -18,81 +22,259 @@ interface AuthStore {
   setDefaultAddress: (id: string) => Promise<void>;
 }
 
+const mapSupabaseSession = (s: SupabaseSession | null): Session | null => {
+  if (!s) return null;
+  return {
+    token: s.access_token,
+    userId: s.user.id,
+    expiresAt: (s.expires_in ? Date.now() + s.expires_in * 1000 : Date.now() + 3600 * 1000),
+  };
+};
+
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
-      session: null,
-      user: null,
-      isBootstrapping: false,
-
-      isAuthenticated: () => {
-        const { session } = get();
-        return !!session && session.expiresAt > Date.now();
-      },
-
-      bootstrap: async () => {
-        const { session } = get();
-        if (!session) return;
-        if (session.expiresAt <= Date.now()) {
+    (set, get) => {
+      // Set up onAuthStateChange listener
+      supabase.auth.onAuthStateChange(async (event, currentSession) => {
+        if (event === 'SIGNED_OUT') {
           set({ session: null, user: null });
-          return;
+        } else if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          const session = mapSupabaseSession(currentSession);
+          if (!session) return;
+          if (currentSession?.user) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", currentSession.user.id)
+              .single();
+
+            const currentUser = get().user;
+            const user: User = {
+              id: currentSession.user.id,
+              phone: currentSession.user.phone || profile?.phone || "",
+              firstName: profile?.first_name || "",
+              lastName: profile?.last_name || "",
+              email: currentSession.user.email,
+              createdAt: currentSession.user.created_at,
+              addresses: currentUser?.addresses || [],
+              wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+              orders: currentUser?.orders || [],
+            };
+            set({ session, user });
+          } else {
+             set({ session });
+          }
         }
-        set({ isBootstrapping: true });
-        try {
-          const user = await authBackend.getUser(session);
-          set({ user });
-        } catch {
+      });
+
+      return {
+        session: null,
+        user: null,
+        isBootstrapping: false,
+
+        isAuthenticated: () => {
+          const { session } = get();
+          return !!session && session.expiresAt > Date.now();
+        },
+
+        bootstrap: async () => {
+          set({ isBootstrapping: true });
+          try {
+            const { data: { session: currentSession }, error } = await supabase.auth.getSession();
+            if (error || !currentSession) {
+              set({ session: null, user: null });
+              return;
+            }
+
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", currentSession.user.id)
+              .single();
+
+            const currentUser = get().user;
+            set({
+              session: mapSupabaseSession(currentSession),
+              user: {
+                id: currentSession.user.id,
+                phone: currentSession.user.phone || profile?.phone || "",
+                firstName: profile?.first_name || "",
+                lastName: profile?.last_name || "",
+                email: currentSession.user.email,
+                createdAt: currentSession.user.created_at,
+                addresses: currentUser?.addresses || [],
+                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                orders: currentUser?.orders || [],
+              }
+            });
+          } catch {
+            set({ session: null, user: null });
+          } finally {
+            set({ isBootstrapping: false });
+          }
+        },
+
+        signInWithPassword: async (phone, password) => {
+          const normalized = normalizePhone(phone);
+          const { data, error } = await supabase.auth.signInWithPassword({ phone: normalized, password });
+          if (error) throw new Error(error.message);
+
+          if (data.session && data.user) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", data.user.id)
+              .single();
+
+            const currentUser = get().user;
+            set({
+              session: mapSupabaseSession(data.session),
+              user: {
+                id: data.user.id,
+                phone: data.user.phone || profile?.phone || normalized,
+                firstName: profile?.first_name || "",
+                lastName: profile?.last_name || "",
+                email: data.user.email,
+                createdAt: data.user.created_at,
+                addresses: currentUser?.addresses || [],
+                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                orders: currentUser?.orders || [],
+              }
+            });
+          }
+        },
+
+        signUp: async (input) => {
+          const normalized = normalizePhone(input.phone);
+          const { data, error } = await supabase.auth.signUp({
+            phone: normalized,
+            password: input.password
+          });
+          if (error) throw new Error(error.message);
+
+          if (data.user) {
+            await supabase.from("profiles").upsert({
+                id: data.user.id,
+                first_name: input.firstName,
+                last_name: input.lastName,
+                phone: normalized
+            });
+
+            if (data.session) {
+              const currentUser = get().user;
+              set({
+                session: mapSupabaseSession(data.session),
+                user: {
+                  id: data.user.id,
+                  phone: normalized,
+                  firstName: input.firstName,
+                  lastName: input.lastName,
+                  email: data.user.email,
+                  createdAt: data.user.created_at,
+                  addresses: currentUser?.addresses || [],
+                  wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                  orders: currentUser?.orders || [],
+                }
+              });
+            }
+          }
+        },
+
+        requestOtp: async (phone) => {
+           const normalized = normalizePhone(phone);
+           const { error } = await supabase.auth.signInWithOtp({ phone: normalized });
+           if (error) throw new Error(error.message);
+           return { expiresInSeconds: 120 };
+        },
+
+        verifyOtp: async (phone, code) => {
+          const normalized = normalizePhone(phone);
+          const { data, error } = await supabase.auth.verifyOtp({ phone: normalized, token: code, type: 'sms' });
+          if (error) throw new Error(error.message);
+
+          if (data.session && data.user) {
+            const { data: profile } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", data.user.id)
+              .single();
+
+            const currentUser = get().user;
+            set({
+              session: mapSupabaseSession(data.session),
+              user: {
+                id: data.user.id,
+                phone: data.user.phone || profile?.phone || normalized,
+                firstName: profile?.first_name || "",
+                lastName: profile?.last_name || "",
+                email: data.user.email,
+                createdAt: data.user.created_at,
+                addresses: currentUser?.addresses || [],
+                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                orders: currentUser?.orders || [],
+              }
+            });
+          }
+        },
+
+        signOut: async () => {
+          await supabase.auth.signOut();
           set({ session: null, user: null });
-        } finally {
-          set({ isBootstrapping: false });
-        }
-      },
+        },
 
-      signInWithPassword: async (phone, password) => {
-        const { session, user } = await authBackend.signInWithPassword({ phone, password });
-        set({ session, user });
-      },
+        updateProfile: async (patch) => {
+          const { session, user } = get();
+          if (!session || !user) return;
 
-      signUp: async (input) => {
-        const { session, user } = await authBackend.signUp(input);
-        set({ session, user });
-      },
+          const updateData: Record<string, string> = {};
+          if (patch.firstName !== undefined) updateData.first_name = patch.firstName;
+          if (patch.lastName !== undefined) updateData.last_name = patch.lastName;
 
-      verifyOtp: async (phone, code) => {
-        const { session, user } = await authBackend.verifyOtp({ phone, code });
-        set({ session, user });
-      },
+          if (Object.keys(updateData).length > 0) {
+              await supabase
+                .from("profiles")
+                .update(updateData)
+                .eq("id", user.id);
+          }
 
-      signOut: async () => {
-        const { session } = get();
-        if (session) await authBackend.signOut(session);
-        set({ session: null, user: null });
-      },
+          set({ user: { ...user, ...patch } });
+        },
 
-      updateProfile: async (patch) => {
-        const { session } = get();
-        if (!session) return;
-        set({ user: await authBackend.updateProfile(session, patch) });
-      },
+        upsertAddress: async (address) => {
+          const { user } = get();
+          if (!user) return;
 
-      upsertAddress: async (address) => {
-        const { session } = get();
-        if (!session) return;
-        set({ user: await authBackend.upsertAddress(session, address) });
-      },
+          const id = address.id ?? crypto.randomUUID();
+          const exists = user.addresses.some((a) => a.id === id);
+          let addresses = exists
+            ? user.addresses.map((a) => (a.id === id ? { ...a, ...address, id } : a))
+            : [...user.addresses, { ...address, id }];
 
-      deleteAddress: async (id) => {
-        const { session } = get();
-        if (!session) return;
-        set({ user: await authBackend.deleteAddress(session, id) });
-      },
+          const shouldBeDefault = address.isDefault || addresses.length === 1;
+          addresses = addresses.map((a) => ({ ...a, isDefault: shouldBeDefault ? a.id === id : a.isDefault }));
+          set({ user: { ...user, addresses } });
+        },
 
-      setDefaultAddress: async (id) => {
-        const { session } = get();
-        if (!session) return;
-        set({ user: await authBackend.setDefaultAddress(session, id) });
-      },
-    }),
+        deleteAddress: async (id) => {
+          const { user } = get();
+          if (!user) return;
+
+          let addresses = user.addresses.filter((a) => a.id !== id);
+          if (addresses.length && !addresses.some((a) => a.isDefault)) {
+            addresses = addresses.map((a, i) => ({ ...a, isDefault: i === 0 }));
+          }
+          set({ user: { ...user, addresses } });
+        },
+
+        setDefaultAddress: async (id) => {
+          const { user } = get();
+          if (!user) return;
+
+          const addresses = user.addresses.map((a) => ({ ...a, isDefault: a.id === id }));
+          set({ user: { ...user, addresses } });
+        },
+      };
+    },
     {
       name: "jamimode-auth",
       storage: createJSONStorage(() => localStorage),
