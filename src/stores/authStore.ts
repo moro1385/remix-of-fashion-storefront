@@ -75,7 +75,7 @@ export const useAuthStore = create<AuthStore>()(
               phone: currentSession.user.phone || profile?.phone || "",
               firstName: profile?.first_name || (newProfileData?.firstName ?? ""),
               lastName: profile?.last_name || (newProfileData?.lastName ?? ""),
-              email: currentSession.user.email,
+              email: profile?.email || currentSession.user.email,
               createdAt: currentSession.user.created_at,
               addresses: currentUser?.addresses || [],
               wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
@@ -121,7 +121,7 @@ export const useAuthStore = create<AuthStore>()(
                 phone: currentSession.user.phone || profile?.phone || "",
                 firstName: profile?.first_name || "",
                 lastName: profile?.last_name || "",
-                email: currentSession.user.email,
+                email: profile?.email || currentSession.user.email,
                 createdAt: currentSession.user.created_at,
                 addresses: currentUser?.addresses || [],
                 wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
@@ -155,7 +155,7 @@ export const useAuthStore = create<AuthStore>()(
                 phone: data.user.phone || profile?.phone || normalized,
                 firstName: profile?.first_name || "",
                 lastName: profile?.last_name || "",
-                email: data.user.email,
+                email: profile?.email || data.user.email,
                 createdAt: data.user.created_at,
                 addresses: currentUser?.addresses || [],
                 wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
@@ -167,6 +167,17 @@ export const useAuthStore = create<AuthStore>()(
 
         signUp: async (input) => {
           const normalized = normalizePhone(input.phone);
+
+          const { data: existingProfile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("phone", normalized)
+            .maybeSingle();
+
+          if (existingProfile) {
+            throw new Error("An account with this phone number already exists");
+          }
+
           const { data, error } = await supabase.auth.signUp({
             phone: normalized,
             password: input.password
@@ -189,7 +200,7 @@ export const useAuthStore = create<AuthStore>()(
                   phone: normalized,
                   firstName: input.firstName,
                   lastName: input.lastName,
-                  email: data.user.email,
+                  email: data.user.email, // At signup, we rely on auth user email if any
                   createdAt: data.user.created_at,
                   addresses: currentUser?.addresses || [],
                   wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
@@ -224,9 +235,10 @@ export const useAuthStore = create<AuthStore>()(
           const { session, user } = get();
           if (!session || !user) return;
 
-          const updateData: Record<string, string> = {};
+          const updateData: { first_name?: string; last_name?: string; email?: string } = {};
           if (patch.firstName !== undefined) updateData.first_name = patch.firstName;
           if (patch.lastName !== undefined) updateData.last_name = patch.lastName;
+          if (patch.email !== undefined) updateData.email = patch.email;
 
           if (Object.keys(updateData).length > 0) {
               await supabase
