@@ -119,6 +119,7 @@ export default function Header() {
           >
             <Link
               to="/shop"
+              onClick={() => setShopMenuOpen(false)}
               className={cn(
                 "text-sm uppercase tracking-wider transition-colors flex items-center gap-1 py-4",
                 transparent
