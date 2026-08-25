@@ -1,13 +1,53 @@
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, Instagram, User } from "lucide-react";
+import { ShoppingCart, Menu, X, Instagram, User, ChevronDown } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
+const shopDepartments = [
+  {
+    name: "Men",
+    label: "مردانه",
+    categories: [
+      { name: "Sets", label: "Sets" },
+      { name: "Socks", label: "Socks" },
+      { name: "Pants", label: "Pants" },
+      { name: "Shorts", label: "Shorts" },
+      { name: "T-Shirts", label: "T-Shirts" },
+      { name: "Tank Tops", label: "Tank Tops" },
+      { name: "Underwear", label: "Underwear" },
+      { name: "Undershirts", label: "Undershirts" },
+      { name: "Swimwear", label: "Swimwear" },
+    ],
+  },
+  {
+    name: "Women",
+    label: "زنانه",
+    categories: [
+      { name: "Socks", label: "Socks" },
+      { name: "Pants", label: "Pants" },
+      { name: "Shorts", label: "Shorts" },
+      { name: "T-Shirts", label: "T-Shirts" },
+      { name: "Tank Tops", label: "Tank Tops" },
+      { name: "Underwear", label: "Underwear" },
+      { name: "Undershirts", label: "Undershirts" },
+      { name: "Sets", label: "Sets" },
+    ],
+  },
+  {
+    name: "Kids",
+    label: "بچه گانه",
+    categories: [
+      { name: "Socks", label: "Socks" },
+      { name: "Underwear", label: "Underwear/Shorts" },
+      { name: "Undershirts", label: "Undershirts" },
+    ],
+  },
+];
+
 const navLinks = [
   { to: "/", label: "Home" },
-  { to: "/shop", label: "Shop" },
   { to: "/about", label: "About" },
   { to: "/contact", label: "Contact" },
 ];
@@ -23,6 +63,8 @@ export default function Header() {
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [shopMenuOpen, setShopMenuOpen] = useState(false);
+  const [mobileShopMenuOpen, setMobileShopMenuOpen] = useState(false);
 
   const isHome = pathname === "/";
 
@@ -57,21 +99,91 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(link => (
+          <Link
+            to="/"
+            className={cn(
+              "text-sm uppercase tracking-wider transition-colors",
+              transparent
+                ? "text-primary-foreground/80 hover:text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
+              pathname === "/" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
+            )}
+          >
+            Home
+          </Link>
+
+          <div
+            className="relative"
+            onMouseEnter={() => setShopMenuOpen(true)}
+            onMouseLeave={() => setShopMenuOpen(false)}
+          >
             <Link
-              key={link.to}
-              to={link.to}
+              to="/shop"
               className={cn(
-                "text-sm uppercase tracking-wider transition-colors",
+                "text-sm uppercase tracking-wider transition-colors flex items-center gap-1 py-4",
                 transparent
                   ? "text-primary-foreground/80 hover:text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground",
-                pathname === link.to && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
+                pathname.startsWith("/shop") && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
               )}
             >
-              {link.label}
+              Shop
+              <ChevronDown className="w-4 h-4" />
             </Link>
-          ))}
+
+            {/* Desktop Mega Menu */}
+            {shopMenuOpen && (
+              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50">
+                {shopDepartments.map((dept) => (
+                  <div key={dept.name} className="flex-1">
+                    <h3 className="font-medium text-foreground mb-4 border-b border-border pb-2 uppercase text-sm flex items-center justify-between gap-2">
+                      <span>{dept.name}</span>
+                      <span className="text-xs text-muted-foreground">{dept.label}</span>
+                    </h3>
+                    <ul className="space-y-2">
+                      {dept.categories.map((cat) => (
+                        <li key={cat.name}>
+                          <Link
+                            to={`/shop?department=${dept.name.toLowerCase()}&category=${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                            className="text-sm text-muted-foreground hover:text-foreground transition-colors block py-1"
+                            onClick={() => setShopMenuOpen(false)}
+                          >
+                            {cat.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/about"
+            className={cn(
+              "text-sm uppercase tracking-wider transition-colors",
+              transparent
+                ? "text-primary-foreground/80 hover:text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
+              pathname === "/about" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
+            )}
+          >
+            About
+          </Link>
+
+          <Link
+            to="/contact"
+            className={cn(
+              "text-sm uppercase tracking-wider transition-colors",
+              transparent
+                ? "text-primary-foreground/80 hover:text-primary-foreground"
+                : "text-muted-foreground hover:text-foreground",
+              pathname === "/contact" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
+            )}
+          >
+            Contact
+          </Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-5">
@@ -116,27 +228,99 @@ export default function Header() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <nav className="md:hidden border-t border-border bg-background px-6 py-6 space-y-4">
-          {navLinks.map(link => (
-            <Link
-              key={link.to}
-              to={link.to}
-              onClick={() => setMobileOpen(false)}
-              className={cn(
-                "block text-sm uppercase tracking-wider text-muted-foreground",
-                pathname === link.to && "text-foreground font-medium"
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <nav className="md:hidden border-t border-border bg-background px-6 py-6 space-y-4 h-[calc(100vh-88px)] overflow-y-auto">
           <Link
-            to={accountHref}
+            to="/"
             onClick={() => setMobileOpen(false)}
-            className="block text-sm uppercase tracking-wider text-muted-foreground"
+            className={cn(
+              "block text-sm uppercase tracking-wider text-muted-foreground",
+              pathname === "/" && "text-foreground font-medium"
+            )}
           >
-            {isAuthenticated ? "My account" : "Sign in"}
+            Home
           </Link>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <Link
+                to="/shop"
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "block text-sm uppercase tracking-wider text-muted-foreground",
+                  pathname.startsWith("/shop") && "text-foreground font-medium"
+                )}
+              >
+                Shop
+              </Link>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setMobileShopMenuOpen(!mobileShopMenuOpen);
+                }}
+                className="p-2"
+              >
+                <ChevronDown className={cn("w-5 h-5 transition-transform", mobileShopMenuOpen && "rotate-180")} />
+              </button>
+            </div>
+
+            {mobileShopMenuOpen && (
+              <div className="pl-4 mt-4 space-y-6">
+                {shopDepartments.map((dept) => (
+                  <div key={dept.name}>
+                    <h3 className="font-medium text-foreground mb-3 uppercase text-xs flex items-center justify-between pr-4">
+                      <span>{dept.name}</span>
+                      <span className="text-muted-foreground">{dept.label}</span>
+                    </h3>
+                    <ul className="space-y-3">
+                      {dept.categories.map((cat) => (
+                        <li key={cat.name}>
+                          <Link
+                            to={`/shop?department=${dept.name.toLowerCase()}&category=${cat.name.toLowerCase().replace(/\s+/g, '-')}`}
+                            className="text-sm text-muted-foreground hover:text-foreground block"
+                            onClick={() => setMobileOpen(false)}
+                          >
+                            {cat.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <Link
+            to="/about"
+            onClick={() => setMobileOpen(false)}
+            className={cn(
+              "block text-sm uppercase tracking-wider text-muted-foreground",
+              pathname === "/about" && "text-foreground font-medium"
+            )}
+          >
+            About
+          </Link>
+
+          <Link
+            to="/contact"
+            onClick={() => setMobileOpen(false)}
+            className={cn(
+              "block text-sm uppercase tracking-wider text-muted-foreground",
+              pathname === "/contact" && "text-foreground font-medium"
+            )}
+          >
+            Contact
+          </Link>
+
+          <div className="pt-4 mt-4 border-t border-border">
+            <Link
+              to={accountHref}
+              onClick={() => setMobileOpen(false)}
+              className="block text-sm uppercase tracking-wider text-muted-foreground"
+            >
+              {isAuthenticated ? "My account" : "Sign in"}
+            </Link>
+          </div>
         </nav>
       )}
 
