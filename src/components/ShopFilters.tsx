@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 
 const getFilterCategories = (department?: string | null, category?: string | null) => {
   let typeOptions: { value: string; label: string }[] = [];
+  let sizeOptions: { value: string; label: string }[] = [];
   let patternOptions = [
     { value: "رنگی", label: "رنگی (Colored)" },
     { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
@@ -19,6 +20,15 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     patternOptions = [
       { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
       { value: "ساده", label: "ساده (Plain)" },
+    ];
+
+    sizeOptions = [
+      { value: "L", label: "L" },
+      { value: "XL", label: "XL" },
+      { value: "2XL", label: "2XL" },
+      { value: "3XL", label: "3XL" },
+      { value: "4XL", label: "4XL" },
+      { value: "5XL", label: "5XL" },
     ];
 
     if (department === "men") {
@@ -37,8 +47,31 @@ const getFilterCategories = (department?: string | null, category?: string | nul
         { value: "پادار", label: "پادار" },
       ];
     }
+  } else if (category === "undershirts") {
+    sizeOptions = [
+      { value: "L", label: "L" },
+      { value: "XL", label: "XL" },
+      { value: "2XL", label: "2XL" },
+      { value: "3XL", label: "3XL" },
+      { value: "4XL", label: "4XL" },
+      { value: "5XL", label: "5XL" },
+    ];
+
+    if (department === "men") {
+      typeOptions = [
+        { value: "رکابی", label: "رکابی" },
+        { value: "نیم آستین", label: "نیم آستین" },
+        { value: "خشتی", label: "خشتی" },
+        { value: "حلقه‌ای", label: "حلقه‌ای" },
+        { value: "پشت قهرمانی", label: "پشت قهرمانی" },
+      ];
+    }
   } else if (category === "socks") {
     // Socks
+    sizeOptions = [
+      { value: "فری سایز", label: "فری سایز (Free Size)" },
+    ];
+
     typeOptions = [
       { value: "جوراب ساقدار", label: "جوراب ساقدار" },
       { value: "جوراب نیم ساق", label: "جوراب نیم ساق" },
@@ -75,9 +108,7 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     {
       id: "size",
       title: "Size",
-      options: [
-        { value: "فری سایز", label: "فری سایز (Free Size)" },
-      ],
+      options: sizeOptions,
     },
   ].filter(cat => cat.options.length > 0);
 };
