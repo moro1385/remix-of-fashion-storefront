@@ -56,6 +56,15 @@ const getFilterCategories = (department?: string | null, category?: string | nul
         { value: "حلقه‌ای", label: "حلقه‌ای" },
         { value: "پشت قهرمانی", label: "پشت قهرمانی" },
       ];
+    } else if (department === "women") {
+      typeOptions = [
+        { value: "رکابی", label: "رکابی" },
+        { value: "نیم تنه", label: "نیم تنه" },
+      ];
+    } else if (department === "kids") {
+      typeOptions = [
+        { value: "زیرپوش", label: "زیرپوش" },
+      ];
     }
   } else if (category === "pants") {
     if (department === "men") {

@@ -14,7 +14,6 @@ import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import CoreCollection from "./pages/CoreCollection";
 import SetsAndPairs from "./pages/SetsAndPairs";
-import CollectionPage from "./pages/CollectionPage";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import OtpRequest from "./pages/OtpRequest";
@@ -56,7 +55,6 @@ const App = () => {
               <Route path="/product/:slug" element={<ProductDetail />} />
               <Route path="/collections/core" element={<CoreCollection />} />
               <Route path="/collections/sets-and-pairs" element={<SetsAndPairs />} />
-              <Route path="/collections/:handle" element={<CollectionPage />} />
 
               <Route element={<RedirectIfAuthenticated />}>
                 <Route path="/signin" element={<SignIn />} />
