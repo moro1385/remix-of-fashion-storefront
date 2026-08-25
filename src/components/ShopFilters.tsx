@@ -9,7 +9,16 @@ import { Label } from "@/components/ui/label";
 
 const getFilterCategories = (department?: string | null, category?: string | null) => {
   let typeOptions: { value: string; label: string }[] = [];
-  let sizeOptions: { value: string; label: string }[] = [];
+  let sizeOptions: { value: string; label: string }[] = [
+    { value: "S", label: "S" },
+    { value: "M", label: "M" },
+    { value: "L", label: "L" },
+    { value: "XL", label: "XL" },
+    { value: "2XL", label: "2XL" },
+    { value: "3XL", label: "3XL" },
+    { value: "4XL", label: "4XL" },
+    { value: "5XL", label: "5XL" },
+  ];
   let patternOptions = [
     { value: "رنگی", label: "رنگی (Colored)" },
     { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
@@ -20,15 +29,6 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     patternOptions = [
       { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
       { value: "ساده", label: "ساده (Plain)" },
-    ];
-
-    sizeOptions = [
-      { value: "L", label: "L" },
-      { value: "XL", label: "XL" },
-      { value: "2XL", label: "2XL" },
-      { value: "3XL", label: "3XL" },
-      { value: "4XL", label: "4XL" },
-      { value: "5XL", label: "5XL" },
     ];
 
     if (department === "men") {
@@ -48,15 +48,6 @@ const getFilterCategories = (department?: string | null, category?: string | nul
       ];
     }
   } else if (category === "undershirts") {
-    sizeOptions = [
-      { value: "L", label: "L" },
-      { value: "XL", label: "XL" },
-      { value: "2XL", label: "2XL" },
-      { value: "3XL", label: "3XL" },
-      { value: "4XL", label: "4XL" },
-      { value: "5XL", label: "5XL" },
-    ];
-
     if (department === "men") {
       typeOptions = [
         { value: "رکابی", label: "رکابی" },
@@ -64,6 +55,42 @@ const getFilterCategories = (department?: string | null, category?: string | nul
         { value: "خشتی", label: "خشتی" },
         { value: "حلقه‌ای", label: "حلقه‌ای" },
         { value: "پشت قهرمانی", label: "پشت قهرمانی" },
+      ];
+    }
+  } else if (category === "pants") {
+    if (department === "men") {
+      typeOptions = [
+        { value: "شلوار ورزشی", label: "شلوار ورزشی" },
+        { value: "شلوار ساده", label: "شلوار ساده" },
+        { value: "شلوار اسلش", label: "شلوار اسلش" },
+        { value: "شلوار دمپا کش", label: "شلوار دمپا کش" },
+        { value: "شلوار آیرو", label: "شلوار آیرو" },
+        { value: "شلوار نخی", label: "شلوار نخی" },
+      ];
+    } else if (department === "women") {
+      typeOptions = [
+        { value: "شلوار ساده", label: "شلوار ساده" },
+        { value: "شلوار ورزشی", label: "شلوار ورزشی" },
+        { value: "شلوار نخی", label: "شلوار نخی" },
+        { value: "ساق شلواری", label: "ساق شلواری" },
+        { value: "شلوار آیرو", label: "شلوار آیرو" },
+      ];
+    }
+  } else if (category === "shorts") {
+    if (department === "men") {
+      typeOptions = [
+        { value: "شلوارک کوتاه", label: "شلوارک کوتاه" },
+        { value: "شلوارک بلند", label: "شلوارک بلند" },
+        { value: "شلوارک ساده", label: "شلوارک ساده" },
+        { value: "شلوارک ورزشی", label: "شلوارک ورزشی" },
+      ];
+    } else if (department === "women") {
+      typeOptions = [
+        { value: "شلوارک کوتاه", label: "شلوارک کوتاه" },
+        { value: "شلوارک بلند", label: "شلوارک بلند" },
+        { value: "شلوارک ساده", label: "شلوارک ساده" },
+        { value: "شلوارک ورزشی", label: "شلوارک ورزشی" },
+        { value: "شورتک", label: "شورتک" },
       ];
     }
   } else if (category === "socks") {
