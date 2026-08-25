@@ -117,9 +117,8 @@ export default function Header() {
             onMouseEnter={() => setShopMenuOpen(true)}
             onMouseLeave={() => setShopMenuOpen(false)}
           >
-            <Link
-              to="/shop"
-              onClick={() => setShopMenuOpen(false)}
+            <button
+              onClick={(e) => e.preventDefault()}
               className={cn(
                 "text-sm uppercase tracking-wider transition-colors flex items-center gap-1 py-4",
                 transparent
@@ -130,7 +129,7 @@ export default function Header() {
             >
               Shop
               <ChevronDown className="w-4 h-4" />
-            </Link>
+            </button>
 
             {/* Desktop Mega Menu */}
             {shopMenuOpen && (
@@ -243,23 +242,17 @@ export default function Header() {
 
           <div>
             <div className="flex items-center justify-between">
-              <Link
-                to="/shop"
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "block text-sm uppercase tracking-wider text-muted-foreground",
-                  pathname.startsWith("/shop") && "text-foreground font-medium"
-                )}
-              >
-                Shop
-              </Link>
               <button
                 onClick={(e) => {
                   e.preventDefault();
                   setMobileShopMenuOpen(!mobileShopMenuOpen);
                 }}
-                className="p-2"
+                className={cn(
+                  "flex items-center justify-between w-full text-sm uppercase tracking-wider text-muted-foreground text-left",
+                  pathname.startsWith("/shop") && "text-foreground font-medium"
+                )}
               >
+                Shop
                 <ChevronDown className={cn("w-5 h-5 transition-transform", mobileShopMenuOpen && "rotate-180")} />
               </button>
             </div>

@@ -37,7 +37,6 @@ export default function Shop() {
   const queryStr = queryParts.join(" ");
 
   const { data: products, isLoading, error } = useProducts(queryStr);
-  const [activeType, setActiveType] = useState<string>("All");
 
   const [selectedFilters, setSelectedFilters] = useState<FilterState>({});
   const [sortValue, setSortValue] = useState<string>("newest");
@@ -53,35 +52,7 @@ export default function Shop() {
     });
   };
 
-  const types = useMemo(() => {
-    const set = new Set((products ?? []).map((p) => p.node.productType).filter(Boolean));
-    return ["All", ...Array.from(set)];
-  }, [products]);
-
-  // Reset activeType when URL params change so the new category shows up correctly
-  useEffect(() => {
-    if (categoryQuery && products) {
-      // Find matching type if it exists, otherwise leave it or set to "All"
-      const targetCategory = categoryQuery === 't-shirts' ? 't-shirts' : categoryQuery.replace(/-/g, ' ');
-      const matchingType = Array.from(types).find(
-        (t) => t.toLowerCase() === targetCategory.toLowerCase()
-      );
-      if (matchingType) {
-        setActiveType(matchingType);
-      } else {
-         setActiveType("All");
-      }
-    } else {
-        setActiveType("All");
-    }
-  }, [categoryQuery, types, products]);
-
-  const visible = useMemo(() => {
-    if (!products) return [];
-    return activeType === "All"
-      ? products
-      : products.filter((p) => p.node.productType === activeType);
-  }, [products, activeType]);
+  const visible = products || [];
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
@@ -96,26 +67,7 @@ export default function Shop() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-24">
-        {types.length > 1 && (
-          <div className="flex flex-wrap gap-2 justify-center mb-12">
-            {types.map((type) => (
-              <button
-                key={type}
-                onClick={() => setActiveType(type)}
-                className={cn(
-                  "px-4 py-2 text-xs uppercase tracking-wider border transition-colors",
-                  activeType === type
-                    ? "border-foreground text-foreground"
-                    : "border-border text-muted-foreground hover:text-foreground"
-                )}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8 mt-12">
           {/* Mobile Filter Toggle & Sort */}
           <div className="flex lg:hidden justify-between items-center w-full mb-6">
             <Sheet>
