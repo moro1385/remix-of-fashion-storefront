@@ -133,6 +133,8 @@ export default function Shop() {
                   <ShopFilters
                     selectedFilters={selectedFilters}
                     onFilterChange={handleFilterChange}
+                    department={departmentQuery}
+                    category={categoryQuery}
                   />
                 </div>
               </SheetContent>
@@ -148,6 +150,8 @@ export default function Shop() {
               <ShopFilters
                 selectedFilters={selectedFilters}
                 onFilterChange={handleFilterChange}
+                department={departmentQuery}
+                category={categoryQuery}
               />
             </div>
           </div>
