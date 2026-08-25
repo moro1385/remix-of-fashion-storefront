@@ -10,7 +10,6 @@ const shopDepartments = [
     name: "Men",
     label: "مردانه",
     categories: [
-      { name: "Sets", label: "Sets" },
       { name: "Socks", label: "Socks" },
       { name: "Pants", label: "Pants" },
       { name: "Shorts", label: "Shorts" },
@@ -19,6 +18,7 @@ const shopDepartments = [
       { name: "Underwear", label: "Underwear" },
       { name: "Undershirts", label: "Undershirts" },
       { name: "Swimwear", label: "Swimwear" },
+      { name: "Sets", label: "Sets" },
     ],
   },
   {
