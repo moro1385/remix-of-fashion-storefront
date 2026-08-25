@@ -16,7 +16,8 @@ const AUTOPLAY_MS = 5000;
 export default function CollectionSlider() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selected, setSelected] = useState(0);
-  const [socksModalOpen, setSocksModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalCategory, setModalCategory] = useState({ handle: "", name: "" });
   const navigate = useNavigate();
 
   const onSelect = useCallback(() => {
@@ -38,17 +39,18 @@ export default function CollectionSlider() {
     return () => window.clearInterval(id);
   }, [emblaApi]);
 
-  const handleCtaClick = (e: React.MouseEvent, handle: string) => {
-    if (handle === "socks") {
-      e.preventDefault();
-      setSocksModalOpen(true);
-    }
+  const handleCtaClick = (e: React.MouseEvent, handle: string, name: string) => {
+    e.preventDefault();
+    setModalCategory({ handle, name });
+    setModalOpen(true);
   };
 
-  const navigateToSocks = (department: string) => {
-    setSocksModalOpen(false);
-    navigate(`/shop?department=${department}&category=socks`);
+  const navigateToCategory = (department: string) => {
+    setModalOpen(false);
+    navigate(`/shop?department=${department}&category=${modalCategory.handle}`);
   };
+
+  const showKids = ["socks", "underwear", "undershirts", "shorts"].includes(modalCategory.handle);
 
   return (
     <>
@@ -79,8 +81,8 @@ export default function CollectionSlider() {
                         {collection.tagline}
                       </p>
                       <Link
-                        to={`/collections/${collection.handle}`}
-                        onClick={(e) => handleCtaClick(e, collection.handle)}
+                        to={`/shop?category=${collection.handle}`}
+                        onClick={(e) => handleCtaClick(e, collection.handle, collection.name)}
                         className="inline-block mt-8 px-8 py-3 bg-accent text-accent-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
                       >
                         Shop {collection.name}
@@ -123,30 +125,32 @@ export default function CollectionSlider() {
         </div>
       </section>
 
-      <Dialog open={socksModalOpen} onOpenChange={setSocksModalOpen}>
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-center text-xl font-light">Who are you shopping for?</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-3 py-4">
             <button
-              onClick={() => navigateToSocks('men')}
+              onClick={() => navigateToCategory('men')}
               className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
             >
-              Men's Socks
+              Men's {modalCategory.name}
             </button>
             <button
-              onClick={() => navigateToSocks('women')}
+              onClick={() => navigateToCategory('women')}
               className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
             >
-              Women's Socks
+              Women's {modalCategory.name}
             </button>
-            <button
-              onClick={() => navigateToSocks('kids')}
-              className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
-            >
-              Kids' Socks
-            </button>
+            {showKids && (
+              <button
+                onClick={() => navigateToCategory('kids')}
+                className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
+              >
+                Kids' {modalCategory.name}
+              </button>
+            )}
           </div>
         </DialogContent>
       </Dialog>

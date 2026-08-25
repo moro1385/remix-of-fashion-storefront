@@ -3,6 +3,7 @@ import underwearImg from "@/assets/collections/underwear.jpg";
 import pantsImg from "@/assets/collections/pants.jpg";
 import shortsImg from "@/assets/collections/shorts.jpg";
 import tshirtsImg from "@/assets/collections/tshirts.jpg";
+import undershirtsImg from "@/assets/collections/undershirts.jpg";
 import setsImg from "@/assets/collections/sets.jpg";
 
 export interface Collection {
@@ -35,6 +36,15 @@ export const collections: Collection[] = [
     description: "Boxer briefs, trunks and briefs in sport and loose fits, plus women's classic cut.",
     image: underwearImg,
     query: "tag:underwear",
+  },
+  {
+    handle: "undershirts",
+    name: "Undershirts",
+    eyebrow: "Base layer",
+    tagline: "Lightweight breathability for all day comfort.",
+    description: "Soft, tailored undershirts designed to lay flat and stay tucked.",
+    image: undershirtsImg,
+    query: "tag:undershirt",
   },
   {
     handle: "pants",
