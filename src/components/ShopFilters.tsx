@@ -93,6 +93,48 @@ const getFilterCategories = (department?: string | null, category?: string | nul
         { value: "شورتک", label: "شورتک" },
       ];
     }
+  } else if (category === "t-shirts") {
+    if (department === "men" || department === "women") {
+      typeOptions = [
+        { value: "تیشرت ساده", label: "تیشرت ساده" },
+        { value: "تیشرت ورزشی", label: "تیشرت ورزشی" },
+        { value: "تیشرت آیرو", label: "تیشرت آیرو" },
+        { value: "تیشرت سوزنی", label: "تیشرت سوزنی" },
+      ];
+    }
+  } else if (category === "tank-tops") {
+    if (department === "men") {
+      typeOptions = [
+        { value: "تاپ ساده", label: "تاپ ساده" },
+        { value: "تاپ ورزشی", label: "تاپ ورزشی" },
+        { value: "تاپ آیکو", label: "تاپ آیکو" },
+        { value: "تاپ سوزنی", label: "تاپ سوزنی" },
+      ];
+    } else if (department === "women") {
+      typeOptions = [
+        { value: "تاپ ساده", label: "تاپ ساده" },
+        { value: "تاپ ورزشی", label: "تاپ ورزشی" },
+        { value: "تاپ آیکو", label: "تاپ آیکو" },
+        { value: "تاپ سوزنی", label: "تاپ سوزنی" },
+        { value: "تاپ راه راه", label: "تاپ راه راه" },
+      ];
+    }
+  } else if (category === "sets") {
+    if (department === "men") {
+      typeOptions = [
+        { value: "ست بلوز و شلوار", label: "ست بلوز و شلوار" },
+        { value: "ست تیشرت و شلوار", label: "ست تیشرت و شلوار" },
+        { value: "ست تیشرت و شلوارک", label: "ست تیشرت و شلوارک" },
+        { value: "ست تاپ و شلوارک", label: "ست تاپ و شلوارک" },
+        { value: "ست زیر پوش و شورت", label: "ست زیر پوش و شورت" },
+      ];
+    } else if (department === "women") {
+      typeOptions = [
+        { value: "ست بلوز و شلوار", label: "ست بلوز و شلوار" },
+        { value: "ست تیشرت و شلوارک", label: "ست تیشرت و شلوارک" },
+        { value: "ست تاپ و شلوارک", label: "ست تاپ و شلوارک" },
+      ];
+    }
   } else if (category === "socks") {
     // Socks
     sizeOptions = [
