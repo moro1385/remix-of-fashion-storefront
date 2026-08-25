@@ -7,11 +7,39 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
-const FILTER_CATEGORIES = [
-  {
-    id: "type",
-    title: "Type",
-    options: [
+const getFilterCategories = (department?: string | null, category?: string | null) => {
+  let typeOptions: { value: string; label: string }[] = [];
+  let patternOptions = [
+    { value: "رنگی", label: "رنگی (Colored)" },
+    { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
+    { value: "ساده", label: "ساده (Plain)" },
+  ];
+
+  if (category === "underwear") {
+    patternOptions = [
+      { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
+      { value: "ساده", label: "ساده (Plain)" },
+    ];
+
+    if (department === "men") {
+      typeOptions = [
+        { value: "شورت اسلیپ", label: "شورت اسلیپ" },
+        { value: "شورت نیم پا", label: "شورت نیم پا" },
+        { value: "شورت پادار", label: "شورت پادار" },
+        { value: "شورت باکسر", label: "شورت باکسر" },
+        { value: "شورت اسپورت", label: "شورت اسپورت" },
+      ];
+    } else if (department === "women") {
+      typeOptions = [{ value: "شورت اسلیپ", label: "شورت اسلیپ" }];
+    } else if (department === "kids") {
+      typeOptions = [
+        { value: "اسلیپ", label: "اسلیپ" },
+        { value: "پادار", label: "پادار" },
+      ];
+    }
+  } else if (category === "socks") {
+    // Socks
+    typeOptions = [
       { value: "جوراب ساقدار", label: "جوراب ساقدار" },
       { value: "جوراب نیم ساق", label: "جوراب نیم ساق" },
       { value: "جوراب مچی", label: "جوراب مچی" },
@@ -22,68 +50,78 @@ const FILTER_CATEGORIES = [
       { value: "جوراب نخی", label: "جوراب نخی" },
       { value: "جوراب نانو", label: "جوراب نانو" },
       { value: "جوراب بامبو گیاهی", label: "جوراب بامبو گیاهی" },
-    ],
-  },
-  {
-    id: "brand",
-    title: "Brand",
-    options: Array.from({ length: 10 }).map((_, i) => ({
-      value: `Brand ${i + 1}`,
-      label: `Brand ${i + 1}`,
-    })),
-  },
-  {
-    id: "pattern",
-    title: "Pattern/Color",
-    options: [
-      { value: "رنگی", label: "رنگی (Colored)" },
-      { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
-      { value: "ساده", label: "ساده (Plain)" },
-    ],
-  },
-  {
-    id: "size",
-    title: "Size",
-    options: [
-      { value: "فری سایز", label: "فری سایز (Free Size)" },
-    ],
-  },
-];
+    ];
+  }
+
+  return [
+    {
+      id: "type",
+      title: "Type",
+      options: typeOptions,
+    },
+    {
+      id: "brand",
+      title: "Brand",
+      options: Array.from({ length: 10 }).map((_, i) => ({
+        value: `Brand ${i + 1}`,
+        label: `Brand ${i + 1}`,
+      })),
+    },
+    {
+      id: "pattern",
+      title: "Pattern/Color",
+      options: patternOptions,
+    },
+    {
+      id: "size",
+      title: "Size",
+      options: [
+        { value: "فری سایز", label: "فری سایز (Free Size)" },
+      ],
+    },
+  ].filter(cat => cat.options.length > 0);
+};
 
 export type FilterState = Record<string, string[]>;
 
 interface ShopFiltersProps {
   selectedFilters: FilterState;
   onFilterChange: (categoryId: string, value: string, checked: boolean) => void;
+  department?: string | null;
+  category?: string | null;
   className?: string;
 }
 
 export function ShopFilters({
   selectedFilters,
   onFilterChange,
+  department,
+  category,
   className,
 }: ShopFiltersProps) {
+  const filterCategories = getFilterCategories(department, category);
+
   return (
     <div className={className}>
       <Accordion type="multiple" defaultValue={["type", "brand", "pattern", "size"]} className="w-full">
-        {FILTER_CATEGORIES.map((category) => (
-          <AccordionItem key={category.id} value={category.id}>
+        {filterCategories.map((cat) => (
+          <AccordionItem key={cat.id} value={cat.id}>
             <AccordionTrigger className="text-base font-semibold">
-              {category.title}
+              {cat.title}
             </AccordionTrigger>
             <AccordionContent>
               <div className="flex flex-col space-y-3 pt-1">
-                {category.options.map((option) => (
+                {cat.options.map((option) => (
                   <div key={option.value} className="flex items-center space-x-3 space-x-reverse text-right" dir="rtl">
                     <Checkbox
-                      id={`filter-${category.id}-${option.value}`}
-                      checked={selectedFilters[category.id]?.includes(option.value) || false}
+                      id={`filter-${cat.id}-${option.value}`}
+                      checked={selectedFilters[cat.id]?.includes(option.value) || false}
                       onCheckedChange={(checked) =>
-                        onFilterChange(category.id, option.value, checked as boolean)
+                        onFilterChange(cat.id, option.value, checked as boolean)
                       }
                     />
                     <Label
-                      htmlFor={`filter-${category.id}-${option.value}`}
+                      htmlFor={`filter-${cat.id}-${option.value}`}
                       className="text-sm font-normal cursor-pointer pr-2"
                     >
                       {option.label}
