@@ -24,7 +24,7 @@ export default function Index() {
         title="Featured Essentials"
         query="product_type:Socks"
         count={4}
-        ctaTo="/collections/socks"
+        ctaTo="/shop?category=socks"
         ctaLabel="See collection"
         className="py-20 bg-background"
       />
