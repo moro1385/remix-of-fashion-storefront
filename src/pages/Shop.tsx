@@ -56,18 +56,32 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
-      <div className="py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          {departmentQuery || categoryQuery
-            ? `${(departmentQuery || '').replace(/-/g, ' ')} ${(categoryQuery || '').replace(/-/g, ' ')}`.trim().toUpperCase()
-            : 'Socks, underwear, undershirts, loungewear and shorts'
-          }
-        </p>
+      <div className="py-16 px-6 text-center max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
+        <div>
+          <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
+          <p className="mt-3 text-sm text-muted-foreground">
+            {departmentQuery || categoryQuery
+              ? `${(departmentQuery || '').replace(/-/g, ' ')} ${(categoryQuery || '').replace(/-/g, ' ')}`.trim().toUpperCase()
+              : 'Socks, underwear, undershirts, loungewear and shorts'
+            }
+          </p>
+        </div>
+        {/* Top Header Image Placeholder */}
+        <div className="w-full max-w-[300px] h-[120px] bg-muted border border-border rounded-lg flex items-center justify-center shrink-0">
+          <span className="text-muted-foreground text-sm">Promo Banner Placeholder</span>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-6 pb-24">
-        <div className="flex flex-col lg:flex-row gap-8 mt-12">
+        <div className="flex flex-col lg:flex-row gap-8 mt-6 md:mt-12">
+
+          {/* Far Left Vertical Image Placeholder (Desktop only) */}
+          <div className="hidden xl:block w-48 shrink-0">
+            <div className="sticky top-24 h-[600px] bg-muted border border-border rounded-lg flex items-center justify-center">
+              <span className="text-muted-foreground text-sm text-center px-4">Vertical Ad<br/>Placeholder</span>
+            </div>
+          </div>
+
           {/* Mobile Filter Toggle & Sort */}
           <div className="flex lg:hidden justify-between items-center w-full mb-6">
             <Sheet>
@@ -97,7 +111,7 @@ export default function Shop() {
 
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-64 shrink-0">
-            <div className="sticky top-24">
+            <div className="sticky top-24 bg-card border-x border-y border-border rounded-lg p-5 shadow-sm">
               <h2 className="text-lg font-semibold mb-4">Filters</h2>
               <ShopFilters
                 selectedFilters={selectedFilters}

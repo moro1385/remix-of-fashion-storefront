@@ -14,14 +14,6 @@ export default function Footer() {
                 <Instagram className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
               </a>
             </div>
-            <div className="flex gap-4">
-              <Link to="/sign-in" className="px-6 py-2 bg-primary text-primary-foreground text-sm hover:opacity-90 transition-opacity">
-                Sign In (ورود)
-              </Link>
-              <Link to="/sign-up" className="px-6 py-2 border border-input text-foreground text-sm hover:bg-accent hover:text-accent-foreground transition-colors">
-                Sign Up (ثبت نام)
-              </Link>
-            </div>
           </div>
           <div className="flex flex-col gap-3">
             <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Contact</Link>
