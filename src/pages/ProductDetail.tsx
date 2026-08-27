@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 import { useToast } from "@/hooks/use-toast";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
@@ -60,6 +61,15 @@ export default function ProductDetail() {
   const price = selectedVariant?.price ?? product.node.priceRange.minVariantPrice;
 
   const handleAddToCart = async () => {
+    const { user } = useAuthStore.getState();
+    if (!user) {
+      toast({
+        title: "ابتدا وارد حساب خود شوید",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (!selectedVariant || isSoldOut) return;
     await addItem({
       variantId: selectedVariant.id,
@@ -100,8 +110,8 @@ export default function ProductDetail() {
             <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">
               {product.node.title}
             </h1>
-            <p className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              {formatPrice(price.amount, price.currencyCode)}
+            <p className="text-3xl font-bold text-foreground mb-6">
+              {Number(price.amount).toLocaleString('fa-IR')} ریال
             </p>
             {product.node.description && (
               <p className="text-base leading-relaxed text-muted-foreground mb-8">

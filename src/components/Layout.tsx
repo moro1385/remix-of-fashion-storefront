@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import { useAuthStore } from "@/stores/authStore";
 
 export default function Layout() {
+  const user = useAuthStore((s) => s.user);
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
@@ -14,7 +16,8 @@ export default function Layout() {
       </main>
 
       {/* Pre-Footer CTA Banner */}
-      <section className="relative w-full py-24 bg-muted overflow-hidden flex items-center justify-center">
+      {!user && (
+        <section className="relative w-full py-24 bg-muted overflow-hidden flex items-center justify-center">
         {/* Placeholder background image / overlay */}
         <div className="absolute inset-0 bg-stone-900/80 z-10" />
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
@@ -39,6 +42,7 @@ export default function Layout() {
           </div>
         </div>
       </section>
+      )}
 
       <Footer />
     </div>

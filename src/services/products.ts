@@ -18,6 +18,9 @@ export interface CatalogProduct {
     handle: string;
     productType: string;
     tags: string[];
+    type: string[];
+    brand: string | null;
+    pattern: string | null;
     priceRange: { minVariantPrice: { amount: string; currencyCode: string } };
     images: { edges: Array<{ node: { url: string; altText: string | null } }> };
     variants: { edges: Array<{ node: CatalogVariant }> };
@@ -28,7 +31,7 @@ export interface CatalogProduct {
 export const CURRENCY_CODE = "USD";
 
 const PRODUCT_SELECT = `
-  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, type, sizes, colors,
+  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, type, sizes, colors, brand, pattern,
   categories:category_id ( id, name, slug ),
   product_images ( id, image_url, alt_text, sort_order ),
   product_variants ( id, size, color, sku, price, stock_quantity )
@@ -101,6 +104,9 @@ function mapProduct(row: Row): CatalogProduct {
       handle: row.slug,
       productType: row.categories?.name ?? "",
       tags: [...(row.tags || []), ...(row.categories?.slug ? [row.categories.slug] : [])],
+      type: row.type || [],
+      brand: row.brand,
+      pattern: row.pattern,
       priceRange: { minVariantPrice: money(Number.isFinite(minPrice) ? minPrice : row.price ?? 0) },
       images: { edges: images },
       variants: { edges: variants.map((node) => ({ node })) },

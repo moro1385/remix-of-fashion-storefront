@@ -46,7 +46,41 @@ export default function Shop() {
     });
   };
 
-  const visible = products || [];
+  const visible = (products || []).filter((product) => {
+    const filters = selectedFilters;
+    if (Object.keys(filters).length === 0) return true;
+
+    // Check type (checkbox array mapped to node.type array)
+    if (filters.type && filters.type.length > 0) {
+      if (!product.node.type.some(t => filters.type.includes(t))) {
+        return false;
+      }
+    }
+
+    // Check brand (checkbox array mapped to node.brand string)
+    if (filters.brand && filters.brand.length > 0) {
+      if (!product.node.brand || !filters.brand.includes(product.node.brand)) {
+        return false;
+      }
+    }
+
+    // Check pattern (checkbox array mapped to node.pattern string)
+    if (filters.pattern && filters.pattern.length > 0) {
+      if (!product.node.pattern || !filters.pattern.includes(product.node.pattern)) {
+        return false;
+      }
+    }
+
+    // Check size (checkbox array mapped to node.options)
+    if (filters.size && filters.size.length > 0) {
+      const sizeOption = product.node.options.find(o => o.name === "Size");
+      if (!sizeOption || !sizeOption.values.some(v => filters.size.includes(v))) {
+        return false;
+      }
+    }
+
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
