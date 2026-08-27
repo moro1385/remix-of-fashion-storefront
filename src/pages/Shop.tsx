@@ -56,7 +56,7 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
-      <div className="py-16 px-6 text-center max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
+      <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
           <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
           <p className="mt-3 text-sm text-muted-foreground">
@@ -72,7 +72,7 @@ export default function Shop() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-24">
+      <div className="w-full px-6 pb-24">
         <div className="flex flex-col lg:flex-row gap-8 mt-6 md:mt-12">
 
           {/* Far Left Vertical Image Placeholder (Desktop only) */}
