@@ -304,11 +304,11 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
         department: product.department || null,
         category: product.category || null,
-        type: product.type || [],
-        colors: product.colors || [],
+        type: Array.isArray(product.type) ? product.type : product.type ? [product.type] : [],
+        colors: Array.isArray(product.colors) ? product.colors : product.colors ? [product.colors] : [],
         brand: product.brand || null,
         pattern: product.pattern || null,
-        sizes: product.sizes || [],
+        sizes: Array.isArray(product.sizes) ? product.sizes : product.sizes ? [product.sizes] : [],
 
       });
     } else {
@@ -492,6 +492,42 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                             key={item.value}
                             control={form.control}
                             name="type"
+                            render={({ field }) => (
+                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.value)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...(field.value || []), item.value])
+                                        : field.onChange(field.value?.filter((val) => val !== item.value))
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="colors"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel>Colors</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {colorOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="colors"
                             render={({ field }) => (
                               <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
                                 <FormControl>

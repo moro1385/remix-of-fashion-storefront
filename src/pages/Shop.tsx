@@ -25,18 +25,12 @@ export default function Shop() {
   // Since the user is asking to "filter dynamically based on these parameters", let's combine them into a query.
   // e.g. "department category" or just filter on client side.
   // The useProducts hook uses fetchActiveProducts with "terms".
-  const queryParts = [];
-  if (departmentQuery) queryParts.push(departmentQuery.replace(/-/g, ' '));
-  if (categoryQuery) {
-    if (categoryQuery === 't-shirts') {
-      queryParts.push('t-shirts');
-    } else {
-      queryParts.push(categoryQuery.replace(/-/g, ' '));
-    }
-  }
-  const queryStr = queryParts.join(" ");
-
-  const { data: products, isLoading, error } = useProducts(queryStr);
+  // Create query string only from filters if we have real full text search inputs in the future,
+  // For now, department and category are natively handled by Supabase columns.
+  const { data: products, isLoading, error } = useProducts({
+    department: departmentQuery,
+    category: categoryQuery
+  });
 
   const [selectedFilters, setSelectedFilters] = useState<FilterState>({});
   const [sortValue, setSortValue] = useState<string>("newest");

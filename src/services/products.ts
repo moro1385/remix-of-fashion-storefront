@@ -115,12 +115,14 @@ export interface ProductQueryOptions {
   limit?: number;
   featured?: boolean;
   categorySlug?: string;
+  department?: string;
+  category?: string;
   /** Free-text terms matched against product name / category name or slug */
   terms?: string[];
 }
 
 export async function fetchActiveProducts(options: ProductQueryOptions = {}): Promise<CatalogProduct[]> {
-  const { limit = 100, featured, categorySlug, terms } = options;
+  const { limit = 100, featured, categorySlug, department, category, terms } = options;
 
   let query = supabase
     .from("products")
@@ -141,6 +143,9 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
     if (!category) return [];
     query = query.eq("category_id", category.id);
   }
+
+  if (department) query = query.ilike("department", department);
+  if (category) query = query.ilike("category", category);
 
   const { data, error } = await query;
   if (error) throw error;
