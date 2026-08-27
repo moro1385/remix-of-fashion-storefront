@@ -46,12 +46,6 @@ export default function CollectionCardsRow() {
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Browse</p>
             <h2 className="text-3xl md:text-4xl font-light text-foreground">All Collections</h2>
           </div>
-          <Link
-            to="/shop"
-            className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
-          >
-            View all
-          </Link>
         </div>
 
         <div className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 -mx-6 px-6">
