@@ -14,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
-import { ProductVariantsManager } from "./ProductVariantsManager";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
 import { X } from "lucide-react";
@@ -34,7 +33,8 @@ const productSchema = z.object({
 
   department: z.string().optional().nullable(),
   category: z.string().optional().nullable(),
-  type: z.string().optional().nullable(),
+  type: z.array(z.string()).default([]),
+  colors: z.array(z.string()).default([]),
   brand: z.string().optional().nullable(),
   pattern: z.string().optional().nullable(),
   sizes: z.array(z.string()).default([]),
@@ -69,7 +69,8 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
       department: null,
       category: null,
-      type: null,
+      type: [],
+        colors: [],
       brand: null,
       pattern: null,
       sizes: [],
@@ -84,6 +85,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
   const [brandOptions, setBrandOptions] = useState<{ value: string; label: string }[]>([]);
   const [patternOptions, setPatternOptions] = useState<{ value: string; label: string }[]>([]);
   const [sizeOptions, setSizeOptions] = useState<{ value: string; label: string }[]>([]);
+  const [colorOptions, setColorOptions] = useState<{ value: string; label: string }[]>([]);
 
   useEffect(() => {
     let tOptions: { value: string; label: string }[] = [];
@@ -247,6 +249,19 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       ];
     }
 
+    const cOptions = [
+      { value: "مشکی", label: "مشکی (Black)" },
+      { value: "سفید", label: "سفید (White)" },
+      { value: "قرمز", label: "قرمز (Red)" },
+      { value: "آبی", label: "آبی (Blue)" },
+      { value: "سبز", label: "سبز (Green)" },
+      { value: "زرد", label: "زرد (Yellow)" },
+      { value: "طوسی", label: "طوسی (Grey)" },
+      { value: "کرم", label: "کرم (Cream)" },
+      { value: "قهوه ای", label: "قهوه ای (Brown)" },
+    ];
+    setColorOptions(cOptions);
+
     setTypeOptions(tOptions);
     setSizeOptions(sOptions);
     setPatternOptions(pOptions);
@@ -289,7 +304,8 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
         department: product.department || null,
         category: product.category || null,
-        type: product.type || null,
+        type: product.type || [],
+        colors: product.colors || [],
         brand: product.brand || null,
         pattern: product.pattern || null,
         sizes: product.sizes || [],
@@ -308,7 +324,8 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
         department: null,
         category: null,
-        type: null,
+        type: [],
+        colors: [],
         brand: null,
         pattern: null,
         sizes: [],
@@ -464,20 +481,35 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 <FormField
                   control={form.control}
                   name="type"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
-                      <FormLabel>Type</FormLabel>
-                      <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
-                        <FormControl>
-                          <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="null">None</SelectItem>
-                          {typeOptions.map(opt => (
-                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <div className="mb-4">
+                        <FormLabel>Types</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {typeOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.value)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...(field.value || []), item.value])
+                                        : field.onChange(field.value?.filter((val) => val !== item.value))
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -504,6 +536,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                     </FormItem>
                   )}
                 />
+
               </div>
             )}
 
@@ -579,6 +612,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                     </FormItem>
                   )}
                 />
+
               </div>
             )}
 
@@ -735,13 +769,12 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         {product && (
           <div className="mt-8 space-y-8 border-t pt-4">
              <ProductImagesManager productId={product.id} />
-             <ProductVariantsManager productId={product.id} />
-          </div>
+             </div>
         )}
 
         {!product && (
           <div className="mt-4 pt-4 text-sm text-muted-foreground text-center border-t">
-            Save the product first to manage images and variants.
+            Save the product first to manage images.
           </div>
         )}
 

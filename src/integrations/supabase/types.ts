@@ -307,10 +307,11 @@ export type Database = {
           tags: string[] | null
           department: string | null
           category: string | null
-          type: string | null
+          type: string[] | null
           brand: string | null
           pattern: string | null
           sizes: string[] | null
+          colors: string[] | null
         }
         Insert: {
           category_id?: string | null
@@ -325,10 +326,11 @@ export type Database = {
           tags?: string[] | null
           department?: string | null
           category?: string | null
-          type?: string | null
+          type?: string[] | null
           brand?: string | null
           pattern?: string | null
           sizes?: string[] | null
+          colors?: string[] | null
         }
         Update: {
           category_id?: string | null
@@ -343,10 +345,11 @@ export type Database = {
           tags?: string[] | null
           department?: string | null
           category?: string | null
-          type?: string | null
+          type?: string[] | null
           brand?: string | null
           pattern?: string | null
           sizes?: string[] | null
+          colors?: string[] | null
         }
         Relationships: [
           {
