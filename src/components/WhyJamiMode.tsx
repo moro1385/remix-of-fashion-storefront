@@ -56,12 +56,6 @@ export default function WhyJamiMode() {
           <p className="text-xl md:text-2xl font-light text-foreground max-w-xl">
             Start with one pair. You'll come back for the drawer.
           </p>
-          <Link
-            to="/shop"
-            className="self-start px-8 py-3 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
-          >
-            Shop everything
-          </Link>
         </div>
       </div>
     </section>

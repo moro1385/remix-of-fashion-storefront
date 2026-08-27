@@ -1,5 +1,4 @@
 import { useState } from "react";
-import NewsletterSignup from "@/components/NewsletterSignup";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Contact() {
@@ -93,8 +92,6 @@ export default function Contact() {
           </form>
         </div>
       </section>
-
-      <NewsletterSignup />
     </>
   );
 }
