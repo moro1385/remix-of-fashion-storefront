@@ -5,6 +5,7 @@ import * as z from "zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,7 +14,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
-import { ProductVariantsManager } from "./ProductVariantsManager";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
 import { X } from "lucide-react";
@@ -30,6 +30,15 @@ const productSchema = z.object({
   is_featured: z.boolean().default(false),
   category_id: z.string().optional().nullable(),
   tags: z.array(z.string()).default([]),
+
+  department: z.string().optional().nullable(),
+  category: z.string().optional().nullable(),
+  type: z.array(z.string()).default([]),
+  colors: z.array(z.string()).default([]),
+  brand: z.string().optional().nullable(),
+  pattern: z.string().optional().nullable(),
+  sizes: z.array(z.string()).default([]),
+
 });
 
 type ProductFormValues = z.infer<typeof productSchema>;
@@ -57,8 +66,217 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       is_featured: false,
       category_id: null,
       tags: [],
+
+      department: null,
+      category: null,
+      type: [],
+        colors: [],
+      brand: null,
+      pattern: null,
+      sizes: [],
+
     },
   });
+
+  const department = form.watch("department");
+  const category = form.watch("category");
+
+  const [typeOptions, setTypeOptions] = useState<{ value: string; label: string }[]>([]);
+  const [brandOptions, setBrandOptions] = useState<{ value: string; label: string }[]>([]);
+  const [patternOptions, setPatternOptions] = useState<{ value: string; label: string }[]>([]);
+  const [sizeOptions, setSizeOptions] = useState<{ value: string; label: string }[]>([]);
+  const [colorOptions, setColorOptions] = useState<{ value: string; label: string }[]>([]);
+
+  useEffect(() => {
+    let tOptions: { value: string; label: string }[] = [];
+    let sOptions: { value: string; label: string }[] = [
+      { value: "S", label: "S" },
+      { value: "M", label: "M" },
+      { value: "L", label: "L" },
+      { value: "XL", label: "XL" },
+      { value: "2XL", label: "2XL" },
+      { value: "3XL", label: "3XL" },
+      { value: "4XL", label: "4XL" },
+      { value: "5XL", label: "5XL" },
+    ];
+    let pOptions = [
+      { value: "رنگی", label: "رنگی (Colored)" },
+      { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
+      { value: "ساده", label: "ساده (Plain)" },
+    ];
+    const bOptions = Array.from({ length: 10 }).map((_, i) => {
+        let prefix = "Brand";
+        if (category === "socks") prefix = "Socks Brand";
+        else if (category === "underwear") prefix = "Underwear Brand";
+        else if (category) prefix = `${category.charAt(0).toUpperCase() + category.slice(1)} Brand`;
+        return {
+          value: `${prefix} ${i + 1}`,
+          label: `${prefix} ${i + 1}`,
+        };
+      });
+
+    if (category === "underwear") {
+      pOptions = [
+        { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
+        { value: "ساده", label: "ساده (Plain)" },
+      ];
+      if (department === "men") {
+        tOptions = [
+          { value: "شورت اسلیپ", label: "شورت اسلیپ" },
+          { value: "شورت نیم پا", label: "شورت نیم پا" },
+          { value: "شورت پادار", label: "شورت پادار" },
+          { value: "شورت باکسر", label: "شورت باکسر" },
+          { value: "شورت اسپورت", label: "شورت اسپورت" },
+        ];
+      } else if (department === "women") {
+        tOptions = [{ value: "شورت اسلیپ", label: "شورت اسلیپ" }];
+      } else if (department === "kids") {
+        tOptions = [
+          { value: "اسلیپ", label: "اسلیپ" },
+          { value: "پادار", label: "پادار" },
+        ];
+      }
+    } else if (category === "undershirts") {
+      if (department === "men") {
+        tOptions = [
+          { value: "رکابی", label: "رکابی" },
+          { value: "نیم آستین", label: "نیم آستین" },
+          { value: "خشتی", label: "خشتی" },
+          { value: "حلقه‌ای", label: "حلقه‌ای" },
+          { value: "پشت قهرمانی", label: "پشت قهرمانی" },
+        ];
+      } else if (department === "women") {
+        tOptions = [
+          { value: "رکابی", label: "رکابی" },
+          { value: "نیم تنه", label: "نیم تنه" },
+        ];
+      } else if (department === "kids") {
+        tOptions = [
+          { value: "زیرپوش", label: "زیرپوش" },
+        ];
+      }
+    } else if (category === "pants") {
+      if (department === "men") {
+        tOptions = [
+          { value: "شلوار ورزشی", label: "شلوار ورزشی" },
+          { value: "شلوار ساده", label: "شلوار ساده" },
+          { value: "شلوار اسلش", label: "شلوار اسلش" },
+          { value: "شلوار دمپا کش", label: "شلوار دمپا کش" },
+          { value: "شلوار آیرو", label: "شلوار آیرو" },
+          { value: "شلوار نخی", label: "شلوار نخی" },
+        ];
+      } else if (department === "women") {
+        tOptions = [
+          { value: "شلوار ساده", label: "شلوار ساده" },
+          { value: "شلوار ورزشی", label: "شلوار ورزشی" },
+          { value: "شلوار نخی", label: "شلوار نخی" },
+          { value: "ساق شلواری", label: "ساق شلواری" },
+          { value: "شلوار آیرو", label: "شلوار آیرو" },
+        ];
+      }
+    } else if (category === "shorts") {
+      if (department === "men") {
+        tOptions = [
+          { value: "شلوارک کوتاه", label: "شلوارک کوتاه" },
+          { value: "شلوارک بلند", label: "شلوارک بلند" },
+          { value: "شلوارک ساده", label: "شلوارک ساده" },
+          { value: "شلوارک ورزشی", label: "شلوارک ورزشی" },
+        ];
+      } else if (department === "women") {
+        tOptions = [
+          { value: "شلوارک کوتاه", label: "شلوارک کوتاه" },
+          { value: "شلوارک بلند", label: "شلوارک بلند" },
+          { value: "شلوارک ساده", label: "شلوارک ساده" },
+          { value: "شلوارک ورزشی", label: "شلوارک ورزشی" },
+          { value: "شورتک", label: "شورتک" },
+        ];
+      }
+    } else if (category === "t-shirts") {
+      if (department === "men" || department === "women") {
+        tOptions = [
+          { value: "تیشرت ساده", label: "تیشرت ساده" },
+          { value: "تیشرت ورزشی", label: "تیشرت ورزشی" },
+          { value: "تیشرت آیرو", label: "تیشرت آیرو" },
+          { value: "تیشرت سوزنی", label: "تیشرت سوزنی" },
+        ];
+      }
+    } else if (category === "tank-tops") {
+      if (department === "men") {
+        tOptions = [
+          { value: "تاپ ساده", label: "تاپ ساده" },
+          { value: "تاپ ورزشی", label: "تاپ ورزشی" },
+          { value: "تاپ آیکو", label: "تاپ آیکو" },
+          { value: "تاپ سوزنی", label: "تاپ سوزنی" },
+        ];
+      } else if (department === "women") {
+        tOptions = [
+          { value: "تاپ ساده", label: "تاپ ساده" },
+          { value: "تاپ ورزشی", label: "تاپ ورزشی" },
+          { value: "تاپ آیکو", label: "تاپ آیکو" },
+          { value: "تاپ سوزنی", label: "تاپ سوزنی" },
+          { value: "تاپ راه راه", label: "تاپ راه راه" },
+        ];
+      }
+    } else if (category === "sets") {
+      if (department === "men") {
+        tOptions = [
+          { value: "ست بلوز و شلوار", label: "ست بلوز و شلوار" },
+          { value: "ست تیشرت و شلوار", label: "ست تیشرت و شلوار" },
+          { value: "ست تیشرت و شلوارک", label: "ست تیشرت و شلوارک" },
+          { value: "ست تاپ و شلوارک", label: "ست تاپ و شلوارک" },
+          { value: "ست زیر پوش و شورت", label: "ست زیر پوش و شورت" },
+        ];
+      } else if (department === "women") {
+        tOptions = [
+          { value: "ست بلوز و شلوار", label: "ست بلوز و شلوار" },
+          { value: "ست تیشرت و شلوارک", label: "ست تیشرت و شلوارک" },
+          { value: "ست تاپ و شلوارک", label: "ست تاپ و شلوارک" },
+        ];
+      }
+    } else if (category === "socks") {
+      sOptions = [{ value: "فری سایز", label: "فری سایز (Free Size)" }];
+      tOptions = [
+        { value: "جوراب ساقدار", label: "جوراب ساقدار" },
+        { value: "جوراب نیم ساق", label: "جوراب نیم ساق" },
+        { value: "جوراب مچی", label: "جوراب مچی" },
+        { value: "جوراب کالج", label: "جوراب کالج" },
+        { value: "جوراب ورزشی", label: "جوراب ورزشی" },
+        { value: "جوراب مجلسی", label: "جوراب مجلسی" },
+        { value: "جوراب دیابتی", label: "جوراب دیابتی" },
+        { value: "جوراب نخی", label: "جوراب نخی" },
+        { value: "جوراب نانو", label: "جوراب نانو" },
+        { value: "جوراب بامبو گیاهی", label: "جوراب بامبو گیاهی" },
+      ];
+    }
+
+    const cOptions = [
+      { value: "مشکی", label: "مشکی (Black)" },
+      { value: "سفید", label: "سفید (White)" },
+      { value: "قرمز", label: "قرمز (Red)" },
+      { value: "آبی", label: "آبی (Blue)" },
+      { value: "سبز", label: "سبز (Green)" },
+      { value: "زرد", label: "زرد (Yellow)" },
+      { value: "طوسی", label: "طوسی (Grey)" },
+      { value: "کرم", label: "کرم (Cream)" },
+      { value: "قهوه ای", label: "قهوه ای (Brown)" },
+    ];
+    setColorOptions(cOptions);
+
+    setTypeOptions(tOptions);
+    setSizeOptions(sOptions);
+    setPatternOptions(pOptions);
+    setBrandOptions(bOptions);
+
+    if (category === "socks") {
+        form.setValue("sizes", ["فری سایز"]);
+    } else {
+        const currentSizes = form.getValues("sizes") || [];
+        if (currentSizes.includes("فری سایز")) {
+            form.setValue("sizes", []);
+        }
+    }
+  }, [department, category, form]);
+
 
   useEffect(() => {
     async function loadCategories() {
@@ -83,6 +301,15 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         is_featured: product.is_featured,
         category_id: product.category_id,
         tags: product.tags || [],
+
+        department: product.department || null,
+        category: product.category || null,
+        type: Array.isArray(product.type) ? product.type : product.type ? [product.type] : [],
+        colors: Array.isArray(product.colors) ? product.colors : product.colors ? [product.colors] : [],
+        brand: product.brand || null,
+        pattern: product.pattern || null,
+        sizes: Array.isArray(product.sizes) ? product.sizes : product.sizes ? [product.sizes] : [],
+
       });
     } else {
       form.reset({
@@ -94,6 +321,15 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         is_featured: false,
         category_id: null,
         tags: [],
+
+        department: null,
+        category: null,
+        type: [],
+        colors: [],
+        brand: null,
+        pattern: null,
+        sizes: [],
+
       });
     }
     setTagInput("");
@@ -187,6 +423,234 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 </FormItem>
               )}
             />
+
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="department"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Department</FormLabel>
+                    <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Select department" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="null">None</SelectItem>
+                        <SelectItem value="men">Men</SelectItem>
+                        <SelectItem value="women">Women</SelectItem>
+                        <SelectItem value="kids">Kids</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
+                      <FormControl>
+                        <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="null">None</SelectItem>
+                        <SelectItem value="socks">Socks</SelectItem>
+                        <SelectItem value="underwear">Underwear</SelectItem>
+                        <SelectItem value="undershirts">Undershirts</SelectItem>
+                        <SelectItem value="pants">Pants</SelectItem>
+                        <SelectItem value="shorts">Shorts</SelectItem>
+                        <SelectItem value="t-shirts">T-Shirts</SelectItem>
+                        <SelectItem value="tank-tops">Tank Tops</SelectItem>
+                        <SelectItem value="sets">Sets</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {department && category && (
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel>Types</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {typeOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.value)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...(field.value || []), item.value])
+                                        : field.onChange(field.value?.filter((val) => val !== item.value))
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="colors"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel>Colors</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {colorOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="colors"
+                            render={({ field }) => (
+                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.value)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...(field.value || []), item.value])
+                                        : field.onChange(field.value?.filter((val) => val !== item.value))
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="brand"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Brand</FormLabel>
+                      <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
+                        <FormControl>
+                          <SelectTrigger><SelectValue placeholder="Select brand" /></SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="null">None</SelectItem>
+                          {brandOptions.map(opt => (
+                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+              </div>
+            )}
+
+            {department && category && (
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="pattern"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Pattern/Color</FormLabel>
+                      <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
+                        <FormControl>
+                          <SelectTrigger><SelectValue placeholder="Select pattern" /></SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="null">None</SelectItem>
+                          {patternOptions.map(opt => (
+                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="sizes"
+                  render={() => (
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel>Sizes</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {sizeOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="sizes"
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={item.value}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(item.value)}
+                                      disabled={category === "socks"}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([...field.value, item.value])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== item.value
+                                              )
+                                            )
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal">
+                                    {item.label}
+                                  </FormLabel>
+                                </FormItem>
+                              )
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+              </div>
+            )}
 
             <div className="flex gap-4">
               <FormField
@@ -341,13 +805,12 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         {product && (
           <div className="mt-8 space-y-8 border-t pt-4">
              <ProductImagesManager productId={product.id} />
-             <ProductVariantsManager productId={product.id} />
-          </div>
+             </div>
         )}
 
         {!product && (
           <div className="mt-4 pt-4 text-sm text-muted-foreground text-center border-t">
-            Save the product first to manage images and variants.
+            Save the product first to manage images.
           </div>
         )}
 

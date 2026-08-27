@@ -25,18 +25,12 @@ export default function Shop() {
   // Since the user is asking to "filter dynamically based on these parameters", let's combine them into a query.
   // e.g. "department category" or just filter on client side.
   // The useProducts hook uses fetchActiveProducts with "terms".
-  const queryParts = [];
-  if (departmentQuery) queryParts.push(departmentQuery.replace(/-/g, ' '));
-  if (categoryQuery) {
-    if (categoryQuery === 't-shirts') {
-      queryParts.push('t-shirts');
-    } else {
-      queryParts.push(categoryQuery.replace(/-/g, ' '));
-    }
-  }
-  const queryStr = queryParts.join(" ");
-
-  const { data: products, isLoading, error } = useProducts(queryStr);
+  // Create query string only from filters if we have real full text search inputs in the future,
+  // For now, department and category are natively handled by Supabase columns.
+  const { data: products, isLoading, error } = useProducts({
+    department: departmentQuery,
+    category: categoryQuery
+  });
 
   const [selectedFilters, setSelectedFilters] = useState<FilterState>({});
   const [sortValue, setSortValue] = useState<string>("newest");
@@ -56,7 +50,7 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
-      <div className="py-16 px-6 text-center max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
+      <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
           <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
           <p className="mt-3 text-sm text-muted-foreground">
@@ -72,7 +66,7 @@ export default function Shop() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pb-24">
+      <div className="w-full px-6 pb-24">
         <div className="flex flex-col lg:flex-row gap-8 mt-6 md:mt-12">
 
           {/* Far Left Vertical Image Placeholder (Desktop only) */}

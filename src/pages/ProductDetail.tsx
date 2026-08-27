@@ -32,12 +32,8 @@ export default function ProductDetail() {
 
   const selectedVariant = useMemo(() => {
     if (variants.length === 0) return undefined;
-    return (
-      variants.find((v) =>
-        v.selectedOptions.every((o) => activeOptions[o.name] === o.value)
-      ) ?? variants[0]
-    );
-  }, [variants, activeOptions]);
+    return variants[0];
+  }, [variants]);
 
   const related = useMemo(() => {
     if (!allProducts || !product) return [] as CatalogProduct[];
@@ -69,11 +65,11 @@ export default function ProductDetail() {
       variantId: selectedVariant.id,
       productTitle: product.node.title,
       productHandle: product.node.handle,
-      variantTitle: selectedVariant.title,
       image: productImage(product),
       price: selectedVariant.price,
       quantity,
-      selectedOptions: selectedVariant.selectedOptions,
+      selectedOptions: Object.entries(activeOptions).map(([name, value]) => ({ name, value })),
+      variantTitle: Object.values(activeOptions).join(" / ") || "Default",
     });
     toast({
       title: "Added to cart",

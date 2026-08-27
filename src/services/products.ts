@@ -28,7 +28,7 @@ export interface CatalogProduct {
 export const CURRENCY_CODE = "USD";
 
 const PRODUCT_SELECT = `
-  id, name, slug, description, price, is_active, is_featured, created_at, tags,
+  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, type, sizes, colors,
   categories:category_id ( id, name, slug ),
   product_images ( id, image_url, alt_text, sort_order ),
   product_variants ( id, size, color, sku, price, stock_quantity )
@@ -43,6 +43,11 @@ type Row = {
   is_active: boolean;
   is_featured: boolean;
   tags: string[] | null;
+  department: string | null;
+  category: string | null;
+  type: string[] | null;
+  sizes: string[] | null;
+  colors: string[] | null;
   categories: { id: string; name: string; slug: string } | null;
   product_images: Array<{ id: string; image_url: string; alt_text: string | null; sort_order: number }> | null;
   product_variants: Array<{
@@ -67,45 +72,26 @@ function mapProduct(row: Row): CatalogProduct {
     .sort((a, b) => a.sort_order - b.sort_order)
     .map((i) => ({ node: { url: i.image_url, altText: i.alt_text } }));
 
-  const rawVariants = row.product_variants ?? [];
 
-  const variants: CatalogVariant[] = rawVariants.map((v) => {
-    const selectedOptions: Array<{ name: string; value: string }> = [];
-    if (v.size) selectedOptions.push({ name: "Size", value: v.size });
-    if (v.color) selectedOptions.push({ name: "Color", value: v.color });
-    return {
-      id: v.id,
-      title: selectedOptions.map((o) => o.value).join(" / ") || "Default",
-      price: money(v.price ?? row.price),
-      availableForSale: (v.stock_quantity ?? 0) > 0,
-      selectedOptions,
-    };
-  });
+  const options: Array<{ name: string; values: string[] }> = [];
+  if (row.sizes && row.sizes.length > 0) {
+    options.push({ name: "Size", values: row.sizes });
+  }
+  if (row.colors && row.colors.length > 0) {
+    options.push({ name: "Color", values: row.colors });
+  }
 
-  if (variants.length === 0) {
-    variants.push({
+  // Create a single default variant representing the product base (since actual variants are removed)
+  const variants: CatalogVariant[] = [{
       id: row.id,
       title: "Default",
       price: money(row.price),
       availableForSale: true,
       selectedOptions: [],
-    });
-  }
+  }];
 
-  const options: Array<{ name: string; values: string[] }> = [];
-  for (const name of ["Size", "Color"]) {
-    const values = Array.from(
-      new Set(
-        variants
-          .flatMap((v) => v.selectedOptions)
-          .filter((o) => o.name === name)
-          .map((o) => o.value)
-      )
-    );
-    if (values.length > 0) options.push({ name, values });
-  }
+  const minPrice = row.price ?? 0;
 
-  const minPrice = Math.min(...variants.map((v) => parseFloat(v.price.amount) || 0));
 
   return {
     node: {
@@ -129,12 +115,14 @@ export interface ProductQueryOptions {
   limit?: number;
   featured?: boolean;
   categorySlug?: string;
+  department?: string;
+  category?: string;
   /** Free-text terms matched against product name / category name or slug */
   terms?: string[];
 }
 
 export async function fetchActiveProducts(options: ProductQueryOptions = {}): Promise<CatalogProduct[]> {
-  const { limit = 100, featured, categorySlug, terms } = options;
+  const { limit = 100, featured, categorySlug, department, category, terms } = options;
 
   let query = supabase
     .from("products")
@@ -155,6 +143,9 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
     if (!category) return [];
     query = query.eq("category_id", category.id);
   }
+
+  if (department) query = query.ilike("department", department);
+  if (category) query = query.ilike("category", category);
 
   const { data, error } = await query;
   if (error) throw error;
