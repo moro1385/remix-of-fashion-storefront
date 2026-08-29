@@ -25,6 +25,18 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     { value: "ساده", label: "ساده (Plain)" },
   ];
 
+
+  const brandOptions = Array.from({ length: 10 }).map((_, i) => {
+    let prefix = "Brand";
+    if (category === "socks") prefix = "Socks Brand";
+    else if (category === "underwear") prefix = "Underwear Brand";
+    else if (category) prefix = `${category.charAt(0).toUpperCase() + category.slice(1)} Brand`;
+    return {
+      value: `${prefix} ${i + 1}`,
+      label: `${prefix} ${i + 1}`,
+    };
+  });
+
   if (category === "underwear") {
     patternOptions = [
       { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
@@ -173,10 +185,7 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     {
       id: "brand",
       title: "Brand",
-      options: Array.from({ length: 10 }).map((_, i) => ({
-        value: `Brand ${i + 1}`,
-        label: `Brand ${i + 1}`,
-      })),
+      options: brandOptions,
     },
     {
       id: "pattern",

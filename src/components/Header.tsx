@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X, Instagram, User, ChevronDown } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {  ShoppingCart, Menu, X, Instagram, User, ChevronDown , Search } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useState, useEffect } from "react";
@@ -65,6 +65,18 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [shopMenuOpen, setShopMenuOpen] = useState(false);
   const [mobileShopMenuOpen, setMobileShopMenuOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/shop?query=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      setMobileOpen(false);
+    }
+  };
 
   const isHome = pathname === "/";
 
@@ -187,6 +199,24 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-5">
+
+          <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={cn(
+                "w-48 px-3 py-1.5 text-sm bg-transparent border-b outline-none transition-colors",
+                transparent
+                  ? "border-primary-foreground/30 text-primary-foreground placeholder:text-primary-foreground/50 focus:border-primary-foreground"
+                  : "border-border text-foreground placeholder:text-muted-foreground focus:border-foreground"
+              )}
+            />
+            <button type="submit" aria-label="Search" className="absolute right-0 top-1/2 -translate-y-1/2">
+              <Search className={cn("w-4 h-4", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
+            </button>
+          </form>
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Instagram className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </a>
@@ -229,6 +259,19 @@ export default function Header() {
       {/* Mobile menu */}
       {mobileOpen && (
         <nav className="md:hidden border-t border-border bg-background px-6 py-6 space-y-4 h-[calc(100vh-88px)] overflow-y-auto">
+          <form onSubmit={handleSearchSubmit} className="relative flex items-center mb-6">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full px-3 py-2 text-sm bg-muted border border-border rounded-md text-foreground placeholder:text-muted-foreground outline-none focus:border-foreground transition-colors"
+            />
+            <button type="submit" aria-label="Search" className="absolute right-3 top-1/2 -translate-y-1/2">
+              <Search className="w-4 h-4 text-muted-foreground" />
+            </button>
+          </form>
+
           <Link
             to="/"
             onClick={() => setMobileOpen(false)}

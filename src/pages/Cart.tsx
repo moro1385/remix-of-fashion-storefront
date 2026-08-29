@@ -5,14 +5,15 @@ import { formatPrice } from "@/lib/shopify";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
-  const { items, updateQuantity, removeItem, getCheckoutUrl, isLoading, isSyncing } = useCartStore();
+  const items = useCartStore((s) => s.items);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
 
   const subtotal = items.reduce((sum, i) => sum + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "USD";
 
   const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) window.open(checkoutUrl, "_blank");
+    import("sonner").then(({ toast }) => toast.info("Checkout is coming soon"));
   };
 
   if (items.length === 0) {
@@ -35,7 +36,7 @@ export default function Cart() {
       <h1 className="text-2xl font-medium text-foreground mb-12">Shopping Cart</h1>
       <div className="space-y-8">
         {items.map((item) => (
-          <div key={item.variantId} className="flex gap-6 border-b border-border pb-8">
+          <div key={item.id} className="flex gap-6 border-b border-border pb-8">
             <img
               src={item.image}
               alt={item.productTitle}
@@ -49,23 +50,23 @@ export default function Cart() {
                       {item.productTitle}
                     </Link>
                   </h3>
-                  {item.selectedOptions.length > 0 && (
+                  {(item.selectedSize || item.selectedColor) && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {item.selectedOptions.map((o) => o.value).join(" • ")}
+                      {[item.selectedSize, item.selectedColor].filter(Boolean).join(" • ")}
                     </p>
                   )}
                   <p className="text-sm text-muted-foreground mt-1">
                     {formatPrice(item.price.amount, item.price.currencyCode)}
                   </p>
                 </div>
-                <button onClick={() => removeItem(item.variantId)} aria-label="Remove item">
+                <button onClick={() => removeItem(item.id)} aria-label="Remove item">
                   <X className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
                 </button>
               </div>
               <div className="mt-4">
                 <QuantitySelector
                   quantity={item.quantity}
-                  onChange={(q) => updateQuantity(item.variantId, q)}
+                  onChange={(q) => updateQuantity(item.id, q)}
                 />
               </div>
             </div>
@@ -78,17 +79,10 @@ export default function Cart() {
         </p>
         <button
           onClick={handleCheckout}
-          disabled={isLoading || isSyncing}
-          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center gap-2"
+          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
         >
-          {isLoading || isSyncing ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <>
-              <ExternalLink className="w-4 h-4" />
-              Checkout
-            </>
-          )}
+          <ExternalLink className="w-4 h-4" />
+          Checkout
         </button>
       </div>
     </div>
