@@ -161,6 +161,9 @@ export type Database = {
           product_id: string | null
           quantity: number
           variant_id: string | null
+          title: string | null
+          variant_title: string | null
+          image_url: string | null
         }
         Insert: {
           id?: string
@@ -169,6 +172,9 @@ export type Database = {
           product_id?: string | null
           quantity?: number
           variant_id?: string | null
+          title?: string | null
+          variant_title?: string | null
+          image_url?: string | null
         }
         Update: {
           id?: string
@@ -177,6 +183,9 @@ export type Database = {
           product_id?: string | null
           quantity?: number
           variant_id?: string | null
+          title?: string | null
+          variant_title?: string | null
+          image_url?: string | null
         }
         Relationships: [
           {

@@ -58,11 +58,13 @@ export default function CheckoutPayment() {
       // 2. Insert order items
       const orderItems = items.map(item => ({
         order_id: orderData.id,
-        // Since we map shopify variants locally and might not have exact DB UUIDs for them if they aren't seeded yet,
-        // we'll leave product_id/variant_id null for this mocked completion, or map if we have them.
-        // For now, we will store the raw text in our local app state later, but for DB schema we must just provide what we can.
+        // Using variant_id string only if it matches uuid format, otherwise null to satisfy type
+        variant_id: /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.variantId) ? item.variantId : null,
         quantity: item.quantity,
-        price: parseFloat(item.price.amount)
+        price: parseFloat(item.price.amount),
+        title: item.productTitle,
+        variant_title: [item.selectedSize, item.selectedColor].filter(Boolean).join(" / ") || "Default",
+        image_url: item.image,
       }));
 
       const { error: itemsError } = await supabase
@@ -74,13 +76,15 @@ export default function CheckoutPayment() {
       // 3. Deduct wallet balance if used
       if (method === "wallet") {
         const newBalance = walletBalance - finalTotal;
-        await supabase
+        const { error: updateError } = await supabase
           .from("profiles")
           .update({ wallet_balance: newBalance })
           .eq("id", user.id);
 
-        // Optimistically update local state via authStore reload logic or manual patch
-        // The onAuthStateChange won't trigger for a simple DB update, so we can trigger bootstrap or rely on a reload later
+        if (updateError) throw updateError;
+
+        // Reload auth store to get fresh profile data (like new wallet balance)
+        useAuthStore.getState().bootstrap();
       }
 
       // 4. Clear carts

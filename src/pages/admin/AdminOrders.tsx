@@ -13,6 +13,9 @@ type Order = {
   created_at: string;
   status: string;
   total_amount: number;
+  shipping_cost: number;
+  shipping_method: string | null;
+  payment_method: string | null;
   user_id: string;
   profiles: {
     first_name: string | null;
@@ -44,6 +47,9 @@ export default function AdminOrders() {
           created_at,
           status,
           total_amount,
+          shipping_cost,
+          shipping_method,
+          payment_method,
           user_id,
           profiles (
             first_name,
@@ -119,6 +125,7 @@ export default function AdminOrders() {
                 <TableHead>Order ID</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Customer</TableHead>
+                <TableHead>Shipping / Payment</TableHead>
                 <TableHead>Total</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -145,7 +152,13 @@ export default function AdminOrders() {
                         )}
                       </div>
                     </TableCell>
-                    <TableCell>${order.total_amount.toFixed(2)}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-col gap-1 text-xs">
+                         <span>{order.shipping_method === 'express' ? "پست پیشتاز" : order.shipping_method === 'regular' ? "پست معمولی" : "N/A"}</span>
+                         <span className="text-muted-foreground capitalize">{order.payment_method || 'N/A'}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>{new Intl.NumberFormat('fa-IR').format(order.total_amount)} ریال</TableCell>
                     <TableCell>
                       <Select
                         value={order.status}
