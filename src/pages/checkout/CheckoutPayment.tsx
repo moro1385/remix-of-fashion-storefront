@@ -40,6 +40,11 @@ export default function CheckoutPayment() {
     setBusy(true);
     try {
       // 1. Create order
+      // Format the shipping address into a single text string
+      const shippingAddressStr = selectedAddress
+        ? `${selectedAddress.recipient}, ${selectedAddress.phone}, ${selectedAddress.line1}${selectedAddress.line2 ? ', ' + selectedAddress.line2 : ''}, ${selectedAddress.city}, ${selectedAddress.country}, ZIP: ${selectedAddress.postalCode}`
+        : '';
+
       const { data: orderData, error: orderError } = await supabase
         .from("orders")
         .insert({
@@ -49,6 +54,7 @@ export default function CheckoutPayment() {
           shipping_method: shippingMethod,
           payment_method: method,
           status: "confirmed",
+          shipping_address: shippingAddressStr,
         })
         .select()
         .single();

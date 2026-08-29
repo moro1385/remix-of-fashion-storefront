@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Eye, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
-import { OrderDetailsDialog } from "@/components/admin/OrderDetailsDialog";
+import { OrderDetailsDialog } from "@/components/shared/OrderDetailsDialog";
 
 type Order = {
   id: string;
@@ -137,7 +137,16 @@ export default function AdminOrders() {
                 const customerDisplay = customerName || order.profiles?.phone || "Unknown User";
 
                 return (
-                  <TableRow key={order.id}>
+                  <TableRow
+                    key={order.id}
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={(e) => {
+                      // Prevent row click if clicking on the select dropdown
+                      if ((e.target as HTMLElement).closest('[role="combobox"]')) return;
+                      setSelectedOrderId(order.id);
+                      setIsDialogOpen(true);
+                    }}
+                  >
                     <TableCell className="font-medium font-mono text-xs">
                       {order.id.slice(0, 8)}...
                     </TableCell>

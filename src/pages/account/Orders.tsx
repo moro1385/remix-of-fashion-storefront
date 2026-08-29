@@ -5,6 +5,7 @@ import AccountLayout from "@/components/account/AccountLayout";
 import { useAuthStore } from "@/stores/authStore";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { OrderDetailsDialog } from "@/components/shared/OrderDetailsDialog";
 
 const statusStyles: Record<string, string> = {
   processing: "bg-muted text-muted-foreground",
@@ -36,6 +37,8 @@ export default function Orders() {
   const user = useAuthStore((s) => s.user);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     async function fetchOrders() {
@@ -92,6 +95,11 @@ export default function Orders() {
 
   return (
     <AccountLayout title="Orders" description="Follow every order from confirmation to delivery.">
+      <OrderDetailsDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        orderId={selectedOrderId}
+      />
       {orders.length === 0 ? (
         <div className="text-center py-14">
           <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
@@ -109,7 +117,14 @@ export default function Orders() {
       ) : (
         <div className="space-y-5">
           {orders.map((order) => (
-            <article key={order.id} className="border border-border">
+            <article
+              key={order.id}
+              className="border border-border cursor-pointer hover:bg-muted/10 transition-colors"
+              onClick={() => {
+                setSelectedOrderId(order.id);
+                setIsDialogOpen(true);
+              }}
+            >
               <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 border-b border-border">
                 <div>
                   <p className="text-sm uppercase tracking-[0.15em] text-foreground">
