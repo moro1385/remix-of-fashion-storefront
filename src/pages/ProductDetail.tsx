@@ -4,7 +4,8 @@ import { Loader2 } from "lucide-react";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { useCartStore } from "@/stores/cartStore";
-import { useToast } from "@/hooks/use-toast";
+import { useAuthStore } from "@/stores/authStore";
+import { toast } from "sonner";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
 import { cn } from "@/lib/utils";
@@ -15,7 +16,7 @@ export default function ProductDetail() {
   const { data: allProducts } = useProducts();
   const addItem = useCartStore((s) => s.addItem);
   const isCartLoading = useCartStore((s) => s.isLoading);
-  const { toast } = useToast();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated());
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState<Record<string, string>>({});
 
@@ -60,7 +61,12 @@ export default function ProductDetail() {
   const price = selectedVariant?.price ?? product.node.priceRange.minVariantPrice;
 
   const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      toast.error("Auth Required", { description: "Please sign in to add to cart." });
+      return;
+    }
     if (!selectedVariant || isSoldOut) return;
+
     await addItem({
       variantId: selectedVariant.id,
       productTitle: product.node.title,
@@ -71,10 +77,7 @@ export default function ProductDetail() {
       selectedOptions: Object.entries(activeOptions).map(([name, value]) => ({ name, value })),
       variantTitle: Object.values(activeOptions).join(" / ") || "Default",
     });
-    toast({
-      title: "Added to cart",
-      description: `${quantity}× ${product.node.title} added to your cart.`,
-    });
+    toast.success("محصول به سبد خرید اضافه شد");
     setQuantity(1);
   };
 
@@ -100,7 +103,7 @@ export default function ProductDetail() {
             <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">
               {product.node.title}
             </h1>
-            <p className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <p className="text-2xl font-bold text-foreground mb-6">
               {formatPrice(price.amount, price.currencyCode)}
             </p>
             {product.node.description && (

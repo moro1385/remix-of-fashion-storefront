@@ -19,17 +19,12 @@ export default function Shop() {
   const [searchParams] = useSearchParams();
   const departmentQuery = searchParams.get("department");
   const categoryQuery = searchParams.get("category");
+  const searchQuery = searchParams.get("query");
 
-  // If a department or category is selected via URL, we might want to query for those specifically.
-  // We can pass them as a combined string to `useProducts` or just fetch all and filter client-side.
-  // Since the user is asking to "filter dynamically based on these parameters", let's combine them into a query.
-  // e.g. "department category" or just filter on client side.
-  // The useProducts hook uses fetchActiveProducts with "terms".
-  // Create query string only from filters if we have real full text search inputs in the future,
-  // For now, department and category are natively handled by Supabase columns.
   const { data: products, isLoading, error } = useProducts({
     department: departmentQuery,
-    category: categoryQuery
+    category: categoryQuery,
+    terms: searchQuery ? [searchQuery] : undefined
   });
 
   const [selectedFilters, setSelectedFilters] = useState<FilterState>({});
@@ -46,7 +41,10 @@ export default function Shop() {
     });
   };
 
-  const visible = products || [];
+  let visible = products || [];
+  if (selectedFilters.type && selectedFilters.type.length > 0) {
+    visible = visible.filter(p => p.node.type?.some(t => selectedFilters.type.includes(t)));
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">

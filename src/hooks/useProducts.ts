@@ -24,10 +24,10 @@ export function parseLegacyQuery(query?: string): string[] {
 
 /** Drop-in replacement for the previous storefront products hook. */
 export function useProducts(
-  { department, category, query, first = 100 }:
-  { department?: string | null; category?: string | null; query?: string; first?: number } = {}
+  { department, category, query, terms: initialTerms, first = 100 }:
+  { department?: string | null; category?: string | null; query?: string; terms?: string[]; first?: number } = {}
 ) {
-  const terms = parseLegacyQuery(query);
+  const terms = initialTerms || parseLegacyQuery(query);
 
   const result = useQuery<CatalogProduct[]>({
     queryKey: ["products", department, category, terms, first],

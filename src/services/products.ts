@@ -22,6 +22,11 @@ export interface CatalogProduct {
     images: { edges: Array<{ node: { url: string; altText: string | null } }> };
     variants: { edges: Array<{ node: CatalogVariant }> };
     options: Array<{ name: string; values: string[] }>;
+    type: string[];
+    sizes: string[];
+    colors: string[];
+    department: string;
+    category: string;
   };
 }
 
@@ -105,6 +110,11 @@ function mapProduct(row: Row): CatalogProduct {
       images: { edges: images },
       variants: { edges: variants.map((node) => ({ node })) },
       options,
+      type: row.type || [],
+      sizes: row.sizes || [],
+      colors: row.colors || [],
+      department: row.department || "",
+      category: row.category || "",
     },
   };
 }
@@ -158,7 +168,6 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
       needles.some(
         (n) =>
           p.node.title.toLowerCase().includes(n) ||
-          p.node.productType.toLowerCase().includes(n) ||
           p.node.tags.some((tag) => tag.toLowerCase().includes(n))
       )
     );
@@ -218,11 +227,7 @@ export async function fetchCategories() {
 
 export function formatPrice(amount: string | number, currencyCode = CURRENCY_CODE) {
   const value = typeof amount === "string" ? parseFloat(amount) : amount;
-  try {
-    return new Intl.NumberFormat(undefined, { style: "currency", currency: currencyCode }).format(value);
-  } catch {
-    return `${currencyCode} ${value.toFixed(2)}`;
-  }
+  return Number(value).toLocaleString('fa-IR') + ' ریال';
 }
 
 export function productImage(product: CatalogProduct) {
