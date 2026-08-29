@@ -11,13 +11,20 @@ import { cn } from "@/lib/utils";
 export default function CheckoutPayment() {
   const navigate = useNavigate();
   const user = useAuthStore((s) => s.user);
-  const { items, clearCart } = useCartStore();
-  const { selectedAddress, shippingMethod, shippingCost, clearCheckout } = useCheckoutStore();
+  const rawItems = useCartStore((s) => s.items);
+  const clearCart = useCartStore((s) => s.clearCart);
+
+  const selectedAddress = useCheckoutStore((s) => s.selectedAddress);
+  const shippingMethod = useCheckoutStore((s) => s.shippingMethod);
+  const shippingCost = useCheckoutStore((s) => s.shippingCost);
+  const clearCheckout = useCheckoutStore((s) => s.clearCheckout);
+
+  const items = rawItems || [];
 
   const [busy, setBusy] = useState(false);
 
   // If we arrived here without an address/shipping selected, kick back to step 1
-  if (!selectedAddress || !shippingMethod || items.length === 0) {
+  if (!selectedAddress || !shippingMethod || !items || items.length === 0) {
     return <Navigate to="/checkout" replace />;
   }
 

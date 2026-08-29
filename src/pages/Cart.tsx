@@ -6,7 +6,13 @@ import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { items, updateQuantity, removeItem, isLoading, isSyncing } = useCartStore();
+  const rawItems = useCartStore((s) => s.items);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
+  const isLoading = useCartStore((s) => s.isLoading);
+  const isSyncing = useCartStore((s) => s.isSyncing);
+
+  const items = rawItems || [];
 
   const subtotal = items.reduce((sum, i) => sum + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "USD";
@@ -15,7 +21,7 @@ export default function Cart() {
     navigate("/checkout");
   };
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-24">
         <h1 className="text-2xl font-medium text-foreground mb-4">Shopping Cart</h1>
