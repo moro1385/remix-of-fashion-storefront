@@ -55,9 +55,9 @@ export default function Cart() {
                       {item.productTitle}
                     </Link>
                   </h3>
-                  {item.selectedOptions.length > 0 && (
+                  {(item.selectedSize || item.selectedColor) && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {item.selectedOptions.map((o) => o.value).join(" • ")}
+                      {[item.selectedSize, item.selectedColor].filter(Boolean).join(" • ")}
                     </p>
                   )}
                   <p className="text-sm text-muted-foreground mt-1">

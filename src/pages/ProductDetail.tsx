@@ -68,7 +68,8 @@ export default function ProductDetail() {
       image: productImage(product),
       price: selectedVariant.price,
       quantity,
-      selectedOptions: Object.entries(activeOptions).map(([name, value]) => ({ name, value })),
+      selectedSize: activeOptions["Size"],
+      selectedColor: activeOptions["Color"],
       variantTitle: Object.values(activeOptions).join(" / ") || "Default",
     });
     toast({
