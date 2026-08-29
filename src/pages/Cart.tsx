@@ -1,11 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, Loader2, X } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
-  const items = useCartStore((s) => s.items);
+const navigate = useNavigate();
+  const items = useCartStore((s) => s.items) || [];
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
 
@@ -13,10 +14,10 @@ export default function Cart() {
   const currency = items[0]?.price.currencyCode ?? "USD";
 
   const handleCheckout = () => {
-    import("sonner").then(({ toast }) => toast.info("Checkout is coming soon"));
+    navigate("/checkout");
   };
 
-  if (items.length === 0) {
+  if (!items || items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-24">
         <h1 className="text-2xl font-medium text-foreground mb-4">Shopping Cart</h1>
@@ -81,8 +82,7 @@ export default function Cart() {
           onClick={handleCheckout}
           className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
         >
-          <ExternalLink className="w-4 h-4" />
-          Checkout
+Checkout
         </button>
       </div>
     </div>

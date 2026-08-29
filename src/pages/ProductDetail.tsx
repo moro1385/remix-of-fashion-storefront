@@ -73,7 +73,7 @@ export default function ProductDetail() {
       image: productImage(product),
       price,
       quantity,
-      selectedSize: activeOptions["Size"] ?? null,
+selectedSize: activeOptions["Size"] ?? null,
       selectedColor: activeOptions["Color"] ?? null,
     });
     toast.success("محصول به سبد خرید اضافه شد");

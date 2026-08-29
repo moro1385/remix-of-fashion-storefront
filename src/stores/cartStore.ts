@@ -9,7 +9,7 @@ export interface CartItem {
   image: string;
   price: { amount: string; currencyCode: string };
   quantity: number;
-  selectedSize: string | null;
+selectedSize: string | null;
   selectedColor: string | null;
 }
 

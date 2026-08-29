@@ -21,6 +21,8 @@ import PersonalInformation from "./pages/account/PersonalInformation";
 import Addresses from "./pages/account/Addresses";
 import Wallet from "./pages/account/Wallet";
 import Orders from "./pages/account/Orders";
+import CheckoutAddress from "./pages/checkout/CheckoutAddress";
+import CheckoutPayment from "./pages/checkout/CheckoutPayment";
 import RequireAuth from "./components/auth/RequireAuth";
 import RedirectIfAuthenticated from "./components/auth/RedirectIfAuthenticated";
 import RequireAdmin from "./components/auth/RequireAdmin";
@@ -65,6 +67,8 @@ const App = () => {
                 <Route path="/account/addresses" element={<Addresses />} />
                 <Route path="/account/wallet" element={<Wallet />} />
                 <Route path="/account/orders" element={<Orders />} />
+                <Route path="/checkout" element={<CheckoutAddress />} />
+                <Route path="/checkout/payment" element={<CheckoutPayment />} />
               </Route>
             </Route>
 

@@ -1,11 +1,12 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Package } from "lucide-react";
+import { Package, Loader2 } from "lucide-react";
 import AccountLayout from "@/components/account/AccountLayout";
 import { useAuthStore } from "@/stores/authStore";
-import type { OrderStatus } from "@/types/auth";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
-const statusStyles: Record<OrderStatus, string> = {
+const statusStyles: Record<string, string> = {
   processing: "bg-muted text-muted-foreground",
   confirmed: "bg-secondary text-secondary-foreground",
   shipped: "bg-accent text-accent-foreground",
@@ -13,8 +14,81 @@ const statusStyles: Record<OrderStatus, string> = {
   cancelled: "bg-destructive/10 text-destructive",
 };
 
+interface OrderLine {
+  title: string;
+  variant: string;
+  quantity: number;
+  price: number;
+}
+
+interface Order {
+  id: string;
+  number: string;
+  createdAt: string;
+  total: number;
+  currencyCode: string;
+  status: string;
+  deliveryStatus: string;
+  lines: OrderLine[];
+}
+
 export default function Orders() {
-  const orders = useAuthStore((s) => s.user?.orders ?? []);
+  const user = useAuthStore((s) => s.user);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchOrders() {
+      if (!user) return;
+      try {
+        const { data, error } = await supabase
+          .from("orders")
+          .select(`
+            *,
+            order_items (*)
+          `)
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        const formattedOrders = (data || []).map((o) => ({
+          id: o.id,
+          number: o.id.split("-")[0].toUpperCase(),
+          createdAt: o.created_at,
+          total: o.total_amount,
+          currencyCode: "IRR",
+          status: o.status,
+          deliveryStatus: o.status === "confirmed" ? "Processing" : o.status,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          lines: ((o as any).order_items || []).map((line: any) => ({
+            title: line.title || "Product",
+            variant: line.variant_title || "Default",
+            quantity: line.quantity,
+            price: line.price,
+          })),
+        }));
+
+        setOrders(formattedOrders);
+      } catch (err) {
+        console.error("Failed to fetch orders:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchOrders();
+  }, [user]);
+
+  if (loading) {
+    return (
+      <AccountLayout title="Orders" description="Follow every order from confirmation to delivery.">
+        <div className="flex justify-center py-20">
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        </div>
+      </AccountLayout>
+    );
+  }
 
   return (
     <AccountLayout title="Orders" description="Follow every order from confirmation to delivery.">
@@ -51,16 +125,13 @@ export default function Orders() {
                   <span
                     className={cn(
                       "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5",
-                      statusStyles[order.status]
+                      statusStyles[order.status] || statusStyles.processing
                     )}
                   >
                     {order.status}
                   </span>
                   <p className="text-sm text-foreground tabular-nums">
-                    {new Intl.NumberFormat(undefined, {
-                      style: "currency",
-                      currency: order.currencyCode,
-                    }).format(order.total)}
+                    {new Intl.NumberFormat('fa-IR').format(order.total)} ریال
                   </p>
                 </div>
               </header>
@@ -74,10 +145,7 @@ export default function Orders() {
                       </p>
                     </div>
                     <p className="text-sm text-muted-foreground tabular-nums">
-                      {new Intl.NumberFormat(undefined, {
-                        style: "currency",
-                        currency: order.currencyCode,
-                      }).format(line.price)}
+                      {new Intl.NumberFormat('fa-IR').format(line.price)} ریال
                     </p>
                   </li>
                 ))}
