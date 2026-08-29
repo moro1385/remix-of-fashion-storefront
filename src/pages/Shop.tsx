@@ -45,6 +45,15 @@ export default function Shop() {
   if (selectedFilters.type && selectedFilters.type.length > 0) {
     visible = visible.filter(p => p.node.type?.some(t => selectedFilters.type.includes(t)));
   }
+  if (selectedFilters.brand && selectedFilters.brand.length > 0) {
+    visible = visible.filter(p => selectedFilters.brand.includes(p.node.brand));
+  }
+  if (selectedFilters.pattern && selectedFilters.pattern.length > 0) {
+    visible = visible.filter(p => selectedFilters.pattern.includes(p.node.pattern));
+  }
+  if (selectedFilters.size && selectedFilters.size.length > 0) {
+    visible = visible.filter(p => p.node.sizes?.some(s => selectedFilters.size.includes(s)));
+  }
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">

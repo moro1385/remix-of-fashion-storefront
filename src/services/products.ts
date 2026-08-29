@@ -27,13 +27,15 @@ export interface CatalogProduct {
     colors: string[];
     department: string;
     category: string;
+    brand: string;
+    pattern: string;
   };
 }
 
 export const CURRENCY_CODE = "USD";
 
 const PRODUCT_SELECT = `
-  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, type, sizes, colors,
+  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, brand, pattern, type, sizes, colors,
   categories:category_id ( id, name, slug ),
   product_images ( id, image_url, alt_text, sort_order ),
   product_variants ( id, size, color, sku, price, stock_quantity )
@@ -50,6 +52,8 @@ type Row = {
   tags: string[] | null;
   department: string | null;
   category: string | null;
+  brand: string | null;
+  pattern: string | null;
   type: string[] | null;
   sizes: string[] | null;
   colors: string[] | null;
@@ -115,6 +119,8 @@ function mapProduct(row: Row): CatalogProduct {
       colors: row.colors || [],
       department: row.department || "",
       category: row.category || "",
+      brand: row.brand || "",
+      pattern: row.pattern || "",
     },
   };
 }
@@ -168,7 +174,7 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
       needles.some(
         (n) =>
           p.node.title.toLowerCase().includes(n) ||
-          p.node.tags.some((tag) => tag.toLowerCase().includes(n))
+          (p.node.tags && p.node.tags.some((tag) => tag.toLowerCase().includes(n)))
       )
     );
   }

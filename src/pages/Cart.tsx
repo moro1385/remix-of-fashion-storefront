@@ -5,7 +5,12 @@ import { formatPrice } from "@/lib/shopify";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
-  const { items, updateQuantity, removeItem, getCheckoutUrl, isLoading, isSyncing } = useCartStore();
+  const items = useCartStore((s) => s.items);
+  const updateQuantity = useCartStore((s) => s.updateQuantity);
+  const removeItem = useCartStore((s) => s.removeItem);
+  const getCheckoutUrl = useCartStore((s) => s.getCheckoutUrl);
+  const isLoading = useCartStore((s) => s.isLoading);
+  const isSyncing = useCartStore((s) => s.isSyncing);
 
   const subtotal = items.reduce((sum, i) => sum + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "USD";
@@ -51,7 +56,7 @@ export default function Cart() {
                   </h3>
                   {item.selectedOptions.length > 0 && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {item.selectedOptions.map((o) => o.value).join(" • ")}
+                      {item.selectedOptions.map((o) => `${o.name}: ${o.value}`).join(" | ")}
                     </p>
                   )}
                   <p className="text-sm text-muted-foreground mt-1">
