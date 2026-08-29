@@ -69,6 +69,24 @@ export const useAuthStore = create<AuthStore>()(
               .eq("id", currentSession.user.id)
               .single();
 
+            const { data: dbAddresses } = await supabase
+              .from("addresses")
+              .select("*")
+              .eq("user_id", currentSession.user.id);
+
+            const mappedAddresses: Address[] = (dbAddresses || []).map((dbA) => ({
+              id: dbA.id,
+              label: dbA.label || "",
+              recipient: dbA.recipient || "",
+              phone: dbA.phone || "",
+              country: dbA.country || "",
+              city: dbA.city || "",
+              line1: dbA.line1 || "",
+              line2: dbA.line2 || "",
+              postalCode: dbA.postal_code || "",
+              isDefault: dbA.is_default || false,
+            }));
+
             const currentUser = get().user;
             const user: User = {
               id: currentSession.user.id,
@@ -77,8 +95,8 @@ export const useAuthStore = create<AuthStore>()(
               lastName: profile?.last_name || (newProfileData?.lastName ?? ""),
               email: profile?.email || currentSession.user.email,
               createdAt: currentSession.user.created_at,
-              addresses: currentUser?.addresses || [],
-              wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+              addresses: mappedAddresses,
+              wallet: { balance: profile?.wallet_balance || 0, currencyCode: "IRR", transactions: [] },
               orders: currentUser?.orders || [],
             };
             set({ session, user });
@@ -113,6 +131,24 @@ export const useAuthStore = create<AuthStore>()(
               .eq("id", currentSession.user.id)
               .single();
 
+            const { data: dbAddresses } = await supabase
+              .from("addresses")
+              .select("*")
+              .eq("user_id", currentSession.user.id);
+
+            const mappedAddresses: Address[] = (dbAddresses || []).map((dbA) => ({
+              id: dbA.id,
+              label: dbA.label || "",
+              recipient: dbA.recipient || "",
+              phone: dbA.phone || "",
+              country: dbA.country || "",
+              city: dbA.city || "",
+              line1: dbA.line1 || "",
+              line2: dbA.line2 || "",
+              postalCode: dbA.postal_code || "",
+              isDefault: dbA.is_default || false,
+            }));
+
             const currentUser = get().user;
             set({
               session: mapSupabaseSession(currentSession),
@@ -123,8 +159,8 @@ export const useAuthStore = create<AuthStore>()(
                 lastName: profile?.last_name || "",
                 email: profile?.email || currentSession.user.email,
                 createdAt: currentSession.user.created_at,
-                addresses: currentUser?.addresses || [],
-                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                addresses: mappedAddresses,
+                wallet: { balance: profile?.wallet_balance || 0, currencyCode: "IRR", transactions: [] },
                 orders: currentUser?.orders || [],
               }
             });
@@ -147,6 +183,24 @@ export const useAuthStore = create<AuthStore>()(
               .eq("id", data.user.id)
               .single();
 
+            const { data: dbAddresses } = await supabase
+              .from("addresses")
+              .select("*")
+              .eq("user_id", data.user.id);
+
+            const mappedAddresses: Address[] = (dbAddresses || []).map((dbA) => ({
+              id: dbA.id,
+              label: dbA.label || "",
+              recipient: dbA.recipient || "",
+              phone: dbA.phone || "",
+              country: dbA.country || "",
+              city: dbA.city || "",
+              line1: dbA.line1 || "",
+              line2: dbA.line2 || "",
+              postalCode: dbA.postal_code || "",
+              isDefault: dbA.is_default || false,
+            }));
+
             const currentUser = get().user;
             set({
               session: mapSupabaseSession(data.session),
@@ -157,8 +211,8 @@ export const useAuthStore = create<AuthStore>()(
                 lastName: profile?.last_name || "",
                 email: profile?.email || data.user.email,
                 createdAt: data.user.created_at,
-                addresses: currentUser?.addresses || [],
-                wallet: currentUser?.wallet || { balance: 0, currencyCode: "USD", transactions: [] },
+                addresses: mappedAddresses,
+                wallet: { balance: profile?.wallet_balance || 0, currencyCode: "IRR", transactions: [] },
                 orders: currentUser?.orders || [],
               }
             });
@@ -251,10 +305,32 @@ export const useAuthStore = create<AuthStore>()(
         },
 
         upsertAddress: async (address) => {
-          const { user } = get();
-          if (!user) return;
+          const { user, session } = get();
+          if (!user || !session) return;
 
+          const isNew = !address.id;
           const id = address.id ?? crypto.randomUUID();
+
+          const dbAddress = {
+            id,
+            user_id: user.id,
+            label: address.label,
+            recipient: address.recipient,
+            phone: address.phone,
+            country: address.country,
+            city: address.city,
+            line1: address.line1,
+            line2: address.line2 || null,
+            postal_code: address.postalCode,
+            is_default: address.isDefault,
+          };
+
+          if (isNew) {
+            await supabase.from("addresses").insert(dbAddress);
+          } else {
+            await supabase.from("addresses").update(dbAddress).eq("id", id);
+          }
+
           const exists = user.addresses.some((a) => a.id === id);
           let addresses = exists
             ? user.addresses.map((a) => (a.id === id ? { ...a, ...address, id } : a))
@@ -262,6 +338,12 @@ export const useAuthStore = create<AuthStore>()(
 
           const shouldBeDefault = address.isDefault || addresses.length === 1;
           addresses = addresses.map((a) => ({ ...a, isDefault: shouldBeDefault ? a.id === id : a.isDefault }));
+
+          if (shouldBeDefault) {
+              await supabase.from("addresses").update({ is_default: false }).eq("user_id", user.id).neq("id", id);
+              await supabase.from("addresses").update({ is_default: true }).eq("id", id);
+          }
+
           set({ user: { ...user, addresses } });
         },
 
@@ -269,9 +351,14 @@ export const useAuthStore = create<AuthStore>()(
           const { user } = get();
           if (!user) return;
 
+          await supabase.from("addresses").delete().eq("id", id);
+
           let addresses = user.addresses.filter((a) => a.id !== id);
           if (addresses.length && !addresses.some((a) => a.isDefault)) {
             addresses = addresses.map((a, i) => ({ ...a, isDefault: i === 0 }));
+            if (addresses[0]) {
+               await supabase.from("addresses").update({ is_default: true }).eq("id", addresses[0].id);
+            }
           }
           set({ user: { ...user, addresses } });
         },
@@ -279,6 +366,9 @@ export const useAuthStore = create<AuthStore>()(
         setDefaultAddress: async (id) => {
           const { user } = get();
           if (!user) return;
+
+          await supabase.from("addresses").update({ is_default: false }).eq("user_id", user.id);
+          await supabase.from("addresses").update({ is_default: true }).eq("id", id);
 
           const addresses = user.addresses.map((a) => ({ ...a, isDefault: a.id === id }));
           set({ user: { ...user, addresses } });

@@ -16,36 +16,45 @@ export type Database = {
     Tables: {
       addresses: {
         Row: {
-          address: string
+          line1: string
+          line2: string | null
           city: string | null
+          country: string | null
+          recipient: string | null
           created_at: string
           id: string
           is_default: boolean
           phone: string | null
           postal_code: string | null
-          title: string | null
+          label: string | null
           user_id: string
         }
         Insert: {
-          address: string
+          line1: string
+          line2?: string | null
           city?: string | null
+          country?: string | null
+          recipient?: string | null
           created_at?: string
           id?: string
           is_default?: boolean
           phone?: string | null
           postal_code?: string | null
-          title?: string | null
+          label?: string | null
           user_id: string
         }
         Update: {
-          address?: string
+          line1?: string
+          line2?: string | null
           city?: string | null
+          country?: string | null
+          recipient?: string | null
           created_at?: string
           id?: string
           is_default?: boolean
           phone?: string | null
           postal_code?: string | null
-          title?: string | null
+          label?: string | null
           user_id?: string
         }
         Relationships: []
@@ -199,6 +208,9 @@ export type Database = {
           id: string
           status: string
           total_amount: number
+          shipping_cost: number
+          shipping_method: string | null
+          payment_method: string | null
           user_id: string
         }
         Insert: {
@@ -206,6 +218,9 @@ export type Database = {
           id?: string
           status?: string
           total_amount?: number
+          shipping_cost?: number
+          shipping_method?: string | null
+          payment_method?: string | null
           user_id: string
         }
         Update: {
@@ -213,6 +228,9 @@ export type Database = {
           id?: string
           status?: string
           total_amount?: number
+          shipping_cost?: number
+          shipping_method?: string | null
+          payment_method?: string | null
           user_id?: string
         }
         Relationships: []
@@ -371,6 +389,7 @@ export type Database = {
           last_name: string | null
           phone: string | null
           updated_at: string
+          wallet_balance: number
         }
         Insert: {
           avatar_url?: string | null
@@ -381,6 +400,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           updated_at?: string
+          wallet_balance?: number
         }
         Update: {
           avatar_url?: string | null
@@ -391,6 +411,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           updated_at?: string
+          wallet_balance?: number
         }
         Relationships: []
       }

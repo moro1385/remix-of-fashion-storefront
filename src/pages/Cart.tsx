@@ -1,18 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, Loader2, X } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/shopify";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
-  const { items, updateQuantity, removeItem, getCheckoutUrl, isLoading, isSyncing } = useCartStore();
+  const navigate = useNavigate();
+  const { items, updateQuantity, removeItem, isLoading, isSyncing } = useCartStore();
 
   const subtotal = items.reduce((sum, i) => sum + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "USD";
 
   const handleCheckout = () => {
-    const checkoutUrl = getCheckoutUrl();
-    if (checkoutUrl) window.open(checkoutUrl, "_blank");
+    navigate("/checkout");
   };
 
   if (items.length === 0) {
@@ -85,7 +85,6 @@ export default function Cart() {
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
             <>
-              <ExternalLink className="w-4 h-4" />
               Checkout
             </>
           )}
