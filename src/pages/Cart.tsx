@@ -5,14 +5,10 @@ import { formatPrice } from "@/lib/shopify";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
-  const navigate = useNavigate();
-  const rawItems = useCartStore((s) => s.items);
+const navigate = useNavigate();
+  const items = useCartStore((s) => s.items) || [];
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const removeItem = useCartStore((s) => s.removeItem);
-  const isLoading = useCartStore((s) => s.isLoading);
-  const isSyncing = useCartStore((s) => s.isSyncing);
-
-  const items = rawItems || [];
 
   const subtotal = items.reduce((sum, i) => sum + parseFloat(i.price.amount) * i.quantity, 0);
   const currency = items[0]?.price.currencyCode ?? "USD";
@@ -41,7 +37,7 @@ export default function Cart() {
       <h1 className="text-2xl font-medium text-foreground mb-12">Shopping Cart</h1>
       <div className="space-y-8">
         {items.map((item) => (
-          <div key={item.variantId} className="flex gap-6 border-b border-border pb-8">
+          <div key={item.id} className="flex gap-6 border-b border-border pb-8">
             <img
               src={item.image}
               alt={item.productTitle}
@@ -64,14 +60,14 @@ export default function Cart() {
                     {formatPrice(item.price.amount, item.price.currencyCode)}
                   </p>
                 </div>
-                <button onClick={() => removeItem(item.variantId)} aria-label="Remove item">
+                <button onClick={() => removeItem(item.id)} aria-label="Remove item">
                   <X className="w-5 h-5 text-muted-foreground hover:text-foreground transition-colors" />
                 </button>
               </div>
               <div className="mt-4">
                 <QuantitySelector
                   quantity={item.quantity}
-                  onChange={(q) => updateQuantity(item.variantId, q)}
+                  onChange={(q) => updateQuantity(item.id, q)}
                 />
               </div>
             </div>
@@ -84,16 +80,9 @@ export default function Cart() {
         </p>
         <button
           onClick={handleCheckout}
-          disabled={isLoading || isSyncing}
-          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center gap-2"
+          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
         >
-          {isLoading || isSyncing ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <>
-              Checkout
-            </>
-          )}
+Checkout
         </button>
       </div>
     </div>

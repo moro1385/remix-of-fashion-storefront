@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useCartSync } from "@/hooks/useCartSync";
 import Layout from "@/components/Layout";
 import Index from "./pages/Index";
 import Shop from "./pages/Shop";
@@ -38,8 +37,6 @@ import AdminUsers from "./pages/admin/AdminUsers";
 const queryClient = new QueryClient();
 
 const App = () => {
-  useCartSync();
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

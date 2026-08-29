@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/authStore";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Header from "./Header";
@@ -6,7 +7,7 @@ import ScrollToTop from "./ScrollToTop";
 import { useAuthStore } from "@/stores/authStore";
 
 export default function Layout() {
-  const user = useAuthStore((s) => s.user);
+const user = useAuthStore((s) => s.user);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -17,7 +18,7 @@ export default function Layout() {
       </main>
 
       {/* Pre-Footer CTA Banner */}
-      {!user && (
+{!user && (
         <section className="relative w-full py-24 bg-muted overflow-hidden flex items-center justify-center">
           {/* Placeholder background image / overlay */}
           <div className="absolute inset-0 bg-stone-900/80 z-10" />

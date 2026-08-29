@@ -4,7 +4,8 @@ import { Loader2 } from "lucide-react";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { useCartStore } from "@/stores/cartStore";
-import { useToast } from "@/hooks/use-toast";
+import { useAuthStore } from "@/stores/authStore";
+import { toast } from "sonner";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
 import { cn } from "@/lib/utils";
@@ -14,8 +15,7 @@ export default function ProductDetail() {
   const { data: product, isLoading } = useProduct(slug);
   const { data: allProducts } = useProducts();
   const addItem = useCartStore((s) => s.addItem);
-  const isCartLoading = useCartStore((s) => s.isLoading);
-  const { toast } = useToast();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated());
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState<Record<string, string>>({});
 
@@ -59,23 +59,24 @@ export default function ProductDetail() {
   const isSoldOut = !selectedVariant?.availableForSale;
   const price = selectedVariant?.price ?? product.node.priceRange.minVariantPrice;
 
-  const handleAddToCart = async () => {
-    if (!selectedVariant || isSoldOut) return;
-    await addItem({
-      variantId: selectedVariant.id,
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      toast.error("Auth Required", { description: "Please sign in to add to cart." });
+      return;
+    }
+    if (isSoldOut) return;
+
+    addItem({
+      productId: product.node.id,
       productTitle: product.node.title,
       productHandle: product.node.handle,
       image: productImage(product),
-      price: selectedVariant.price,
+      price,
       quantity,
-      selectedSize: activeOptions["Size"],
-      selectedColor: activeOptions["Color"],
-      variantTitle: Object.values(activeOptions).join(" / ") || "Default",
+selectedSize: activeOptions["Size"] ?? null,
+      selectedColor: activeOptions["Color"] ?? null,
     });
-    toast({
-      title: "Added to cart",
-      description: `${quantity}× ${product.node.title} added to your cart.`,
-    });
+    toast.success("محصول به سبد خرید اضافه شد");
     setQuantity(1);
   };
 
@@ -101,7 +102,7 @@ export default function ProductDetail() {
             <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">
               {product.node.title}
             </h1>
-            <p className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            <p className="text-2xl font-bold text-foreground mb-6">
               {formatPrice(price.amount, price.currencyCode)}
             </p>
             {product.node.description && (
@@ -141,10 +142,9 @@ export default function ProductDetail() {
                 <QuantitySelector quantity={quantity} onChange={setQuantity} />
                 <button
                   onClick={handleAddToCart}
-                  disabled={isCartLoading}
                   className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center"
                 >
-                  {isCartLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Add To Cart"}
+                  {"Add To Cart"}
                 </button>
               </div>
             ) : (

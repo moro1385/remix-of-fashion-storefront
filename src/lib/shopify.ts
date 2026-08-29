@@ -108,11 +108,7 @@ export async function fetchProductByHandle(handle: string): Promise<ShopifyProdu
 
 export function formatPrice(amount: string | number, currencyCode = "USD") {
   const value = typeof amount === "string" ? parseFloat(amount) : amount;
-  try {
-    return new Intl.NumberFormat(undefined, { style: "currency", currency: currencyCode }).format(value);
-  } catch {
-    return `${currencyCode} ${value.toFixed(2)}`;
-  }
+  return Number(value).toLocaleString('fa-IR') + ' ریال';
 }
 
 export function productImage(product: ShopifyProduct) {
