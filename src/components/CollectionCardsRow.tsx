@@ -33,7 +33,7 @@ const collectionCards = [
     ...item,
     name: item.labelOverride || baseCollection?.name || item.handle,
     image: baseCollection?.image || '',
-    eyebrow: baseCollection?.eyebrow || 'Everyday staple',
+    eyebrow: baseCollection?.eyebrow || 'نیاز روزمره شما',
   };
 });
 

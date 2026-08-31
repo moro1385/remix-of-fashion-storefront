@@ -18,7 +18,7 @@ const dummyCategories = [
   { name: "Underwear", slug: "underwear", description: "Foundation layer. Underwear that disappears under everything.", image_url: "/src/assets/collections/underwear.png" },
   { name: "Pants", slug: "pants", description: "Off-duty. Loungewear pants for slow mornings.", image_url: "/src/assets/collections/pants.png" },
   { name: "Shorts", slug: "shorts", description: "Warm weather. Shorts that move with you.", image_url: "/src/assets/collections/shorts.jfif" },
-  { name: "T-Shirts", slug: "t-shirts", description: "Second skin. Undershirts and athletic tees.", image_url: "/src/assets/collections/tshirts.jpg" },
+  { name: "T-Shirts", slug: "t-shirts", description: "Second skin. Undershirts and athletic tees.", image_url: "/src/assets/collections/tshirts.png" },
   { name: "Sets", slug: "sets", description: "Start fresh. Complete sets, one simple decision.", image_url: "/src/assets/collections/sets.jpg" },
 ];
 

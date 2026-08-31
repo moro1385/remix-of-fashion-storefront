@@ -71,7 +71,7 @@ export default function CollectionSlider() {
                   <div className="absolute inset-0 bg-[hsl(30_30%_18%/0.42)]" />
                   <div className="absolute inset-0 flex items-end">
                     <div className="max-w-7xl mx-auto w-full px-6 pb-20 md:pb-24">
-                      <p className="text-xs md:text-sm uppercase tracking-[0.3em] text-primary-foreground/80 mb-4">
+                      <p className="text-xl md:text-2xl uppercase tracking-[0.3em] text-primary-foreground/80 mb-4">
                         {collection.eyebrow}
                       </p>
                       <h2 className="text-5xl md:text-7xl lg:text-8xl font-light text-primary-foreground leading-none tracking-wide">
