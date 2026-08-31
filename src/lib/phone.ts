@@ -18,7 +18,7 @@ export function normalizePhone(input: string): string {
 
 export function isValidPhone(input: string): boolean {
   const phone = normalizePhone(input);
-  if (/^\+989\d{9}$/.test(phone)) return true;
+  if (/^(\+98|0)?9\d{9}$/.test(phone)) return true;
   return /^\+[1-9]\d{7,14}$/.test(phone);
 }
 
@@ -30,4 +30,4 @@ export function formatPhone(phone: string): string {
   return phone;
 }
 
-export const PHONE_HELP = "Example: 0912 345 6789 or +98 912 345 6789";
+export const PHONE_HELP = "Example: 0912 345 6789";

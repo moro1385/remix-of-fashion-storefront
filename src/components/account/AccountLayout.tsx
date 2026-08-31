@@ -44,9 +44,9 @@ export default function AccountLayout({ title, description, children }: AccountL
           <p className="mt-2 text-sm text-muted-foreground">{formatPhone(user.phone)}</p>
         )}
 
-        <div className="mt-12 grid gap-10 lg:grid-cols-[260px_1fr]">
-          <nav className="lg:sticky lg:top-32 h-max">
-            <ul className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible bg-background border border-border p-2">
+        <div className="mt-12 flex flex-col md:flex-row gap-10 w-full overflow-hidden">
+          <nav className="md:w-[260px] shrink-0 md:sticky md:top-32 h-max w-full">
+            <ul className="flex flex-col gap-1 w-full bg-background border border-border p-2">
               {navItems.map((item) => (
                 <li key={item.to} className="shrink-0 lg:shrink">
                   <NavLink
