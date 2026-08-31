@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import {
   fetchActiveProducts,
   fetchFeaturedProducts,
+  fetchNewestProducts,
   fetchProductBySlug,
   fetchProductsByCategory,
   type CatalogProduct,
@@ -61,6 +62,15 @@ export function useCategoryProducts(categorySlug?: string, first = 100) {
     queryKey: ["products", "category", categorySlug, first],
     queryFn: () => fetchProductsByCategory(categorySlug!, first),
     enabled: !!categorySlug,
+    staleTime: 60_000,
+  });
+  return { ...result, isEmpty: !result.isLoading && (result.data?.length ?? 0) === 0 };
+}
+
+export function useNewestProducts(first = 8) {
+  const result = useQuery<CatalogProduct[]>({
+    queryKey: ["products", "newest", first],
+    queryFn: () => fetchNewestProducts(first),
     staleTime: 60_000,
   });
   return { ...result, isEmpty: !result.isLoading && (result.data?.length ?? 0) === 0 };
