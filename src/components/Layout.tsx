@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
-import { useAuthStore } from "@/stores/authStore";
+
 
 export default function Layout() {
 const user = useAuthStore((s) => s.user);
