@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useProducts } from "@/hooks/useProducts";
+import { useProducts, useFeaturedProducts, useNewestProducts } from "@/hooks/useProducts";
 
 interface ProductRailProps {
   eyebrow: string;
   title: string;
   query?: string;
+  type?: 'featured' | 'newest' | 'query';
   count?: number;
   ctaTo?: string;
   ctaLabel?: string;
@@ -17,12 +18,19 @@ export default function ProductRail({
   eyebrow,
   title,
   query,
+  type = 'query',
   count = 4,
   ctaTo = "/shop",
   ctaLabel,
   className,
 }: ProductRailProps) {
-  const { data: products, isLoading } = useProducts(query, count);
+  const queryResult = useProducts({ query, first: count });
+  const featuredResult = useFeaturedProducts(count);
+  const newestResult = useNewestProducts(count);
+
+  const result = type === 'featured' ? featuredResult : type === 'newest' ? newestResult : queryResult;
+  const { data: products, isLoading } = result;
+
   const items = (products ?? []).slice(0, count);
 
   return (

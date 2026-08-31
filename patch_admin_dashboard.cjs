@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+const fs = require('fs');
+const filepath = 'src/pages/admin/AdminDashboard.tsx';
+
+const newContent = `import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { formatPrice } from "@/services/products";
 import { Package, ShoppingBag, Users, DollarSign, Loader2 } from "lucide-react";
@@ -91,3 +94,7 @@ export default function AdminDashboard() {
     </div>
   );
 }
+`;
+
+fs.writeFileSync(filepath, newContent);
+console.log("Admin dashboard updated");

@@ -9,6 +9,7 @@ export default function Index() {
       <CollectionSlider />
 
       <ProductRail
+        type="newest"
         eyebrow="Just arrived"
         title="Newest Products"
         count={4}
@@ -18,11 +19,10 @@ export default function Index() {
       <CollectionCardsRow />
 
       <ProductRail
+        type="featured"
         eyebrow="Hand-picked"
         title="Featured Essentials"
-        query="product_type:Socks"
         count={4}
-        ctaTo="/collections/socks"
         className="py-20 bg-background"
       />
 

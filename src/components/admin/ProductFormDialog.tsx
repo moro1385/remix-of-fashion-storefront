@@ -28,6 +28,7 @@ const productSchema = z.object({
   price: z.coerce.number().min(0, "Price must be positive"),
   is_active: z.boolean().default(true),
   is_featured: z.boolean().default(false),
+  is_new: z.boolean().default(false),
   category_id: z.string().optional().nullable(),
   tags: z.array(z.string()).default([]),
 
@@ -64,6 +65,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       price: 0,
       is_active: true,
       is_featured: false,
+      is_new: false,
       category_id: null,
       tags: [],
 
@@ -299,6 +301,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         price: product.price,
         is_active: product.is_active,
         is_featured: product.is_featured,
+        is_new: product.is_new,
         category_id: product.category_id,
         tags: product.tags || [],
 
@@ -319,6 +322,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         price: 0,
         is_active: true,
         is_featured: false,
+        is_new: false,
         category_id: null,
         tags: [],
 

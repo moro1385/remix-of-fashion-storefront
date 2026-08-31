@@ -35,7 +35,7 @@ export interface CatalogProduct {
 export const CURRENCY_CODE = "USD";
 
 const PRODUCT_SELECT = `
-  id, name, slug, description, price, is_active, is_featured, created_at, tags, department, category, brand, pattern, type, sizes, colors,
+  id, name, slug, description, price, is_active, is_featured, is_new, images, created_at, tags, department, category, brand, pattern, type, sizes, colors,
   categories:category_id ( id, name, slug ),
   product_images ( id, image_url, alt_text, sort_order ),
   product_variants ( id, size, color, sku, price, stock_quantity )
@@ -49,6 +49,8 @@ type Row = {
   price: number | null;
   is_active: boolean;
   is_featured: boolean;
+  is_new: boolean;
+  images: string[] | null;
   tags: string[] | null;
   department: string | null;
   category: string | null;
@@ -76,10 +78,12 @@ function money(amount: number | null | undefined) {
 }
 
 function mapProduct(row: Row): CatalogProduct {
-  const images = (row.product_images ?? [])
-    .slice()
-    .sort((a, b) => a.sort_order - b.sort_order)
-    .map((i) => ({ node: { url: i.image_url, altText: i.alt_text } }));
+  const images = row.images?.length
+    ? row.images.map(url => ({ node: { url, altText: null } }))
+    : (row.product_images ?? [])
+        .slice()
+        .sort((a, b) => a.sort_order - b.sort_order)
+        .map((i) => ({ node: { url: i.image_url, altText: i.alt_text } }));
 
 
   const options: Array<{ name: string; values: string[] }> = [];
@@ -130,6 +134,7 @@ function mapProduct(row: Row): CatalogProduct {
 export interface ProductQueryOptions {
   limit?: number;
   featured?: boolean;
+  newest?: boolean;
   categorySlug?: string;
   department?: string;
   category?: string;
@@ -138,7 +143,7 @@ export interface ProductQueryOptions {
 }
 
 export async function fetchActiveProducts(options: ProductQueryOptions = {}): Promise<CatalogProduct[]> {
-  const { limit = 100, featured, categorySlug, department, category, terms } = options;
+  const { limit = 100, featured, newest, categorySlug, department, category, terms } = options;
 
   let query = supabase
     .from("products")
@@ -148,6 +153,7 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
     .limit(limit);
 
   if (featured) query = query.eq("is_featured", true);
+  if (newest) query = query.eq("is_new", true);
 
   if (categorySlug) {
     const { data: category, error: categoryError } = await supabase
@@ -184,6 +190,10 @@ export async function fetchActiveProducts(options: ProductQueryOptions = {}): Pr
 
 export async function fetchFeaturedProducts(limit = 8) {
   return fetchActiveProducts({ featured: true, limit });
+}
+
+export async function fetchNewestProducts(limit = 8) {
+  return fetchActiveProducts({ newest: true, limit });
 }
 
 export async function fetchProductsByCategory(categorySlug: string, limit = 100) {
