@@ -2,7 +2,7 @@ import socksImg from "@/assets/collections/socks.png";
 import underwearImg from "@/assets/collections/underwear.png";
 import pantsImg from "@/assets/collections/pants.png";
 import shortsImg from "@/assets/collections/shorts.jfif";
-import tshirtsImg from "@/assets/collections/tshirts.jpg";
+import tshirtsImg from "@/assets/collections/tshirts.png";
 import undershirtsImg from "@/assets/collections/undershirts.png";
 import setsImg from "@/assets/collections/sets.jpg";
 
@@ -20,8 +20,8 @@ export interface Collection {
 export const collections: Collection[] = [
   {
     handle: "socks",
-    name: "Socks",
-    eyebrow: "Everyday staple",
+    name: "جوراب ها",
+    eyebrow: "نیاز روزمره شما",
     tagline: "Crew, quarter and ankle — built for every day.",
     description:
       "Athletic, terry-cushioned and wool socks in cotton, bamboo fiber and nano-fabric.",

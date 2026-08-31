@@ -57,6 +57,7 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
+      {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
           <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
@@ -68,18 +69,52 @@ export default function Shop() {
           </p>
         </div>
         {/* Top Header Image Placeholder */}
-        <div className="w-full max-w-[300px] h-[120px] bg-muted border border-border rounded-lg flex items-center justify-center shrink-0">
-          <span className="text-muted-foreground text-sm">Promo Banner Placeholder</span>
+{/* Top Promo Images */}
+        <div className="flex gap-4 w-full md:max-w-[500px] lg:max-w-[600px] shrink-0">
+          {/* بنر بالای صفحه - عکس اول */}
+          <a href="#" className="flex-1 block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+            <img 
+              src="/1.png" 
+              alt="پیشنهاد ویژه ۱" 
+              className="w-full h-[240px] object-cover"
+            />
+          </a>
+          
+          {/* بنر بالای صفحه - عکس دوم */}
+          <a href="#" className="flex-1 block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+            <img 
+              src="/4.png" 
+              alt="پیشنهاد ویژه ۲" 
+              className="w-full h-[240px] object-cover"
+            />
+          </a>
         </div>
       </div>
 
+      {/* Main Content Layout */}
       <div className="w-full px-6 pb-24">
         <div className="flex flex-col lg:flex-row gap-8 mt-6 md:mt-12">
 
-          {/* Far Left Vertical Image Placeholder (Desktop only) */}
-          <div className="hidden xl:block w-48 shrink-0">
-            <div className="sticky top-24 h-[600px] bg-muted border border-border rounded-lg flex items-center justify-center">
-              <span className="text-muted-foreground text-sm text-center px-4">Vertical Ad<br/>Placeholder</span>
+          {/* Far Left Vertical Images (Desktop only) */}
+          <div className="hidden xl:block w-64 shrink-0">
+            <div className="sticky top-24 flex flex-col gap-4 w-full">
+              {/* عکس اول */}
+              <a href="#" className="w-full block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+                <img 
+                  src="/3.png" 
+                  alt="تبلیغ اول" 
+                  className="w-full h-1000 object-cover"
+                />
+              </a>
+              
+              {/* عکس دوم */}
+              <a href="#" className="w-full block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+                <img 
+                  src="/2.png" 
+                  alt="تبلیغ دوم" 
+                  className="w-full h-auto object-cover"
+                />
+              </a>
             </div>
           </div>
 
@@ -106,7 +141,6 @@ export default function Shop() {
                 </div>
               </SheetContent>
             </Sheet>
-
             <ShopSort value={sortValue} onValueChange={setSortValue} />
           </div>
 
