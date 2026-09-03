@@ -22,7 +22,7 @@ export default function Contact() {
     setForm(prev => ({ ...prev, [field]: e.target.value }));
 
   const labelClass = "block text-sm text-foreground mb-1";
-  const requiredClass = "text-accent text-xs ml-1";
+  const requiredClass = "text-accent text-xs ms-1";
   const inputClass = "w-full px-0 py-2 border-0 border-b border-border bg-transparent text-foreground text-sm focus:outline-none focus:border-foreground transition-colors";
 
   return (

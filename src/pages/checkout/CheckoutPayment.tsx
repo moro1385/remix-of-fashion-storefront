@@ -194,17 +194,17 @@ export default function CheckoutPayment() {
 
             <div className="space-y-3 text-sm pb-6 border-b border-border">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
+                <span className="text-muted-foreground">جمع کل</span>
                 <span>{new Intl.NumberFormat('fa-IR').format(subtotal)} ریال</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Shipping</span>
+                <span className="text-muted-foreground">ارسال</span>
                 <span>{new Intl.NumberFormat('fa-IR').format(shippingCost)} ریال</span>
               </div>
             </div>
 
             <div className="flex justify-between items-end pt-6">
-              <span className="text-base font-medium">Total</span>
+              <span className="text-base font-medium">مبلغ کل</span>
               <span className="text-xl font-medium">
                 {new Intl.NumberFormat('fa-IR').format(finalTotal)} ریال
               </span>

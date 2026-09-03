@@ -220,7 +220,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
            <label htmlFor="image-upload">
              <Button variant="outline" size="sm" className="cursor-pointer" asChild disabled={isUploading}>
                <span>
-                 {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
+                 {isUploading ? <Loader2 className="w-4 h-4 me-2 animate-spin" /> : <Upload className="w-4 h-4 me-2" />}
                  Upload Image
                </span>
              </Button>

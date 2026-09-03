@@ -4,23 +4,23 @@ import { Leaf, Package, RefreshCcw, Ruler } from "lucide-react";
 const reasons = [
   {
     icon: Leaf,
-    title: "Materials that last",
-    body: "Combed cotton, bamboo fiber and modal — chosen for breathability, softness and a shape that holds after wash number fifty.",
+    title: "مواد اولیه ماندگار",
+    body: "پنبه شانه شده، الیاف بامبو و مودال - انتخاب شده برای تنفس‌پذیری، نرمی و حفظ فرم حتی پس از ده‌ها بار شستشو.",
   },
   {
     icon: Ruler,
-    title: "Fit worked out for you",
-    body: "Every model is cut and re-cut on real bodies, so sizing is honest and predictable across the whole range.",
+    title: "سایز متناسب با شما",
+    body: "هر مدل روی بدن‌های واقعی الگوبرداری و برش داده می‌شود تا سایزبندی در تمامی محصولات دقیق و قابل پیش‌بینی باشد.",
   },
   {
     icon: Package,
-    title: "Restock in one order",
-    body: "Socks, underwear, undershirts and loungewear in one place. Refill your drawer without hunting five different brands.",
+    title: "تکمیل کمد لباس در یک خرید",
+    body: "جوراب، لباس زیر، زیرپوش و لباس راحتی همه در یک جا. کمد خود را بدون نیاز به جستجو در برندهای مختلف تکمیل کنید.",
   },
   {
     icon: RefreshCcw,
-    title: "Easy, no-drama returns",
-    body: "Didn't land right? Send it back within 30 days. We'd rather you wear something you love every single day.",
+    title: "مرجوعی آسان و بی‌دردسر",
+    body: "از خرید خود راضی نیستید؟ آن را در ۳۰ روز برگردانید. ما ترجیح می‌دهیم چیزی را بپوشید که هر روز دوستش دارید.",
   },
 ];
 
@@ -30,10 +30,10 @@ export default function WhyJamiMode() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-4">
-            Why Jami Mode
+            چرا جامی مد
           </p>
           <h2 className="text-3xl md:text-5xl font-light text-foreground leading-tight">
-            The layer nobody sees deserves the most care.
+            لایه‌ای که کسی نمی‌بیند، شایسته بیشترین توجه است.
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
             Basics get worn more than anything else in your wardrobe, and they wear out first. We
@@ -54,7 +54,7 @@ export default function WhyJamiMode() {
 
         <div className="mt-16 border-t border-border pt-12 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <p className="text-xl md:text-2xl font-light text-foreground max-w-xl">
-            Start with one pair. You'll come back for the drawer.
+            با یک خرید شروع کنید، برای خریدهای بیشتر بازخواهید گشت.
           </p>
         </div>
       </div>

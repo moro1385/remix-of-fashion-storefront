@@ -20,9 +20,9 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     { value: "5XL", label: "5XL" },
   ];
   let patternOptions = [
-    { value: "رنگی", label: "رنگی (Colored)" },
-    { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
-    { value: "ساده", label: "ساده (Plain)" },
+    { value: "رنگی", label: "رنگی" },
+    { value: "طرح‌دار", label: "طرح‌دار" },
+    { value: "ساده", label: "ساده" },
   ];
 
 
@@ -39,8 +39,8 @@ const getFilterCategories = (department?: string | null, category?: string | nul
 
   if (category === "underwear") {
     patternOptions = [
-      { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
-      { value: "ساده", label: "ساده (Plain)" },
+      { value: "طرح‌دار", label: "طرح‌دار" },
+      { value: "ساده", label: "ساده" },
     ];
 
     if (department === "men") {
@@ -230,7 +230,7 @@ export function ShopFilters({
             <AccordionContent>
               <div className="flex flex-col space-y-3 pt-1">
                 {cat.options.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3 space-x-reverse text-right" dir="rtl">
+                  <div key={option.value} className="flex items-center space-x-3 space-x-reverse text-end" dir="rtl">
                     <Checkbox
                       id={`filter-${cat.id}-${option.value}`}
                       checked={selectedFilters[cat.id]?.includes(option.value) || false}
@@ -240,7 +240,7 @@ export function ShopFilters({
                     />
                     <Label
                       htmlFor={`filter-${cat.id}-${option.value}`}
-                      className="text-sm font-normal cursor-pointer pr-2"
+                      className="text-sm font-normal cursor-pointer pe-2"
                     >
                       {option.label}
                     </Label>

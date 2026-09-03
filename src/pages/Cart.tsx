@@ -20,21 +20,19 @@ const navigate = useNavigate();
   if (!items || items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-24">
-        <h1 className="text-2xl font-medium text-foreground mb-4">Shopping Cart</h1>
-        <p className="text-sm text-foreground mb-8">You have nothing in your shopping cart.</p>
+        <h1 className="text-2xl font-medium text-foreground mb-4">سبد خرید</h1>
+        <p className="text-sm text-foreground mb-8">سبد خرید شما خالی است.</p>
         <Link
           to="/shop"
           className="inline-block px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity"
-        >
-          Continue Shopping
-        </Link>
+        >ادامه خرید</Link>
       </div>
     );
   }
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-24">
-      <h1 className="text-2xl font-medium text-foreground mb-12">Shopping Cart</h1>
+      <h1 className="text-2xl font-medium text-foreground mb-12">سبد خرید</h1>
       <div className="space-y-8">
         {items.map((item) => (
           <div key={item.id} className="flex gap-6 border-b border-border pb-8">
@@ -81,9 +79,7 @@ const navigate = useNavigate();
         <button
           onClick={handleCheckout}
           className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
-        >
-Checkout
-        </button>
+        >پرداخت</button>
       </div>
     </div>
   );

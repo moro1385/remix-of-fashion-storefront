@@ -18,10 +18,10 @@ export default function AdminLayout() {
       <ScrollToTop />
 
       {/* Sidebar */}
-      <aside className="w-64 bg-background border-r flex flex-col hidden md:flex">
+      <aside className="w-64 bg-background border-e flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b">
           <Link to="/" className="text-xl font-light uppercase tracking-widest">
-            Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground ml-1">Admin</span>
+            Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground ms-1">Admin</span>
           </Link>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">

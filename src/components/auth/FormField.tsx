@@ -32,13 +32,13 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
               "w-full h-12 bg-background border px-4 text-sm text-foreground placeholder:text-muted-foreground/60",
               "transition-colors outline-none focus:border-foreground",
               error ? "border-destructive focus:border-destructive" : "border-border",
-              trailing && "pr-12",
+              trailing && "pe-12",
               className
             )}
             {...props}
           />
           {trailing && (
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3">{trailing}</div>
+            <div className="absolute inset-y-0 end-0 flex items-center pe-3">{trailing}</div>
           )}
         </div>
         {error ? (

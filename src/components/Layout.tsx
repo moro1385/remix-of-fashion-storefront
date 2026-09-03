@@ -26,20 +26,20 @@ const user = useAuthStore((s) => s.user);
 
           <div className="relative z-20 text-center px-6 max-w-2xl mx-auto">
             <h2 className="text-4xl md:text-5xl font-light text-white mb-8">
-              So let's start shopping
+              بیایید خرید را شروع کنیم
             </h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 to="/signin"
                 className="px-8 py-3 bg-white text-stone-900 text-sm font-medium hover:bg-stone-100 transition-colors w-full sm:w-auto text-center"
               >
-                Sign In (ورود)
+                ورود
               </Link>
               <Link
                 to="/signup"
                 className="px-8 py-3 border border-white text-white text-sm font-medium hover:bg-white/10 transition-colors w-full sm:w-auto text-center"
               >
-                Sign Up (ثبت نام)
+                ثبت نام
               </Link>
             </div>
           </div>

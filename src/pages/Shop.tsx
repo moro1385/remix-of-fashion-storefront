@@ -60,7 +60,7 @@ export default function Shop() {
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
-          <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
+          <h1 className="text-4xl md:text-5xl font-light text-foreground">فروشگاه</h1>
           <p className="mt-3 text-sm text-muted-foreground">
             {departmentQuery || categoryQuery
               ? `${(departmentQuery || '').replace(/-/g, ' ')} ${(categoryQuery || '').replace(/-/g, ' ')}`.trim().toUpperCase()
@@ -129,7 +129,7 @@ export default function Shop() {
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
                 <SheetHeader>
-                  <SheetTitle className="text-left">Filters</SheetTitle>
+                  <SheetTitle className="text-start">فیلترها</SheetTitle>
                 </SheetHeader>
                 <div className="mt-6">
                   <ShopFilters
@@ -147,7 +147,7 @@ export default function Shop() {
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-64 shrink-0">
             <div className="sticky top-24 bg-card border-x border-y border-border rounded-lg p-5 shadow-sm">
-              <h2 className="text-lg font-semibold mb-4">Filters</h2>
+              <h2 className="text-lg font-semibold mb-4">فیلترها</h2>
               <ShopFilters
                 selectedFilters={selectedFilters}
                 onFilterChange={handleFilterChange}
@@ -172,7 +172,7 @@ export default function Shop() {
                 Products could not be loaded right now. Please try again.
               </p>
             ) : visible.length === 0 ? (
-              <p className="text-center text-sm text-muted-foreground py-24">No products found</p>
+              <p className="text-center text-sm text-muted-foreground py-24">محصولی یافت نشد</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
                 {visible.map((product) => (

@@ -84,7 +84,7 @@ selectedSize: activeOptions["Size"] ?? null,
     <>
       <section className="max-w-6xl mx-auto px-6 py-8">
         <nav className="text-sm text-muted-foreground mb-6">
-          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+          <Link to="/shop" className="hover:text-foreground transition-colors">فروشگاه</Link>
           <span className="mx-2">›</span>
           <span className="text-foreground">{product.node.title}</span>
         </nav>
@@ -95,7 +95,7 @@ selectedSize: activeOptions["Size"] ?? null,
               <img
                 src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
                 alt={product.node.title}
-                className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 opacity-100"
+                className="w-full h-full object-cover absolute top-0 start-0 transition-opacity duration-500 opacity-100"
                 id="main-product-image"
               />
             </div>

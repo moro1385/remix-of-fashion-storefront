@@ -54,7 +54,7 @@ export default function CollectionSlider() {
 
   return (
     <>
-      <section className="relative w-full -mt-[88px] md:-mt-[104px]" aria-label="Collections">
+      <section className="relative w-full -mt-[88px] md:-mt-[104px]" aria-label="کالکشن ها">
         <div className="overflow-hidden" ref={emblaRef}>
           <div className="flex">
             {collections.map((collection, index) => (
@@ -85,7 +85,7 @@ export default function CollectionSlider() {
                         onClick={(e) => handleCtaClick(e, collection.handle, collection.name)}
                         className="inline-block mt-8 px-8 py-3 bg-accent text-accent-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
                       >
-                        Shop {collection.name}
+                        خرید {collection.name}
                       </Link>
                     </div>
                   </div>
@@ -98,19 +98,19 @@ export default function CollectionSlider() {
         <button
           onClick={() => emblaApi?.scrollPrev()}
           aria-label="Previous collection"
-          className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
+          className="hidden md:flex absolute start-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={() => emblaApi?.scrollNext()}
           aria-label="Next collection"
-          className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
+          className="hidden md:flex absolute end-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
 
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-2">
+        <div className="absolute bottom-8 start-0 end-0 flex justify-center gap-2">
           {collections.map((collection, i) => (
             <button
               key={collection.handle}

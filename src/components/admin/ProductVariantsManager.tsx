@@ -182,7 +182,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                     placeholder="SKU-123"
                   />
                 </TableCell>
-                <TableCell className="p-2 text-right">
+                <TableCell className="p-2 text-end">
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDeleteVariant(variant.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -234,7 +234,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                   placeholder="SKU"
                 />
               </TableCell>
-              <TableCell className="p-2 text-right">
+              <TableCell className="p-2 text-end">
                 <Button variant="ghost" size="icon" className="h-8 w-8 text-primary" onClick={handleAddVariant}>
                   <Plus className="h-4 w-4" />
                 </Button>

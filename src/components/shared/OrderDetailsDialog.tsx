@@ -73,7 +73,7 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Order Details</DialogTitle>
+          <DialogTitle>جزئیات سفارش</DialogTitle>
           <DialogDescription>
             ID: <span className="font-mono">{orderId}</span>
           </DialogDescription>
@@ -89,11 +89,11 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
           <div className="mt-4 space-y-6">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-muted-foreground mb-1">Date</p>
+                <p className="text-muted-foreground mb-1">تاریخ</p>
                 <p className="font-medium">{format(new Date(order.created_at), "MMM d, yyyy h:mm a")}</p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-1">Status</p>
+                <p className="text-muted-foreground mb-1">وضعیت</p>
                 <p className="font-medium capitalize">{order.status}</p>
               </div>
               <div className="col-span-2">
@@ -135,7 +135,7 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
                           <p className="text-muted-foreground mt-1">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <div className="font-medium text-right">
+                      <div className="font-medium text-end">
                         {new Intl.NumberFormat('fa-IR').format(item.price * item.quantity)} ریال
                       </div>
                     </div>
@@ -146,15 +146,15 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
 
             <div className="border-t pt-4 space-y-2 text-sm">
               <div className="flex justify-between items-center text-muted-foreground">
-                 <span>Subtotal</span>
+                 <span>جمع کل</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.total_amount - order.shipping_cost)} ریال</span>
               </div>
               <div className="flex justify-between items-center text-muted-foreground">
-                 <span>Shipping</span>
+                 <span>ارسال</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.shipping_cost)} ریال</span>
               </div>
               <div className="flex justify-between items-center font-medium pt-2 border-t">
-                 <span>Total</span>
+                 <span>مبلغ کل</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.total_amount)} ریال</span>
               </div>
             </div>
