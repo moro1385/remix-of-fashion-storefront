@@ -85,7 +85,7 @@ export default function CollectionSlider() {
                         onClick={(e) => handleCtaClick(e, collection.handle, collection.name)}
                         className="inline-block mt-8 px-8 py-3 bg-accent text-accent-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
                       >
-                        Shop {collection.name}
+                        خرید {collection.name}
                       </Link>
                     </div>
                   </div>

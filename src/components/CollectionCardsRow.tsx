@@ -3,28 +3,28 @@ import { collections } from "@/data/collections";
 
 // Explode standard collections into department-specific routes as requested
 const collectionCards = [
-  // Men's
-  { dept: "men", deptLabel: "Men's", handle: "socks" },
-  { dept: "men", deptLabel: "Men's", handle: "underwear" },
-  { dept: "men", deptLabel: "Men's", handle: "undershirts" },
-  { dept: "men", deptLabel: "Men's", handle: "pants" },
-  { dept: "men", deptLabel: "Men's", handle: "shorts" },
-  { dept: "men", deptLabel: "Men's", handle: "t-shirts" },
-  { dept: "men", deptLabel: "Men's", handle: "tank-tops", labelOverride: "Tank Tops" },
-  { dept: "men", deptLabel: "Men's", handle: "sets" },
-  // Women's
-  { dept: "women", deptLabel: "Women's", handle: "socks" },
-  { dept: "women", deptLabel: "Women's", handle: "underwear" },
-  { dept: "women", deptLabel: "Women's", handle: "undershirts" },
-  { dept: "women", deptLabel: "Women's", handle: "pants" },
-  { dept: "women", deptLabel: "Women's", handle: "shorts" },
-  { dept: "women", deptLabel: "Women's", handle: "t-shirts" },
-  { dept: "women", deptLabel: "Women's", handle: "tank-tops", labelOverride: "Tank Tops" },
-  { dept: "women", deptLabel: "Women's", handle: "sets" },
-  // Kids'
-  { dept: "kids", deptLabel: "Kids'", handle: "socks" },
-  { dept: "kids", deptLabel: "Kids'", handle: "underwear", labelOverride: "Underwear/Shorts" },
-  { dept: "kids", deptLabel: "Kids'", handle: "undershirts" },
+  // مردانه
+  { dept: "men", deptLabel: "مردانه", handle: "socks" },
+  { dept: "men", deptLabel: "مردانه", handle: "underwear" },
+  { dept: "men", deptLabel: "مردانه", handle: "undershirts" },
+  { dept: "men", deptLabel: "مردانه", handle: "pants" },
+  { dept: "men", deptLabel: "مردانه", handle: "shorts" },
+  { dept: "men", deptLabel: "مردانه", handle: "t-shirts" },
+  { dept: "men", deptLabel: "مردانه", handle: "tank-tops", labelOverride: "Tank Tops" },
+  { dept: "men", deptLabel: "مردانه", handle: "sets" },
+  // زنانه
+  { dept: "women", deptLabel: "زنانه", handle: "socks" },
+  { dept: "women", deptLabel: "زنانه", handle: "underwear" },
+  { dept: "women", deptLabel: "زنانه", handle: "undershirts" },
+  { dept: "women", deptLabel: "زنانه", handle: "pants" },
+  { dept: "women", deptLabel: "زنانه", handle: "shorts" },
+  { dept: "women", deptLabel: "زنانه", handle: "t-shirts" },
+  { dept: "women", deptLabel: "زنانه", handle: "tank-tops", labelOverride: "Tank Tops" },
+  { dept: "women", deptLabel: "زنانه", handle: "sets" },
+  // بچه گانه
+  { dept: "kids", deptLabel: "بچه گانه", handle: "socks" },
+  { dept: "kids", deptLabel: "بچه گانه", handle: "underwear", },
+  { dept: "kids", deptLabel: "بچه گانه", handle: "undershirts" },
 ].map((item) => {
   // Use 't-shirts' image for 'tank-tops' fallback if needed, but get base from collections
   const baseCollection = collections.find((c) => c.handle === item.handle) ||
@@ -43,8 +43,8 @@ export default function CollectionCardsRow() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Browse</p>
-            <h2 className="text-3xl md:text-4xl font-light text-foreground">All Collections</h2>
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3"></p>
+            <h2 className="text-3xl md:text-4xl font-light text-foreground">همه کالکشن ها</h2>
           </div>
         </div>
 
@@ -65,7 +65,7 @@ export default function CollectionCardsRow() {
                   className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
               </div>
-              <h3 className="mt-4 text-lg font-light text-foreground">{card.deptLabel} {card.name}</h3>
+              <h3 className="mt-4 text-lg font-light text-foreground"> {card.name} {card.deptLabel}</h3>
               <p className="text-xs text-muted-foreground mt-1">{card.eyebrow}</p>
             </Link>
           ))}

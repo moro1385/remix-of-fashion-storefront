@@ -20,9 +20,9 @@ const getFilterCategories = (department?: string | null, category?: string | nul
     { value: "5XL", label: "5XL" },
   ];
   let patternOptions = [
-    { value: "رنگی", label: "رنگی (Colored)" },
-    { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
-    { value: "ساده", label: "ساده (Plain)" },
+    { value: "رنگی", label: "رنگی" },
+    { value: "طرح‌دار", label: "طرح‌دار" },
+    { value: "ساده", label: "ساده" },
   ];
 
 
@@ -39,8 +39,8 @@ const getFilterCategories = (department?: string | null, category?: string | nul
 
   if (category === "underwear") {
     patternOptions = [
-      { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
-      { value: "ساده", label: "ساده (Plain)" },
+      { value: "طرح‌دار", label: "طرح‌دار" },
+      { value: "ساده", label: "ساده" },
     ];
 
     if (department === "men") {
@@ -159,7 +159,7 @@ const getFilterCategories = (department?: string | null, category?: string | nul
   } else if (category === "socks") {
     // Socks
     sizeOptions = [
-      { value: "فری سایز", label: "فری سایز (Free Size)" },
+      { value: "فری سایز", label: "فری سایز" },
     ];
 
     typeOptions = [
@@ -179,22 +179,22 @@ const getFilterCategories = (department?: string | null, category?: string | nul
   return [
     {
       id: "type",
-      title: "Type",
+      title: "نوع محصول",
       options: typeOptions,
     },
     {
       id: "brand",
-      title: "Brand",
+      title: "برند",
       options: brandOptions,
     },
     {
       id: "pattern",
-      title: "Pattern/Color",
+      title: "رنگ/طرح",
       options: patternOptions,
     },
     {
       id: "size",
-      title: "Size",
+      title: "سایز",
       options: sizeOptions,
     },
   ].filter(cat => cat.options.length > 0);

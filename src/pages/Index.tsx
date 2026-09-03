@@ -10,8 +10,8 @@ export default function Index() {
 
       <ProductRail
         type="newest"
-        eyebrow="Just arrived"
-        title="Newest Products"
+        eyebrow="تازه ترین ها"
+        title="جدید ترین محصولات"
         count={4}
         className="py-20 bg-background"
       />
@@ -20,8 +20,8 @@ export default function Index() {
 
       <ProductRail
         type="featured"
-        eyebrow="Hand-picked"
-        title="Featured Essentials"
+        eyebrow="محبوب ها"
+        title="محصولات ویژه و خاص"
         count={4}
         className="py-20 bg-background"
       />

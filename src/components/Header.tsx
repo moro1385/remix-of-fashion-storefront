@@ -10,38 +10,38 @@ const shopDepartments = [
     name: "Men",
     label: "مردانه",
     categories: [
-      { name: "Socks", label: "Socks" },
-      { name: "Pants", label: "Pants" },
-      { name: "Shorts", label: "Shorts" },
-      { name: "T-Shirts", label: "T-Shirts" },
-      { name: "Tank Tops", label: "Tank Tops" },
-      { name: "Underwear", label: "Underwear" },
-      { name: "Undershirts", label: "Undershirts" },
-      { name: "Swimwear", label: "Swimwear" },
-      { name: "Sets", label: "Sets" },
+      { name: "Socks", label: "جوراب" },
+      { name: "Pants", label: "شلوار" },
+      { name: "Shorts", label: "شلوارک" },
+      { name: "T-Shirts", label: "تیشرت" },
+      { name: "Tank Tops", label: "تاپ" },
+      { name: "Underwear", label: "لباس زیر" },
+      { name: "Undershirts", label: "زیرپوش" },
+      { name: "Swimwear", label: "مایو شنا" },
+      { name: "Sets", label: "ست" },
     ],
   },
   {
     name: "Women",
     label: "زنانه",
     categories: [
-      { name: "Socks", label: "Socks" },
-      { name: "Pants", label: "Pants" },
-      { name: "Shorts", label: "Shorts" },
-      { name: "T-Shirts", label: "T-Shirts" },
-      { name: "Tank Tops", label: "Tank Tops" },
-      { name: "Underwear", label: "Underwear" },
-      { name: "Undershirts", label: "Undershirts" },
-      { name: "Sets", label: "Sets" },
+      { name: "Socks", label: "جوراب" },
+      { name: "Pants", label: "شلوار" },
+      { name: "Shorts", label: "شلوارک" },
+      { name: "T-Shirts", label: "تیشرت" },
+      { name: "Tank Tops", label: "تاپ" },
+      { name: "Underwear", label: "لباس زیر" },
+      { name: "Undershirts", label: "زیرپوش" },
+      { name: "Sets", label: "ست" },
     ],
   },
   {
     name: "Kids",
     label: "بچه گانه",
     categories: [
-      { name: "Socks", label: "Socks" },
-      { name: "Underwear", label: "Underwear/Shorts" },
-      { name: "Undershirts", label: "Undershirts" },
+      { name: "Socks", label: "جوراب" },
+      { name: "Underwear", label: "لباس زیر" },
+      { name: "Undershirts", label: "زیر پوش" },
     ],
   },
 ];
@@ -121,7 +121,7 @@ export default function Header() {
               pathname === "/" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
             )}
           >
-            Home
+            خانه
           </Link>
 
           <div
@@ -139,7 +139,7 @@ export default function Header() {
                 pathname.startsWith("/shop") && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
               )}
             >
-              Shop
+              محصولات
               <ChevronDown className="w-4 h-4" />
             </button>
 
@@ -181,7 +181,7 @@ export default function Header() {
               pathname === "/about" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
             )}
           >
-            About
+            درباره ما
           </Link>
 
           <Link
@@ -194,7 +194,7 @@ export default function Header() {
               pathname === "/contact" && (transparent ? "text-primary-foreground font-medium" : "text-foreground font-medium")
             )}
           >
-            Contact
+            ارتباط با ما
           </Link>
         </nav>
 
@@ -280,7 +280,7 @@ export default function Header() {
               pathname === "/" && "text-foreground font-medium"
             )}
           >
-            Home
+            خانه
           </Link>
 
           <div>
