@@ -394,6 +394,39 @@ export type Database = {
           },
         ]
       }
+      tickets: {
+        Row: {
+          id: string
+          first_name: string
+          last_name: string
+          email: string | null
+          subject: string
+          message: string
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          first_name: string
+          last_name: string
+          email?: string | null
+          subject: string
+          message: string
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          first_name?: string
+          last_name?: string
+          email?: string | null
+          subject?: string
+          message?: string
+          status?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

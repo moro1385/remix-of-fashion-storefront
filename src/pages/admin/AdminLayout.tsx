@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, MessageSquare } from "lucide-react";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { href: "/admin/products", label: "محصولات", icon: Package },
   { href: "/admin/orders", label: "سفارشات", icon: ShoppingCart },
   { href: "/admin/users", label: "کاربران", icon: Users },
+  { href: "/admin/tickets", label: "تیکت‌ها", icon: MessageSquare },
 ];
 
 export default function AdminLayout() {
