@@ -69,14 +69,14 @@ export default function CheckoutAddress() {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const next: Record<string, string> = {};
-    if (!form.label.trim()) next.label = "برای این آدرس یک نام انتخاب کنید (خانه، محل کار…).";
-    if (!form.recipient.trim()) next.recipient = "نام گیرنده الزامی است.";
-    if (!form.phone.trim()) next.phone = "شماره تماس الزامی است.";
-    else if (!isValidPhone(form.phone)) next.phone = "یک شماره موبایل معتبر وارد کنید.";
-    if (!form.country.trim()) next.country = "کشور الزامی است.";
-    if (!form.city.trim()) next.city = "شهر الزامی است.";
-    if (!form.line1.trim()) next.line1 = "آدرس خیابان الزامی است.";
-    if (!form.postalCode.trim()) next.postalCode = "کد پستی الزامی است.";
+    if (!form.label.trim()) next.label = "Give this address a name (Home, Work…).";
+    if (!form.recipient.trim()) next.recipient = "Recipient name is required.";
+    if (!form.phone.trim()) next.phone = "Contact number is required.";
+    else if (!isValidPhone(form.phone)) next.phone = "Enter a valid mobile number.";
+    if (!form.country.trim()) next.country = "Country is required.";
+    if (!form.city.trim()) next.city = "City is required.";
+    if (!form.line1.trim()) next.line1 = "Street address is required.";
+    if (!form.postalCode.trim()) next.postalCode = "Postal code is required.";
     setErrors(next);
     if (Object.keys(next).length) return;
 
@@ -87,10 +87,10 @@ export default function CheckoutAddress() {
         phone: normalizePhone(form.phone),
         id: editing === "new" ? undefined : (editing as string),
       });
-      toast.success(editing === "new" ? "آدرس اضافه شد" : "آدرس به‌روز شد");
+      toast.success(editing === "new" ? "Address added" : "Address updated");
       setEditing(null);
     } catch {
-      toast.error("ذخیره این آدرس انجام نشد.");
+      toast.error("Could not save this address.");
     } finally {
       setBusy(false);
     }
@@ -100,7 +100,7 @@ export default function CheckoutAddress() {
     setBusy(true);
     try {
       await deleteAddress(id);
-      toast.success("آدرس حذف شد");
+      toast.success("Address removed");
       if (selectedAddress?.id === id) {
           setAddress(null);
       }
@@ -111,43 +111,43 @@ export default function CheckoutAddress() {
 
   const handleNextStep = () => {
     if (!selectedAddress) {
-      toast.error("لطفاً یک آدرس تحویل انتخاب کنید.");
+      toast.error("Please select a delivery address.");
       return;
     }
     if (!shippingMethod) {
-      toast.error("لطفاً یک روش ارسال انتخاب کنید.");
+      toast.error("Please select a shipping method.");
       return;
     }
     navigate("/checkout/payment");
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-24" dir="rtl">
-      <h1 className="text-2xl font-medium text-foreground mb-8">تسویه حساب</h1>
+    <div className="max-w-4xl mx-auto px-6 py-24">
+      <h1 className="text-2xl font-medium text-foreground mb-8">Checkout</h1>
 
       <div className="flex items-center gap-2 mb-12 text-sm text-muted-foreground">
-        <span className="text-foreground font-medium">۱. آدرس و ارسال</span>
+        <span className="text-foreground font-medium">1. Address & Shipping</span>
         <ChevronRight className="w-4 h-4" />
-        <span>۲. بازبینی و پرداخت</span>
+        <span>2. Review & Payment</span>
       </div>
 
       <div className="space-y-12">
         <section>
-          <h2 className="text-lg font-medium text-foreground mb-6">آدرس تحویل</h2>
+          <h2 className="text-lg font-medium text-foreground mb-6">Delivery Address</h2>
 
           {editing ? (
             <form onSubmit={handleSave} className="max-w-xl space-y-6 bg-muted/30 p-6 border border-border" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <FormField label="نام آدرس" placeholder="خانه" value={form.label} onChange={set("label")} error={errors.label} disabled={busy} maxLength={40} />
-                <FormField label="گیرنده" value={form.recipient} onChange={set("recipient")} error={errors.recipient} disabled={busy} maxLength={80} />
+                <FormField label="Address name" placeholder="Home" value={form.label} onChange={set("label")} error={errors.label} disabled={busy} maxLength={40} />
+                <FormField label="Recipient" value={form.recipient} onChange={set("recipient")} error={errors.recipient} disabled={busy} maxLength={80} />
               </div>
-              <FormField label="شماره تماس" type="tel" inputMode="tel" value={form.phone} onChange={set("phone")} error={errors.phone} disabled={busy} />
-              <FormField label="آدرس خیابان" value={form.line1} onChange={set("line1")} error={errors.line1} disabled={busy} maxLength={120} />
-              <FormField label="آپارتمان، واحد (اختیاری)" value={form.line2} onChange={set("line2")} disabled={busy} maxLength={120} />
+              <FormField label="Contact number" type="tel" inputMode="tel" value={form.phone} onChange={set("phone")} error={errors.phone} disabled={busy} />
+              <FormField label="Street address" value={form.line1} onChange={set("line1")} error={errors.line1} disabled={busy} maxLength={120} />
+              <FormField label="Apartment, unit (optional)" value={form.line2} onChange={set("line2")} disabled={busy} maxLength={120} />
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <FormField label="شهر" value={form.city} onChange={set("city")} error={errors.city} disabled={busy} maxLength={60} />
-                <FormField label="کشور" value={form.country} onChange={set("country")} error={errors.country} disabled={busy} maxLength={60} />
-                <FormField label="کد پستی" value={form.postalCode} onChange={set("postalCode")} error={errors.postalCode} disabled={busy} maxLength={20} />
+                <FormField label="City" value={form.city} onChange={set("city")} error={errors.city} disabled={busy} maxLength={60} />
+                <FormField label="Country" value={form.country} onChange={set("country")} error={errors.country} disabled={busy} maxLength={60} />
+                <FormField label="Postal code" value={form.postalCode} onChange={set("postalCode")} error={errors.postalCode} disabled={busy} maxLength={20} />
               </div>
 
               <label className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -158,7 +158,7 @@ export default function CheckoutAddress() {
                   disabled={busy}
                   className="w-4 h-4 accent-[hsl(var(--accent))]"
                 />
-                تنظیم به عنوان آدرس پیش‌فرض تحویل
+                Set as default delivery address
               </label>
 
               <div className="flex flex-wrap gap-3 mt-6">
@@ -168,7 +168,7 @@ export default function CheckoutAddress() {
                   className="h-10 px-6 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
                 >
                   {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                  ذخیره آدرس
+                  Save address
                 </button>
                 <button
                   type="button"
@@ -177,20 +177,20 @@ export default function CheckoutAddress() {
                   className="h-10 px-6 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
                 >
                   <X className="w-4 h-4" />
-                  لغو
+                  Cancel
                 </button>
               </div>
             </form>
           ) : addresses.length === 0 ? (
             <div className="text-center py-12 border border-border">
               <MapPin className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
-              <p className="mt-6 text-lg font-light text-foreground">هنوز آدرسی ذخیره نشده است</p>
+              <p className="mt-6 text-lg font-light text-foreground">No addresses saved yet</p>
               <button
                 onClick={openNew}
                 className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2"
               >
                 <Plus className="w-4 h-4" />
-                افزودن آدرس
+                Add address
               </button>
             </div>
           ) : (
@@ -219,7 +219,7 @@ export default function CheckoutAddress() {
                           <h3 className="text-sm uppercase tracking-[0.15em] text-foreground">{address.label}</h3>
                           {address.isDefault && (
                             <span className="text-[10px] uppercase tracking-[0.2em] bg-muted text-muted-foreground px-2 py-1">
-                              پیش‌فرض
+                              Default
                             </span>
                           )}
                         </div>
@@ -266,14 +266,14 @@ export default function CheckoutAddress() {
                 className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2"
               >
                 <Plus className="w-4 h-4" />
-                افزودن آدرس دیگر
+                Add another address
               </button>
             </div>
           )}
         </section>
 
         <section>
-          <h2 className="text-lg font-medium text-foreground mb-6">روش ارسال</h2>
+          <h2 className="text-lg font-medium text-foreground mb-6">Shipping Method</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {SHIPPING_METHODS.map((method) => (
               <label
@@ -306,7 +306,7 @@ export default function CheckoutAddress() {
             onClick={handleNextStep}
             className="h-14 px-10 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity"
           >
-            مرحله بعد
+            Next Step
           </button>
         </div>
       </div>

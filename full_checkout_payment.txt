@@ -97,33 +97,33 @@ export default function CheckoutPayment() {
       clearCart();
       clearCheckout();
 
-      toast.success("سفارش با موفقیت ثبت شد!");
+      toast.success("Order placed successfully!");
       navigate("/account/orders", { replace: true });
 
     } catch (err) {
       console.error("Order error", err);
-      toast.error("ثبت سفارش با شکست مواجه شد. لطفاً دوباره تلاش کنید.");
+      toast.error("Failed to place order. Please try again.");
     } finally {
       setBusy(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-24" dir="rtl">
-      <h1 className="text-2xl font-medium text-foreground mb-8">تسویه حساب</h1>
+    <div className="max-w-4xl mx-auto px-6 py-24">
+      <h1 className="text-2xl font-medium text-foreground mb-8">Checkout</h1>
 
       <div className="flex items-center gap-2 mb-12 text-sm text-muted-foreground">
         <button onClick={() => navigate("/checkout")} className="hover:text-foreground transition-colors">
-          ۱. آدرس و ارسال
+          1. Address & Shipping
         </button>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-foreground font-medium">۲. بازبینی و پرداخت</span>
+        <span className="text-foreground font-medium">2. Review & Payment</span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
         <div className="lg:col-span-7 space-y-8">
           <section>
-            <h2 className="text-lg font-medium text-foreground mb-6">روش پرداخت</h2>
+            <h2 className="text-lg font-medium text-foreground mb-6">Payment Method</h2>
 
             <div className="space-y-4">
               {/* Wallet Option */}
@@ -176,14 +176,14 @@ export default function CheckoutPayment() {
         {/* Order Summary Sidebar */}
         <div className="lg:col-span-5">
           <div className="bg-muted/30 p-6 border border-border sticky top-24">
-            <h3 className="text-lg font-medium text-foreground mb-6">خلاصه سفارش</h3>
+            <h3 className="text-lg font-medium text-foreground mb-6">Order Summary</h3>
 
             <ul className="divide-y divide-border mb-6">
               {items.map((item) => (
                 <li key={item.variantId} className="py-4 flex gap-4">
                   <div className="flex-1">
                     <p className="text-sm font-medium line-clamp-1">{item.productTitle}</p>
-                    <p className="text-xs text-muted-foreground mt-1">تعداد: {item.quantity}</p>
+                    <p className="text-xs text-muted-foreground mt-1">Qty: {item.quantity}</p>
                   </div>
                   <p className="text-sm font-medium whitespace-nowrap">
                     {new Intl.NumberFormat('fa-IR').format(parseFloat(item.price.amount) * item.quantity)} ریال
@@ -194,17 +194,17 @@ export default function CheckoutPayment() {
 
             <div className="space-y-3 text-sm pb-6 border-b border-border">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">جمع کل</span>
+                <span className="text-muted-foreground">Subtotal</span>
                 <span>{new Intl.NumberFormat('fa-IR').format(subtotal)} ریال</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">ارسال</span>
+                <span className="text-muted-foreground">Shipping</span>
                 <span>{new Intl.NumberFormat('fa-IR').format(shippingCost)} ریال</span>
               </div>
             </div>
 
             <div className="flex justify-between items-end pt-6">
-              <span className="text-base font-medium">مبلغ نهایی</span>
+              <span className="text-base font-medium">Total</span>
               <span className="text-xl font-medium">
                 {new Intl.NumberFormat('fa-IR').format(finalTotal)} ریال
               </span>

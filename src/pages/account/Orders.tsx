@@ -65,8 +65,8 @@ export default function Orders() {
           deliveryStatus: o.status === "confirmed" ? "Processing" : o.status,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           lines: ((o as any).order_items || []).map((line: any) => ({
-            title: line.title || "Product",
-            variant: line.variant_title || "Default",
+            title: line.title || "محصول",
+            variant: line.variant_title || "پیش‌فرض",
             quantity: line.quantity,
             price: line.price,
           })),
@@ -85,90 +85,94 @@ export default function Orders() {
 
   if (loading) {
     return (
-      <AccountLayout title="Orders" description="Follow every order from confirmation to delivery.">
-        <div className="flex justify-center py-20">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-        </div>
-      </AccountLayout>
+      <div dir="rtl">
+        <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
+          <div className="flex justify-center py-20">
+            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+          </div>
+        </AccountLayout>
+      </div>
     );
   }
 
   return (
-    <AccountLayout title="Orders" description="Follow every order from confirmation to delivery.">
-      <OrderDetailsDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        orderId={selectedOrderId}
-      />
-      {orders.length === 0 ? (
-        <div className="text-center py-14">
-          <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
-          <p className="mt-6 text-lg font-light text-foreground">No orders yet</p>
-          <p className="mt-2 text-sm text-muted-foreground">
-            When you place your first order it will appear here with live delivery updates.
-          </p>
-          <Link
-            to="/shop"
-            className="mt-8 inline-flex h-12 items-center px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
-          >
-            Start shopping
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-5">
-          {orders.map((order) => (
-            <article
-              key={order.id}
-              className="border border-border cursor-pointer hover:bg-muted/10 transition-colors"
-              onClick={() => {
-                setSelectedOrderId(order.id);
-                setIsDialogOpen(true);
-              }}
+    <div dir="rtl">
+      <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
+        <OrderDetailsDialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
+          orderId={selectedOrderId}
+        />
+        {orders.length === 0 ? (
+          <div className="text-center py-14">
+            <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
+            <p className="mt-6 text-lg font-light text-foreground">هنوز سفارشی وجود ندارد</p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              هنگامی که اولین سفارش خود را ثبت کنید، در اینجا با به‌روزرسانی‌های زنده تحویل ظاهر می‌شود.
+            </p>
+            <Link
+              to="/shop"
+              className="mt-8 inline-flex h-12 items-center px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
             >
-              <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 border-b border-border">
-                <div>
-                  <p className="text-sm uppercase tracking-[0.15em] text-foreground">
-                    Order {order.number}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {new Date(order.createdAt).toLocaleDateString(undefined, { dateStyle: "medium" })}
-                    {" • "}
-                    {order.deliveryStatus}
-                  </p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <span
-                    className={cn(
-                      "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5",
-                      statusStyles[order.status] || statusStyles.processing
-                    )}
-                  >
-                    {order.status}
-                  </span>
-                  <p className="text-sm text-foreground tabular-nums">
-                    {new Intl.NumberFormat('fa-IR').format(order.total)} ریال
-                  </p>
-                </div>
-              </header>
-              <ul className="divide-y divide-border">
-                {order.lines.map((line, i) => (
-                  <li key={i} className="flex items-center justify-between gap-4 px-6 py-4">
-                    <div>
-                      <p className="text-sm text-foreground">{line.title}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {line.variant} • Qty {line.quantity}
-                      </p>
-                    </div>
-                    <p className="text-sm text-muted-foreground tabular-nums">
-                      {new Intl.NumberFormat('fa-IR').format(line.price)} ریال
+              شروع خرید
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-5">
+            {orders.map((order) => (
+              <article
+                key={order.id}
+                className="border border-border cursor-pointer hover:bg-muted/10 transition-colors"
+                onClick={() => {
+                  setSelectedOrderId(order.id);
+                  setIsDialogOpen(true);
+                }}
+              >
+                <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 border-b border-border">
+                  <div>
+                    <p className="text-sm uppercase tracking-[0.15em] text-foreground">
+                      سفارش {order.number}
                     </p>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      )}
-    </AccountLayout>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      {new Date(order.createdAt).toLocaleDateString(undefined, { dateStyle: "medium" })}
+                      {" • "}
+                      {order.deliveryStatus}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <span
+                      className={cn(
+                        "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5",
+                        statusStyles[order.status] || statusStyles.processing
+                      )}
+                    >
+                      {order.status}
+                    </span>
+                    <p className="text-sm text-foreground tabular-nums">
+                      {new Intl.NumberFormat('fa-IR').format(order.total)} ریال
+                    </p>
+                  </div>
+                </header>
+                <ul className="divide-y divide-border">
+                  {order.lines.map((line, i) => (
+                    <li key={i} className="flex items-center justify-between gap-4 px-6 py-4">
+                      <div>
+                        <p className="text-sm text-foreground">{line.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {line.variant} • تعداد {line.quantity}
+                        </p>
+                      </div>
+                      <p className="text-sm text-muted-foreground tabular-nums">
+                        {new Intl.NumberFormat('fa-IR').format(line.price)} ریال
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        )}
+      </AccountLayout>
+    </div>
   );
 }
