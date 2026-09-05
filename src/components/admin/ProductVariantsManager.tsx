@@ -43,7 +43,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
       setVariants(data || []);
     } catch (err: unknown) {
       console.error("Error fetching variants:", err);
-      toast.error(err.message || "Failed to load variants");
+      toast.error(err.message || "بارگیری تنوع‌ها با شکست مواجه شد");
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +51,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
 
   async function handleAddVariant() {
     if (!newVariant.size && !newVariant.color) {
-      toast.error("At least size or color is required for a variant.");
+      toast.error("حداقل وارد کردن سایز یا رنگ برای تنوع الزامی است.");
       return;
     }
 
@@ -73,25 +73,25 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
 
       setVariants([...variants, data]);
       setNewVariant({ size: "", color: "", price: "", stock_quantity: "0", sku: "" });
-      toast.success("Variant added");
+      toast.success("تنوع اضافه شد");
     } catch (err: unknown) {
       console.error("Error adding variant:", err);
-      toast.error(err.message || "Failed to add variant");
+      toast.error(err.message || "افزودن تنوع با شکست مواجه شد");
     }
   }
 
   async function handleDeleteVariant(id: string) {
-    if (!window.confirm("Delete this variant?")) return;
+    if (!window.confirm("این تنوع حذف شود؟")) return;
 
     try {
       const { error } = await supabase.from("product_variants").delete().eq("id", id);
       if (error) throw error;
 
       setVariants(variants.filter((v) => v.id !== id));
-      toast.success("Variant deleted");
+      toast.success("تنوع حذف شد");
     } catch (err: unknown) {
       console.error("Error deleting variant:", err);
-      toast.error(err.message || "Failed to delete variant");
+      toast.error(err.message || "حذف تنوع با شکست مواجه شد");
     }
   }
 
@@ -123,17 +123,17 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Variants</h3>
+      <h3 className="text-lg font-medium">تنوع‌ها</h3>
 
       <div className="border rounded-md">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Size</TableHead>
-              <TableHead>Color</TableHead>
-              <TableHead>Price (opt)</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead>SKU (opt)</TableHead>
+              <TableHead>سایز</TableHead>
+              <TableHead>رنگ</TableHead>
+              <TableHead>قیمت (اختیاری)</TableHead>
+              <TableHead>موجودی</TableHead>
+              <TableHead>شناسه (اختیاری)</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -182,7 +182,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                     placeholder="SKU-123"
                   />
                 </TableCell>
-                <TableCell className="p-2 text-right">
+                <TableCell className="p-2 text-left">
                   <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive" onClick={() => handleDeleteVariant(variant.id)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -197,7 +197,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                   value={newVariant.size}
                   onChange={(e) => setNewVariant({...newVariant, size: e.target.value})}
                   className="h-8 bg-background"
-                  placeholder="New Size"
+                  placeholder="سایز جدید"
                 />
               </TableCell>
               <TableCell className="p-2">
@@ -205,7 +205,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                   value={newVariant.color}
                   onChange={(e) => setNewVariant({...newVariant, color: e.target.value})}
                   className="h-8 bg-background"
-                  placeholder="New Color"
+                  placeholder="رنگ جدید"
                 />
               </TableCell>
               <TableCell className="p-2">
@@ -215,7 +215,7 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                   value={newVariant.price}
                   onChange={(e) => setNewVariant({...newVariant, price: e.target.value})}
                   className="h-8 bg-background"
-                  placeholder="Price (override)"
+                  placeholder="قیمت (سفارشی)"
                 />
               </TableCell>
               <TableCell className="p-2">
@@ -231,10 +231,10 @@ export function ProductVariantsManager({ productId }: ProductVariantsManagerProp
                   value={newVariant.sku}
                   onChange={(e) => setNewVariant({...newVariant, sku: e.target.value})}
                   className="h-8 bg-background"
-                  placeholder="SKU"
+                  placeholder="شناسه"
                 />
               </TableCell>
-              <TableCell className="p-2 text-right">
+              <TableCell className="p-2 text-left">
                 <Button variant="ghost" size="icon" className="h-8 w-8 text-primary" onClick={handleAddVariant}>
                   <Plus className="h-4 w-4" />
                 </Button>

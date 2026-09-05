@@ -88,12 +88,11 @@ export default function Addresses() {
   };
 
   return (
-    <div dir="rtl">
-      <AccountLayout
-        title="آدرس‌ها"
-        description="محل تحویل سفارشات جامی مد خود را مدیریت کنید."
-      >
-        {editing ? (
+    <AccountLayout
+      title="آدرس‌ها"
+      description="محل تحویل سفارشات جامی مد خود را مدیریت کنید."
+    >
+      {editing ? (
           <form onSubmit={handleSave} className="max-w-xl space-y-6" noValidate>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <FormField label="نام آدرس" placeholder="خانه" value={form.label} onChange={set("label")} error={errors.label} disabled={busy} maxLength={40} />
@@ -204,16 +203,15 @@ export default function Addresses() {
             </article>
           ))}
 
-            <button
-              onClick={openNew}
-              className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2"
-            >
-              <Plus className="w-4 h-4" />
-              افزودن آدرس دیگر
-            </button>
-          </div>
-        )}
-      </AccountLayout>
-    </div>
+          <button
+            onClick={openNew}
+            className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            افزودن آدرس دیگر
+          </button>
+        </div>
+      )}
+    </AccountLayout>
   );
 }

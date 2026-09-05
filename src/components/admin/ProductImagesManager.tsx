@@ -96,10 +96,10 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
       }));
 
       setImages([...images, ...newImageObjects]);
-      toast.success("Images uploaded successfully");
+      toast.success("تصاویر با موفقیت بارگذاری شدند");
     } catch (err: any) {
       console.error("Error uploading image:", err);
-      toast.error(err.message || "Failed to upload image");
+      toast.error(err.message || "بارگذاری تصویر با شکست مواجه شد");
     } finally {
       setIsUploading(false);
       event.target.value = '';
@@ -148,10 +148,10 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
         created_at: new Date().toISOString(),
       };
       setImages([...images, imgData]);
-      toast.success("Image uploaded successfully");
+      toast.success("تصویر با موفقیت بارگذاری شد");
     } catch (err: unknown) {
       console.error("Error uploading image:", err);
-      toast.error(err.message || "Failed to upload image");
+      toast.error(err.message || "بارگذاری تصویر با شکست مواجه شد");
     } finally {
       setIsUploading(false);
       // Reset input
@@ -160,7 +160,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
   }
 
   async function handleDeleteImage(id: string, imageUrl: string) {
-    if (!window.confirm("Delete this image?")) return;
+    if (!window.confirm("این تصویر حذف شود؟")) return;
 
     try {
       // Delete from DB first
@@ -175,7 +175,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
       if (dbError) throw dbError;
 
       setImages(images.filter((img) => img.image_url !== imageUrl));
-      toast.success("Image deleted");
+      toast.success("تصویر حذف شد");
 
       // Attempt to delete from storage (extract filename from URL)
       try {
@@ -191,7 +191,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
 
     } catch (err: unknown) {
       console.error("Error deleting image:", err);
-      toast.error(err.message || "Failed to delete image");
+      toast.error(err.message || "حذف تصویر با شکست مواجه شد");
     }
   }
 
@@ -206,7 +206,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Images</h3>
+        <h3 className="text-lg font-medium">تصاویر</h3>
         <div>
            <Input
              type="file"
@@ -220,8 +220,8 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
            <label htmlFor="image-upload">
              <Button variant="outline" size="sm" className="cursor-pointer" asChild disabled={isUploading}>
                <span>
-                 {isUploading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Upload className="w-4 h-4 mr-2" />}
-                 Upload Image
+                 {isUploading ? <Loader2 className="w-4 h-4 ml-2 animate-spin" /> : <Upload className="w-4 h-4 ml-2" />}
+                 بارگذاری تصویر
                </span>
              </Button>
            </label>
@@ -231,7 +231,7 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
       {images.length === 0 ? (
         <div className="border border-dashed rounded-md p-8 text-center text-muted-foreground flex flex-col items-center justify-center">
           <ImageIcon className="w-8 h-8 mb-2 opacity-50" />
-          No images uploaded yet.
+          هنوز تصویری بارگذاری نشده است.
         </div>
       ) : (
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

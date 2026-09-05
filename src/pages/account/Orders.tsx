@@ -85,24 +85,21 @@ export default function Orders() {
 
   if (loading) {
     return (
-      <div dir="rtl">
-        <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
-          <div className="flex justify-center py-20">
-            <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
-          </div>
-        </AccountLayout>
-      </div>
+      <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
+        <div className="flex justify-center py-20">
+          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        </div>
+      </AccountLayout>
     );
   }
 
   return (
-    <div dir="rtl">
-      <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
-        <OrderDetailsDialog
-          open={isDialogOpen}
-          onOpenChange={setIsDialogOpen}
-          orderId={selectedOrderId}
-        />
+    <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
+      <OrderDetailsDialog
+        open={isDialogOpen}
+        onOpenChange={setIsDialogOpen}
+        orderId={selectedOrderId}
+      />
         {orders.length === 0 ? (
           <div className="text-center py-14">
             <Package className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
@@ -169,10 +166,9 @@ export default function Orders() {
                   ))}
                 </ul>
               </article>
-            ))}
-          </div>
-        )}
-      </AccountLayout>
-    </div>
+          ))}
+        </div>
+      )}
+    </AccountLayout>
   );
 }

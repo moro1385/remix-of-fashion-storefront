@@ -45,12 +45,11 @@ export default function PersonalInformation() {
   };
 
   return (
-    <div dir="rtl">
-      <AccountLayout
-        title="اطلاعات شخصی"
-        description="نام و اطلاعات تماس خود را برای تسویه حساب سریع‌تر به‌روز نگه دارید."
-      >
-        <form onSubmit={handleSubmit} className="max-w-xl space-y-6" noValidate>
+    <AccountLayout
+      title="اطلاعات شخصی"
+      description="نام و اطلاعات تماس خود را برای تسویه حساب سریع‌تر به‌روز نگه دارید."
+    >
+      <form onSubmit={handleSubmit} className="max-w-xl space-y-6" noValidate>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <FormField
               label="نام"
@@ -97,15 +96,14 @@ export default function PersonalInformation() {
             </p>
           </div>
 
-          <button
-            type="submit"
-            disabled={saving}
-            className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
-          >
-            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ذخیره تغییرات"}
-          </button>
-        </form>
-      </AccountLayout>
-    </div>
+        <button
+          type="submit"
+          disabled={saving}
+          className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
+        >
+          {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ذخیره تغییرات"}
+        </button>
+      </form>
+    </AccountLayout>
   );
 }

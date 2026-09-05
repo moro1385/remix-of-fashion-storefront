@@ -47,12 +47,11 @@ export default function Wallet() {
   };
 
   return (
-    <div dir="rtl">
-      <AccountLayout
-        title="کیف پول"
-        description="اعتبار فروشگاه، استردادها و موجودی هدیه — به‌طور خودکار در تسویه حساب استفاده می‌شود."
-      >
-        <div className="bg-primary text-primary-foreground p-8 md:p-10">
+    <AccountLayout
+      title="کیف پول"
+      description="اعتبار فروشگاه، استردادها و موجودی هدیه — به‌طور خودکار در تسویه حساب استفاده می‌شود."
+    >
+      <div className="bg-primary text-primary-foreground p-8 md:p-10">
           <p className="text-[11px] uppercase tracking-[0.3em] text-primary-foreground/60">
             موجودی در دسترس
           </p>
@@ -116,11 +115,10 @@ export default function Wallet() {
                     {formatAmount(Math.abs(tx.amount))}
                   </p>
                 </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </AccountLayout>
-    </div>
+            ))}
+          </ul>
+        )}
+      </div>
+    </AccountLayout>
   );
 }

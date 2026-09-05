@@ -69,13 +69,22 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
     }
   }
 
+  const statusTranslations: Record<string, string> = {
+    pending: "در انتظار",
+    processing: "در حال پردازش",
+    confirmed: "تایید شده",
+    shipped: "ارسال شده",
+    delivered: "تحویل داده شده",
+    cancelled: "لغو شده",
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" dir="rtl">
         <DialogHeader>
-          <DialogTitle>Order Details</DialogTitle>
+          <DialogTitle>جزئیات سفارش</DialogTitle>
           <DialogDescription>
-            ID: <span className="font-mono">{orderId}</span>
+            شناسه: <span className="font-mono">{orderId}</span>
           </DialogDescription>
         </DialogHeader>
 
@@ -84,58 +93,58 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
             <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
           </div>
         ) : !order ? (
-          <div className="text-center p-8 text-muted-foreground">Order not found.</div>
+          <div className="text-center p-8 text-muted-foreground">سفارش پیدا نشد.</div>
         ) : (
           <div className="mt-4 space-y-6">
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <p className="text-muted-foreground mb-1">Date</p>
+                <p className="text-muted-foreground mb-1">تاریخ</p>
                 <p className="font-medium">{format(new Date(order.created_at), "MMM d, yyyy h:mm a")}</p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-1">Status</p>
-                <p className="font-medium capitalize">{order.status}</p>
+                <p className="text-muted-foreground mb-1">وضعیت</p>
+                <p className="font-medium capitalize">{statusTranslations[order.status.toLowerCase()] || order.status}</p>
               </div>
               <div className="col-span-2">
-                <p className="text-muted-foreground mb-1">Shipping Address</p>
+                <p className="text-muted-foreground mb-1">آدرس ارسال</p>
                 <p className="font-medium">{order.shipping_address || "N/A"}</p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-1">Shipping Method</p>
+                <p className="text-muted-foreground mb-1">روش ارسال</p>
                 <p className="font-medium capitalize">
-                  {order.shipping_method === 'express' ? "پست پیشتاز (Express)" : order.shipping_method === 'regular' ? "پست معمولی (Regular)" : order.shipping_method || "N/A"}
+                  {order.shipping_method === 'express' ? "پست پیشتاز" : order.shipping_method === 'regular' ? "پست معمولی" : order.shipping_method || "N/A"}
                 </p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-1">Payment Method</p>
-                <p className="font-medium capitalize">{order.payment_method || "N/A"}</p>
+                <p className="text-muted-foreground mb-1">روش پرداخت</p>
+                <p className="font-medium capitalize">{order.payment_method === 'wallet' ? "کیف پول" : order.payment_method === 'gateway' ? "درگاه پرداخت" : order.payment_method || "N/A"}</p>
               </div>
             </div>
 
             <div>
-              <h3 className="text-sm font-medium border-b pb-2 mb-4">Items Ordered</h3>
+              <h3 className="text-sm font-medium border-b pb-2 mb-4">اقلام سفارش</h3>
 
               {items.length === 0 ? (
-                 <p className="text-sm text-muted-foreground text-center py-4">No items found for this order.</p>
+                 <p className="text-sm text-muted-foreground text-center py-4">هیچ موردی برای این سفارش پیدا نشد.</p>
               ) : (
                 <div className="space-y-4">
                   {items.map((item) => (
                     <div key={item.id} className="flex justify-between items-start text-sm">
                       <div className="flex gap-3">
                         {item.image_url ? (
-                          <img src={item.image_url} alt={item.title || "Product"} className="w-12 h-12 object-cover rounded bg-muted" />
+                          <img src={item.image_url} alt={item.title || "محصول"} className="w-12 h-12 object-cover rounded bg-muted" />
                         ) : (
-                          <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">No img</div>
+                          <div className="w-12 h-12 rounded bg-muted flex items-center justify-center text-xs text-muted-foreground">بدون تصویر</div>
                         )}
                         <div>
-                          <p className="font-medium">{item.title || "Unknown Product"}</p>
-                          <div className="text-muted-foreground text-xs space-x-2">
-                            {item.variant_title && <span>Variant: {item.variant_title}</span>}
+                          <p className="font-medium">{item.title || "محصول نامشخص"}</p>
+                          <div className="text-muted-foreground text-xs space-x-2 space-x-reverse">
+                            {item.variant_title && <span>مدل: {item.variant_title}</span>}
                           </div>
-                          <p className="text-muted-foreground mt-1">Qty: {item.quantity}</p>
+                          <p className="text-muted-foreground mt-1">تعداد: {item.quantity}</p>
                         </div>
                       </div>
-                      <div className="font-medium text-right">
+                      <div className="font-medium text-left">
                         {new Intl.NumberFormat('fa-IR').format(item.price * item.quantity)} ریال
                       </div>
                     </div>
@@ -146,15 +155,15 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
 
             <div className="border-t pt-4 space-y-2 text-sm">
               <div className="flex justify-between items-center text-muted-foreground">
-                 <span>Subtotal</span>
+                 <span>جمع جزء</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.total_amount - order.shipping_cost)} ریال</span>
               </div>
               <div className="flex justify-between items-center text-muted-foreground">
-                 <span>Shipping</span>
+                 <span>هزینه ارسال</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.shipping_cost)} ریال</span>
               </div>
               <div className="flex justify-between items-center font-medium pt-2 border-t">
-                 <span>Total</span>
+                 <span>مبلغ کل</span>
                  <span>{new Intl.NumberFormat('fa-IR').format(order.total_amount)} ریال</span>
               </div>
             </div>
