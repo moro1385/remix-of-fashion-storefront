@@ -46,7 +46,7 @@ export default function Shop() {
     visible = visible.filter(p => p.node.type?.some(t => selectedFilters.type.includes(t)));
   }
   if (selectedFilters.brand && selectedFilters.brand.length > 0) {
-    visible = visible.filter(p => selectedFilters.brand.includes(p.node.brand));
+    visible = visible.filter(p => p.node.brand?.some(b => selectedFilters.brand.includes(b)));
   }
   if (selectedFilters.pattern && selectedFilters.pattern.length > 0) {
     visible = visible.filter(p => selectedFilters.pattern.includes(p.node.pattern));

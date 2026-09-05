@@ -337,7 +337,7 @@ export type Database = {
           department: string | null
           category: string | null
           type: string[] | null
-          brand: string | null
+          brand: string[] | null
           pattern: string | null
           sizes: string[] | null
           colors: string[] | null
@@ -358,7 +358,7 @@ export type Database = {
           department?: string | null
           category?: string | null
           type?: string[] | null
-          brand?: string | null
+          brand?: string[] | null
           pattern?: string | null
           sizes?: string[] | null
           colors?: string[] | null
@@ -379,7 +379,7 @@ export type Database = {
           department?: string | null
           category?: string | null
           type?: string[] | null
-          brand?: string | null
+          brand?: string[] | null
           pattern?: string | null
           sizes?: string[] | null
           colors?: string[] | null
