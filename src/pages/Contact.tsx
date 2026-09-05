@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -9,15 +10,30 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // شبیه‌سازی ارسال درخواست به سرور
-    await new Promise(resolve => setTimeout(resolve, 1000));
     
-    toast({
-      title: "پیام شما ارسال شد!",
-      description: "از پیام شما سپاسگزاریم. همکاران ما در کمتر از ۲۴ ساعت آینده با شما تماس خواهند گرفت.",
+    const { error } = await supabase.from('tickets').insert({
+      first_name: form.firstName,
+      last_name: form.lastName,
+      email: form.email || null,
+      subject: form.subject,
+      message: form.message
     });
+
+    if (error) {
+      console.error(error);
+      toast({
+        title: "خطا در ارسال پیام",
+        description: "متاسفانه مشکلی رخ داد. لطفاً دوباره تلاش کنید.",
+        variant: "destructive"
+      });
+    } else {
+      toast({
+        title: "پیام شما ارسال شد!",
+        description: "از پیام شما سپاسگزاریم. همکاران ما در کمتر از ۲۴ ساعت آینده با شما تماس خواهند گرفت.",
+      });
+      setForm({ firstName: "", lastName: "", email: "", subject: "", message: "" });
+    }
     
-    setForm({ firstName: "", lastName: "", email: "", subject: "", message: "" });
     setIsSubmitting(false);
   };
 
@@ -78,10 +94,10 @@ export default function Contact() {
             
             <div>
               <label htmlFor="email" className={labelClass}>
-                ایمیل <span className={requiredClass}>(الزامی)</span>
+                ایمیل <span className="text-muted-foreground text-xs mr-1">(اختیاری)</span>
               </label>
               {/* input ایمیل رو چپ‌چین کردیم تا انگلیسی راحت تایپ بشه */}
-              <input id="email" required type="email" value={form.email} onChange={update("email")} className={inputClass} dir="ltr" />
+              <input id="email" type="email" value={form.email} onChange={update("email")} className={inputClass} dir="ltr" />
             </div>
             
             <div>
