@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type Ticket = {
   id: string;
@@ -118,8 +125,25 @@ export default function AdminTickets() {
                     <td className="px-4 py-4 max-w-[200px] truncate" title={ticket.subject}>
                       {ticket.subject}
                     </td>
-                    <td className="px-4 py-4 max-w-[300px] truncate" title={ticket.message}>
-                      {ticket.message}
+                    <td className="px-4 py-4 max-w-md whitespace-normal break-words">
+                      <div className="line-clamp-2">{ticket.message}</div>
+                      {ticket.message && ticket.message.length > 50 && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="link" size="sm" className="p-0 h-auto mt-1 text-primary">
+                              مشاهده پیام
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent dir="rtl">
+                            <DialogHeader>
+                              <DialogTitle>متن پیام</DialogTitle>
+                            </DialogHeader>
+                            <div className="mt-4 whitespace-pre-wrap break-words">
+                              {ticket.message}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <span
