@@ -54,19 +54,35 @@ export default function Shop() {
   if (selectedFilters.size && selectedFilters.size.length > 0) {
     visible = visible.filter(p => p.node.sizes?.some(s => selectedFilters.size.includes(s)));
   }
+  const categoryNames: Record<string, string> = {
+    "socks": "جوراب",
+    "underwear": "لباس زیر",
+    "undershirts": "زیرپوش",
+    "pants": "شلوار",
+    "shorts": "شلوارک",
+    "t-shirts": "تیشرت",
+    "tank-tops": "تاپ",
+    "sets": "ست",
+  };
+
+  const departmentNames: Record<string, string> = {
+    "men": "مردانه",
+    "women": "زنانه",
+    "kids": "بچگانه",
+  };
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
-          <h1 className="text-4xl md:text-5xl font-light text-foreground">Shop</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <h1 className="text-4xl md:text-5xl font-light text-foreground">خرید</h1>
+            <p className="mt-3 text-sm text-muted-foreground">
             {departmentQuery || categoryQuery
-              ? `${(departmentQuery || '').replace(/-/g, ' ')} ${(categoryQuery || '').replace(/-/g, ' ')}`.trim().toUpperCase()
-              : 'Socks, underwear, undershirts, loungewear and shorts'
+              ? `${categoryQuery ? categoryNames[categoryQuery] || categoryQuery : ""} ${departmentQuery ? departmentNames[departmentQuery] || departmentQuery : ""}`.trim()
+              : 'جوراب، لباس زیر، زیرپوش، لباس راحتی و شلوارک'
             }
-          </p>
+           </p>
         </div>
         {/* Top Header Image Placeholder */}
 {/* Top Promo Images */}
@@ -124,12 +140,12 @@ export default function Shop() {
               <SheetTrigger asChild>
                 <Button variant="outline" size="sm" className="flex items-center gap-2">
                   <SlidersHorizontal className="h-4 w-4" />
-                  Filter
+                  فیلتر
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
                 <SheetHeader>
-                  <SheetTitle className="text-left">Filters</SheetTitle>
+                  <SheetTitle className="text-left">فیلتر</SheetTitle>
                 </SheetHeader>
                 <div className="mt-6">
                   <ShopFilters
@@ -147,7 +163,7 @@ export default function Shop() {
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-64 shrink-0">
             <div className="sticky top-24 bg-card border-x border-y border-border rounded-lg p-5 shadow-sm">
-              <h2 className="text-lg font-semibold mb-4">Filters</h2>
+              <h2 className="text-lg font-semibold mb-4">فیلتر</h2>
               <ShopFilters
                 selectedFilters={selectedFilters}
                 onFilterChange={handleFilterChange}
