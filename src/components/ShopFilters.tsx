@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { getBrandOptions } from "@/lib/brands";
 
 const getFilterCategories = (department?: string | null, category?: string | null) => {
   let typeOptions: { value: string; label: string }[] = [];
@@ -26,16 +27,7 @@ const getFilterCategories = (department?: string | null, category?: string | nul
   ];
 
 
-  const brandOptions = Array.from({ length: 10 }).map((_, i) => {
-    let prefix = "Brand";
-    if (category === "socks") prefix = "Socks Brand";
-    else if (category === "underwear") prefix = "Underwear Brand";
-    else if (category) prefix = `${category.charAt(0).toUpperCase() + category.slice(1)} Brand`;
-    return {
-      value: `${prefix} ${i + 1}`,
-      label: `${prefix} ${i + 1}`,
-    };
-  });
+  const brandOptions = getBrandOptions(department, category);
 
   if (category === "underwear") {
     patternOptions = [

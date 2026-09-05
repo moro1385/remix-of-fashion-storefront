@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getBrandOptions } from "@/lib/brands";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
@@ -106,16 +107,8 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
       { value: "ساده", label: "ساده (Plain)" },
     ];
-    const bOptions = Array.from({ length: 10 }).map((_, i) => {
-        let prefix = "Brand";
-        if (category === "socks") prefix = "Socks Brand";
-        else if (category === "underwear") prefix = "Underwear Brand";
-        else if (category) prefix = `${category.charAt(0).toUpperCase() + category.slice(1)} Brand`;
-        return {
-          value: `${prefix} ${i + 1}`,
-          label: `${prefix} ${i + 1}`,
-        };
-      });
+
+    const bOptions = getBrandOptions(department, category);
 
     if (category === "underwear") {
       pOptions = [
