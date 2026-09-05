@@ -47,7 +47,7 @@ export default function PersonalInformation() {
   return (
     <AccountLayout
       title="اطلاعات شخصی"
-      description="نام و اطلاعات تماس خود را برای تسویه حساب سریع‌تر به‌روز نگه دارید."
+    
     >
       <form onSubmit={handleSubmit} className="max-w-xl space-y-6" noValidate>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

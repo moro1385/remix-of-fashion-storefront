@@ -36,13 +36,11 @@ export default function AccountLayout({ title, description, children }: AccountL
   return (
     <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]" dir="rtl">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-accent">حساب کاربری من</p>
+        <p className="text-[20px] uppercase tracking-[0.3em] text-accent">حساب کاربری</p>
         <h1 className="mt-4 text-3xl md:text-4xl font-light text-foreground">
           {displayName || "خوش آمدید"}
         </h1>
-        {user?.phone && (
-          <p className="mt-2 text-sm text-muted-foreground">{formatPhone(user.phone)}</p>
-        )}
+
 
         <div className="mt-12 flex flex-col md:flex-row gap-10 w-full overflow-hidden">
           <nav className="md:w-[260px] shrink-0 md:sticky md:top-32 h-max w-full">
