@@ -27,7 +27,7 @@ export interface CatalogProduct {
     colors: string[];
     department: string;
     category: string;
-    brand: string;
+    brand: string[];
     pattern: string;
   };
 }
@@ -54,7 +54,7 @@ type Row = {
   tags: string[] | null;
   department: string | null;
   category: string | null;
-  brand: string | null;
+  brand: string[] | null;
   pattern: string | null;
   type: string[] | null;
   sizes: string[] | null;
@@ -123,7 +123,7 @@ function mapProduct(row: Row): CatalogProduct {
       colors: row.colors || [],
       department: row.department || "",
       category: row.category || "",
-      brand: row.brand || "",
+      brand: row.brand || [],
       pattern: row.pattern || "",
     },
   };

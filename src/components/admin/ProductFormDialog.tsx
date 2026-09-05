@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { getBrandOptions } from "@/lib/brands";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
@@ -36,7 +37,7 @@ const productSchema = z.object({
   category: z.string().optional().nullable(),
   type: z.array(z.string()).default([]),
   colors: z.array(z.string()).default([]),
-  brand: z.string().optional().nullable(),
+  brand: z.array(z.string()).optional(),
   pattern: z.string().optional().nullable(),
   sizes: z.array(z.string()).default([]),
 
@@ -73,7 +74,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       category: null,
       type: [],
         colors: [],
-      brand: null,
+      brand: [],
       pattern: null,
       sizes: [],
 
@@ -106,16 +107,8 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       { value: "طرح‌دار", label: "طرح‌دار (Patterned)" },
       { value: "ساده", label: "ساده (Plain)" },
     ];
-    const bOptions = Array.from({ length: 10 }).map((_, i) => {
-        let prefix = "Brand";
-        if (category === "socks") prefix = "Socks Brand";
-        else if (category === "underwear") prefix = "Underwear Brand";
-        else if (category) prefix = `${category.charAt(0).toUpperCase() + category.slice(1)} Brand`;
-        return {
-          value: `${prefix} ${i + 1}`,
-          label: `${prefix} ${i + 1}`,
-        };
-      });
+
+    const bOptions = getBrandOptions(department, category);
 
     if (category === "underwear") {
       pOptions = [
@@ -309,7 +302,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         category: product.category || null,
         type: Array.isArray(product.type) ? product.type : product.type ? [product.type] : [],
         colors: Array.isArray(product.colors) ? product.colors : product.colors ? [product.colors] : [],
-        brand: product.brand || null,
+        brand: Array.isArray(product.brand) ? product.brand : product.brand ? [product.brand] : [],
         pattern: product.pattern || null,
         sizes: Array.isArray(product.sizes) ? product.sizes : product.sizes ? [product.sizes] : [],
 
@@ -330,7 +323,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         category: null,
         type: [],
         colors: [],
-        brand: null,
+        brand: [],
         pattern: null,
         sizes: [],
 
@@ -558,20 +551,35 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 <FormField
                   control={form.control}
                   name="brand"
-                  render={({ field }) => (
+                  render={() => (
                     <FormItem>
-                      <FormLabel>برند</FormLabel>
-                      <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
-                        <FormControl>
-                          <SelectTrigger><SelectValue placeholder="Select brand" /></SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="null">هیچکدام</SelectItem>
-                          {brandOptions.map(opt => (
-                            <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <div className="mb-4">
+                        <FormLabel>برند</FormLabel>
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        {brandOptions.map((item) => (
+                          <FormField
+                            key={item.value}
+                            control={form.control}
+                            name="brand"
+                            render={({ field }) => (
+                              <FormItem key={item.value} className="flex flex-row items-start gap-3 space-y-0">
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.value)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...(field.value || []), item.value])
+                                        : field.onChange(field.value?.filter((val) => val !== item.value))
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal leading-none">{item.label}</FormLabel>
+                              </FormItem>
+                            )}
+                          />
+                        ))}
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}
