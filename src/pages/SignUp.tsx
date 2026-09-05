@@ -28,18 +28,18 @@ export default function SignUp() {
 
   const validate = () => {
     const next: Record<string, string> = {};
-    if (!form.phone.trim()) next.phone = "Enter your mobile number.";
-    else if (!isValidPhone(form.phone)) next.phone = "That doesn't look like a valid mobile number.";
-    if (!form.firstName.trim()) next.firstName = "Enter your first name.";
-    else if (form.firstName.trim().length > 50) next.firstName = "Keep this under 50 characters.";
-    if (!form.lastName.trim()) next.lastName = "Enter your last name.";
-    else if (form.lastName.trim().length > 50) next.lastName = "Keep this under 50 characters.";
-    if (!form.password) next.password = "Choose a password.";
-    else if (form.password.length < 8) next.password = "Use at least 8 characters.";
+    if (!form.phone.trim()) next.phone = "شماره موبایل خود را وارد کنید.";
+    else if (!isValidPhone(form.phone)) next.phone = "این شماره موبایل معتبر نیست.";
+    if (!form.firstName.trim()) next.firstName = "نام خود را وارد کنید.";
+    else if (form.firstName.trim().length > 50) next.firstName = "کمتر از ۵۰ کاراکتر وارد کنید.";
+    if (!form.lastName.trim()) next.lastName = "نام خانوادگی خود را وارد کنید.";
+    else if (form.lastName.trim().length > 50) next.lastName = "کمتر از ۵۰ کاراکتر وارد کنید.";
+    if (!form.password) next.password = "یک رمز عبور انتخاب کنید.";
+    else if (form.password.length < 8) next.password = "حداقل از ۸ کاراکتر استفاده کنید.";
     else if (!/[a-zA-Z]/.test(form.password) || !/\d/.test(form.password))
-      next.password = "Include at least one letter and one number.";
-    if (!form.confirmPassword) next.confirmPassword = "Confirm your password.";
-    else if (form.confirmPassword !== form.password) next.confirmPassword = "Passwords do not match.";
+      next.password = "حداقل یک حرف و یک عدد باید وجود داشته باشد.";
+    if (!form.confirmPassword) next.confirmPassword = "رمز عبور خود را تایید کنید.";
+    else if (form.confirmPassword !== form.password) next.confirmPassword = "رمزهای عبور مطابقت ندارند.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -56,12 +56,12 @@ export default function SignUp() {
         lastName: form.lastName,
         password: form.password,
       });
-      toast.success("Account created. Please verify your phone number.");
+      toast.success("حساب کاربری ایجاد شد. لطفاً شماره موبایل خود را تأیید کنید.");
       // Navigate to OTP verify passing the phone number in state
       const { normalizePhone } = await import("@/lib/phone");
       navigate("/signin/otp/verify", { state: { phone: normalizePhone(form.phone) }, replace: true });
     } catch (error) {
-      const msg = error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      const msg = error instanceof Error ? error.message : "خطایی رخ داد. لطفاً دوباره تلاش کنید.";
       setFormError(msg);
       toast.error(msg);
     } finally {
@@ -70,69 +70,70 @@ export default function SignUp() {
   };
 
   return (
-    <AuthShell
-      eyebrow="New here"
-      title="Create your account"
-      subtitle="A few details and your wardrobe, orders and addresses stay in one place."
-      footer={
-        <p className="text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link to="/signin" className="text-foreground underline underline-offset-4 hover:text-accent transition-colors">
-            Sign in
-          </Link>
-        </p>
-      }
-    >
-      <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-        <FormField
-          label="Mobile number"
+    <div dir="rtl">
+      <AuthShell
+        eyebrow="کاربر جدید"
+        title="ایجاد حساب کاربری"
+        subtitle="با وارد کردن چند مشخصه، لباس‌ها، سفارشات و آدرس‌های شما در یک جا ذخیره می‌شوند."
+        footer={
+          <p className="text-sm text-muted-foreground">
+            از قبل حساب کاربری دارید؟{" "}
+            <Link to="/signin" className="text-foreground underline underline-offset-4 hover:text-accent transition-colors">
+              ورود
+            </Link>
+          </p>
+        }
+      >
+        <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          <FormField
+            label="شماره موبایل"
           type="tel"
           inputMode="tel"
           autoComplete="tel"
-          placeholder="0912 345 6789"
-          value={form.phone}
-          onChange={set("phone")}
-          error={errors.phone}
-          hint={PHONE_HELP}
-          disabled={loading}
-        />
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <FormField
-            label="First name"
-            autoComplete="given-name"
-            value={form.firstName}
-            onChange={set("firstName")}
-            error={errors.firstName}
+            placeholder="0912 345 6789"
+            value={form.phone}
+            onChange={set("phone")}
+            error={errors.phone}
+            hint={PHONE_HELP}
             disabled={loading}
-            maxLength={50}
           />
-          <FormField
-            label="Last name"
-            autoComplete="family-name"
-            value={form.lastName}
-            onChange={set("lastName")}
-            error={errors.lastName}
-            disabled={loading}
-            maxLength={50}
-          />
-        </div>
 
-        <FormField
-          label="Password"
-          type={showPassword ? "text" : "password"}
-          autoComplete="new-password"
-          placeholder="At least 8 characters"
-          value={form.password}
-          onChange={set("password")}
-          error={errors.password}
-          hint="Minimum 8 characters, with a letter and a number."
-          disabled={loading}
-          trailing={
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <FormField
+              label="نام"
+              autoComplete="given-name"
+              value={form.firstName}
+              onChange={set("firstName")}
+              error={errors.firstName}
+              disabled={loading}
+              maxLength={50}
+            />
+            <FormField
+              label="نام خانوادگی"
+              autoComplete="family-name"
+              value={form.lastName}
+              onChange={set("lastName")}
+              error={errors.lastName}
+              disabled={loading}
+              maxLength={50}
+            />
+          </div>
+
+          <FormField
+            label="رمز عبور"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            placeholder="حداقل ۸ کاراکتر"
+            value={form.password}
+            onChange={set("password")}
+            error={errors.password}
+            hint="حداقل ۸ کاراکتر، شامل یک حرف و یک عدد."
+            disabled={loading}
+            trailing={
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
               className="text-muted-foreground hover:text-foreground transition-colors"
             >
               {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -140,30 +141,31 @@ export default function SignUp() {
           }
         />
 
-        <FormField
-          label="Confirm password"
-          type={showPassword ? "text" : "password"}
-          autoComplete="new-password"
-          value={form.confirmPassword}
-          onChange={set("confirmPassword")}
-          error={errors.confirmPassword}
-          disabled={loading}
-        />
+          <FormField
+            label="تایید رمز عبور"
+            type={showPassword ? "text" : "password"}
+            autoComplete="new-password"
+            value={form.confirmPassword}
+            onChange={set("confirmPassword")}
+            error={errors.confirmPassword}
+            disabled={loading}
+          />
 
-        {formError && (
-          <p className="border border-destructive/40 bg-destructive/5 px-4 py-3 text-xs text-destructive">
-            {formError}
-          </p>
-        )}
+          {formError && (
+            <p className="border border-destructive/40 bg-destructive/5 px-4 py-3 text-xs text-destructive">
+              {formError}
+            </p>
+          )}
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
-        >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Create account"}
-        </button>
-      </form>
-    </AuthShell>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "ایجاد حساب"}
+          </button>
+        </form>
+      </AuthShell>
+    </div>
   );
 }

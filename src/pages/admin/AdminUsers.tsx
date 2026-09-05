@@ -34,18 +34,18 @@ export default function AdminUsers() {
       setUsers(data as Profile[]);
     } catch (err: unknown) {
       console.error("Error fetching users:", err);
-      setError((err instanceof Error ? err.message : "An error occurred") || "Failed to load users");
+      setError((err instanceof Error ? err.message : "An error occurred") || "بارگیری کاربران با شکست مواجه شد");
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+        <h1 className="text-3xl font-bold tracking-tight">کاربران</h1>
         <p className="text-muted-foreground mt-2">
-          Manage registered users here.
+          کاربران ثبت‌نام شده را در اینجا مدیریت کنید.
         </p>
       </div>
 
@@ -60,16 +60,16 @@ export default function AdminUsers() {
           </div>
         ) : users.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
-            No users found.
+            هیچ کاربری پیدا نشد.
           </div>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Phone</TableHead>
-                <TableHead>Joined</TableHead>
+                <TableHead>شناسه کاربر</TableHead>
+                <TableHead>نام</TableHead>
+                <TableHead>تلفن</TableHead>
+                <TableHead>تاریخ عضویت</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

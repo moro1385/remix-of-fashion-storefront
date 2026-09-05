@@ -368,21 +368,21 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
           .eq("id", product.id);
 
         if (error) throw error;
-        toast.success("Product updated successfully");
+        toast.success("محصول با موفقیت به‌روز شد");
       } else {
         const { error } = await supabase
           .from("products")
           .insert([values]);
 
         if (error) throw error;
-        toast.success("Product created successfully");
+        toast.success("محصول با موفقیت ایجاد شد");
       }
 
       onSuccess();
       onOpenChange(false);
     } catch (error: unknown) {
       console.error("Error saving product:", error);
-      toast.error(error.message || "Failed to save product");
+      toast.error(error.message || "ذخیره محصول با شکست مواجه شد");
     } finally {
       setIsSubmitting(false);
     }
@@ -390,11 +390,11 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" dir="rtl">
         <DialogHeader>
-          <DialogTitle>{product ? "Edit Product" : "Add Product"}</DialogTitle>
+          <DialogTitle>{product ? "ویرایش محصول" : "افزودن محصول"}</DialogTitle>
           <DialogDescription>
-            {product ? "Make changes to the product here." : "Add a new product to your store."}
+            {product ? "در اینجا می‌توانید محصول را ویرایش کنید." : "محصول جدیدی به فروشگاه خود اضافه کنید."}
           </DialogDescription>
         </DialogHeader>
 
@@ -405,7 +405,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>نام</FormLabel>
                   <FormControl>
                     <Input placeholder="Product name" {...field} />
                   </FormControl>
@@ -419,7 +419,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               name="slug"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug</FormLabel>
+                  <FormLabel>شناسه</FormLabel>
                   <FormControl>
                     <Input placeholder="product-slug" {...field} />
                   </FormControl>
@@ -435,16 +435,16 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 name="department"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Department</FormLabel>
+                    <FormLabel>بخش</FormLabel>
                     <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="Select department" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="null">None</SelectItem>
-                        <SelectItem value="men">Men</SelectItem>
-                        <SelectItem value="women">Women</SelectItem>
-                        <SelectItem value="kids">Kids</SelectItem>
+                        <SelectItem value="null">هیچکدام</SelectItem>
+                        <SelectItem value="men">مردانه</SelectItem>
+                        <SelectItem value="women">زنانه</SelectItem>
+                        <SelectItem value="kids">بچگانه</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -457,21 +457,21 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 name="category"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>دسته‌بندی</FormLabel>
                     <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="Select category" /></SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="null">None</SelectItem>
-                        <SelectItem value="socks">Socks</SelectItem>
-                        <SelectItem value="underwear">Underwear</SelectItem>
-                        <SelectItem value="undershirts">Undershirts</SelectItem>
-                        <SelectItem value="pants">Pants</SelectItem>
-                        <SelectItem value="shorts">Shorts</SelectItem>
-                        <SelectItem value="t-shirts">T-Shirts</SelectItem>
-                        <SelectItem value="tank-tops">Tank Tops</SelectItem>
-                        <SelectItem value="sets">Sets</SelectItem>
+                        <SelectItem value="null">هیچکدام</SelectItem>
+                        <SelectItem value="socks">جوراب</SelectItem>
+                        <SelectItem value="underwear">شورت</SelectItem>
+                        <SelectItem value="undershirts">زیرپوش</SelectItem>
+                        <SelectItem value="pants">شلوار</SelectItem>
+                        <SelectItem value="shorts">شلوارک</SelectItem>
+                        <SelectItem value="t-shirts">تی‌شرت</SelectItem>
+                        <SelectItem value="tank-tops">تاپ</SelectItem>
+                        <SelectItem value="sets">ست</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -488,7 +488,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel>Types</FormLabel>
+                        <FormLabel>نوع‌ها</FormLabel>
                       </div>
                       <div className="flex flex-wrap gap-4">
                         {typeOptions.map((item) => (
@@ -497,7 +497,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                             control={form.control}
                             name="type"
                             render={({ field }) => (
-                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormItem key={item.value} className="flex flex-row items-start gap-3 space-y-0">
                                 <FormControl>
                                   <Checkbox
                                     checked={field.value?.includes(item.value)}
@@ -508,7 +508,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                                     }}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                                <FormLabel className="font-normal leading-none">{item.label}</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -524,7 +524,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel>Colors</FormLabel>
+                        <FormLabel>رنگ‌ها</FormLabel>
                       </div>
                       <div className="flex flex-wrap gap-4">
                         {colorOptions.map((item) => (
@@ -533,7 +533,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                             control={form.control}
                             name="colors"
                             render={({ field }) => (
-                              <FormItem key={item.value} className="flex flex-row items-start space-x-3 space-y-0">
+                              <FormItem key={item.value} className="flex flex-row items-start gap-3 space-y-0">
                                 <FormControl>
                                   <Checkbox
                                     checked={field.value?.includes(item.value)}
@@ -544,7 +544,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                                     }}
                                   />
                                 </FormControl>
-                                <FormLabel className="font-normal">{item.label}</FormLabel>
+                                <FormLabel className="font-normal leading-none">{item.label}</FormLabel>
                               </FormItem>
                             )}
                           />
@@ -560,13 +560,13 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   name="brand"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Brand</FormLabel>
+                      <FormLabel>برند</FormLabel>
                       <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
                         <FormControl>
                           <SelectTrigger><SelectValue placeholder="Select brand" /></SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="null">None</SelectItem>
+                          <SelectItem value="null">هیچکدام</SelectItem>
                           {brandOptions.map(opt => (
                             <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
                           ))}
@@ -587,13 +587,13 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   name="pattern"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Pattern/Color</FormLabel>
+                      <FormLabel>طرح/رنگ</FormLabel>
                       <Select onValueChange={(val) => field.onChange(val === "null" ? null : val)} value={field.value || "null"}>
                         <FormControl>
                           <SelectTrigger><SelectValue placeholder="Select pattern" /></SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="null">None</SelectItem>
+                          <SelectItem value="null">هیچکدام</SelectItem>
                           {patternOptions.map(opt => (
                             <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
                           ))}
@@ -610,7 +610,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   render={() => (
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel>Sizes</FormLabel>
+                        <FormLabel>سایزها</FormLabel>
                       </div>
                       <div className="flex flex-wrap gap-4">
                         {sizeOptions.map((item) => (
@@ -622,7 +622,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                               return (
                                 <FormItem
                                   key={item.value}
-                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                  className="flex flex-row items-start gap-3 space-y-0"
                                 >
                                   <FormControl>
                                     <Checkbox
@@ -639,7 +639,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                                       }}
                                     />
                                   </FormControl>
-                                  <FormLabel className="font-normal">
+                                  <FormLabel className="font-normal leading-none">
                                     {item.label}
                                   </FormLabel>
                                 </FormItem>
@@ -662,7 +662,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 name="price"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel>قیمت</FormLabel>
                     <FormControl>
                       <Input type="number" step="0.01" {...field} />
                     </FormControl>
@@ -676,7 +676,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 name="category_id"
                 render={({ field }) => (
                   <FormItem className="flex-1">
-                    <FormLabel>Category</FormLabel>
+                    <FormLabel>دسته‌بندی (اختیاری)</FormLabel>
                     <Select
                       onValueChange={(val) => field.onChange(val === "null" ? null : val)}
                       value={field.value || "null"}
@@ -687,7 +687,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="null">None</SelectItem>
+                        <SelectItem value="null">هیچکدام</SelectItem>
                         {categories.map((category) => (
                           <SelectItem key={category.id} value={category.id}>
                             {category.name}
@@ -706,7 +706,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>توضیحات</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Product description"
@@ -725,7 +725,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               name="tags"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tags</FormLabel>
+                  <FormLabel>برچسب‌ها</FormLabel>
                   <FormControl>
                     <div className="space-y-2">
                       <Input
@@ -764,7 +764,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-full">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Active</FormLabel>
+                      <FormLabel className="text-base">فعال</FormLabel>
                     </div>
                     <FormControl>
                       <Switch
@@ -782,7 +782,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-full">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Featured</FormLabel>
+                      <FormLabel className="text-base">ویژه</FormLabel>
                     </div>
                     <FormControl>
                       <Switch
@@ -800,7 +800,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-full">
                     <div className="space-y-0.5">
-                      <FormLabel className="text-base">Newest</FormLabel>
+                      <FormLabel className="text-base">جدیدترین</FormLabel>
                     </div>
                     <FormControl>
                       <Switch
@@ -813,12 +813,12 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
               />
             </div>
 
-            <DialogFooter className="pt-4">
+            <DialogFooter className="pt-4 gap-2">
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
+                لغو
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Saving..." : "Save Product"}
+                {isSubmitting ? "در حال ذخیره..." : "ذخیره محصول"}
               </Button>
             </DialogFooter>
           </form>
@@ -832,7 +832,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
         {!product && (
           <div className="mt-4 pt-4 text-sm text-muted-foreground text-center border-t">
-            Save the product first to manage images.
+            برای مدیریت تصاویر، ابتدا محصول را ذخیره کنید.
           </div>
         )}
 

@@ -64,7 +64,7 @@ export default function AdminOrders() {
       setOrders(data as unknown as Order[]);
     } catch (err: unknown) {
       console.error("Error fetching orders:", err);
-      setError((err instanceof Error ? err.message : "An error occurred") || "Failed to load orders");
+      setError((err instanceof Error ? err.message : "An error occurred") || "بارگیری سفارشات با شکست مواجه شد");
     } finally {
       setIsLoading(false);
     }
@@ -81,21 +81,21 @@ export default function AdminOrders() {
         .eq("id", id);
 
       if (error) throw error;
-      toast.success(`Order status updated to ${newStatus}`);
+      toast.success(`وضعیت سفارش به‌روز شد به ${newStatus}`);
     } catch (err: unknown) {
       console.error("Error updating status:", err);
-      toast.error((err instanceof Error ? err.message : "An error occurred") || "Failed to update status");
+      toast.error((err instanceof Error ? err.message : "An error occurred") || "به‌روزرسانی وضعیت با شکست مواجه شد");
       // Revert on error
       fetchOrders();
     }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Orders</h1>
+        <h1 className="text-3xl font-bold tracking-tight">سفارشات</h1>
         <p className="text-muted-foreground mt-2">
-          Manage customer orders here.
+          سفارشات مشتریان را در اینجا مدیریت کنید.
         </p>
       </div>
 
@@ -116,25 +116,25 @@ export default function AdminOrders() {
           </div>
         ) : orders.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
-            No orders found.
+            هیچ سفارشی پیدا نشد.
           </div>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Shipping / Payment</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>شناسه سفارش</TableHead>
+                <TableHead>تاریخ</TableHead>
+                <TableHead>مشتری</TableHead>
+                <TableHead>ارسال / پرداخت</TableHead>
+                <TableHead>مبلغ کل</TableHead>
+                <TableHead>وضعیت</TableHead>
+                <TableHead className="text-left">عملیات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {orders.map((order) => {
                 const customerName = [order.profiles?.first_name, order.profiles?.last_name].filter(Boolean).join(" ");
-                const customerDisplay = customerName || order.profiles?.phone || "Unknown User";
+                const customerDisplay = customerName || order.profiles?.phone || "کاربر ناشناس";
 
                 return (
                   <TableRow
@@ -164,7 +164,7 @@ export default function AdminOrders() {
                     <TableCell>
                       <div className="flex flex-col gap-1 text-xs">
                          <span>{order.shipping_method === 'express' ? "پست پیشتاز" : order.shipping_method === 'regular' ? "پست معمولی" : "N/A"}</span>
-                         <span className="text-muted-foreground capitalize">{order.payment_method || 'N/A'}</span>
+                         <span className="text-muted-foreground capitalize">{order.payment_method === 'wallet' ? "کیف پول" : order.payment_method === 'gateway' ? "درگاه پرداخت" : order.payment_method || "N/A"}</span>
                       </div>
                     </TableCell>
                     <TableCell>{new Intl.NumberFormat('fa-IR').format(order.total_amount)} ریال</TableCell>
@@ -174,18 +174,19 @@ export default function AdminOrders() {
                         onValueChange={(value) => updateOrderStatus(order.id, value)}
                       >
                         <SelectTrigger className="w-[130px] h-8 text-xs">
-                          <SelectValue placeholder="Status" />
+                          <SelectValue placeholder="وضعیت" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="pending">Pending</SelectItem>
-                          <SelectItem value="processing">Processing</SelectItem>
-                          <SelectItem value="shipped">Shipped</SelectItem>
-                          <SelectItem value="delivered">Delivered</SelectItem>
-                          <SelectItem value="cancelled">Cancelled</SelectItem>
+                          <SelectItem value="pending">در انتظار</SelectItem>
+                          <SelectItem value="processing">در حال پردازش</SelectItem>
+                          <SelectItem value="confirmed">تایید شده</SelectItem>
+                          <SelectItem value="shipped">ارسال شده</SelectItem>
+                          <SelectItem value="delivered">تحویل داده شده</SelectItem>
+                          <SelectItem value="cancelled">لغو شده</SelectItem>
                         </SelectContent>
                       </Select>
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-left">
                       <Button
                         variant="ghost"
                         size="icon"

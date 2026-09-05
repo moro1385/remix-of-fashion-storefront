@@ -4,24 +4,24 @@ import { LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
 import ScrollToTop from "@/components/ScrollToTop";
 
 const navItems = [
-  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/products", label: "Products", icon: Package },
-  { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/admin/users", label: "Users", icon: Users },
+  { href: "/admin", label: "داشبورد", icon: LayoutDashboard },
+  { href: "/admin/products", label: "محصولات", icon: Package },
+  { href: "/admin/orders", label: "سفارشات", icon: ShoppingCart },
+  { href: "/admin/users", label: "کاربران", icon: Users },
 ];
 
 export default function AdminLayout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen flex bg-muted/20">
+    <div className="min-h-screen flex bg-muted/20" dir="rtl">
       <ScrollToTop />
 
       {/* Sidebar */}
-      <aside className="w-64 bg-background border-r flex flex-col hidden md:flex">
+      <aside className="w-64 bg-background border-l flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b">
           <Link to="/" className="text-xl font-light uppercase tracking-widest">
-            Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground ml-1">Admin</span>
+            Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground mr-1">مدیریت</span>
           </Link>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
@@ -58,7 +58,7 @@ export default function AdminLayout() {
           </div>
           <div className="flex items-center gap-4">
             <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
-              Return to Store
+              بازگشت به فروشگاه
             </Link>
           </div>
         </header>

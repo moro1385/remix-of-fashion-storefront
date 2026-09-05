@@ -7,11 +7,11 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 const navItems = [
-  { to: "/account", label: "Personal information", icon: User, end: true },
-  { to: "/account/addresses", label: "Addresses", icon: MapPin },
-  { to: "/account/wallet", label: "Wallet", icon: CreditCard },
-  { to: "/cart", label: "Shopping cart", icon: ShoppingCart },
-  { to: "/account/orders", label: "Orders", icon: Package },
+  { to: "/account", label: "اطلاعات شخصی", icon: User, end: true },
+  { to: "/account/addresses", label: "آدرس‌ها", icon: MapPin },
+  { to: "/account/wallet", label: "کیف پول", icon: CreditCard },
+  { to: "/cart", label: "سبد خرید", icon: ShoppingCart },
+  { to: "/account/orders", label: "سفارشات", icon: Package },
 ];
 
 interface AccountLayoutProps {
@@ -29,16 +29,16 @@ export default function AccountLayout({ title, description, children }: AccountL
 
   const handleSignOut = async () => {
     await signOut();
-    toast.success("You've been signed out");
+    toast.success("شما خارج شدید");
     navigate("/", { replace: true });
   };
 
   return (
-    <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]">
+    <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]" dir="rtl">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-        <p className="text-[11px] uppercase tracking-[0.3em] text-accent">My account</p>
+        <p className="text-[11px] uppercase tracking-[0.3em] text-accent">حساب کاربری من</p>
         <h1 className="mt-4 text-3xl md:text-4xl font-light text-foreground">
-          {displayName || "Welcome"}
+          {displayName || "خوش آمدید"}
         </h1>
         {user?.phone && (
           <p className="mt-2 text-sm text-muted-foreground">{formatPhone(user.phone)}</p>
@@ -73,14 +73,14 @@ export default function AccountLayout({ title, description, children }: AccountL
               className="mt-4 w-full flex items-center gap-3 px-4 py-3 border border-border bg-background text-xs uppercase tracking-[0.15em] text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors"
             >
               <LogOut className="w-4 h-4" strokeWidth={1.5} />
-              Sign out
+              خروج از حساب
             </button>
 
             <Link
               to="/shop"
               className="mt-4 inline-block text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
             >
-              Continue shopping
+              ادامه خرید
             </Link>
           </nav>
 

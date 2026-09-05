@@ -32,16 +32,16 @@ export default function AdminProducts() {
   };
 
   const handleDeleteProduct = async (id: string) => {
-    if (!window.confirm("Are you sure you want to delete this product?")) return;
+    if (!window.confirm("آیا مطمئن هستید که می‌خواهید این محصول را حذف کنید؟")) return;
 
     try {
       const { error } = await supabase.from("products").delete().eq("id", id);
       if (error) throw error;
-      toast.success("Product deleted successfully");
+      toast.success("محصول با موفقیت حذف شد");
       fetchProducts();
     } catch (err: unknown) {
       console.error("Error deleting product:", err);
-      toast.error(err.message || "Failed to delete product");
+      toast.error(err.message || "حذف محصول با شکست مواجه شد");
     }
   };
 
@@ -58,24 +58,24 @@ export default function AdminProducts() {
       setProducts(data || []);
     } catch (err) {
       console.error("Error fetching products:", err);
-      setError("Failed to load products.");
+      setError("بارگیری محصولات با شکست مواجه شد.");
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Products</h1>
+          <h1 className="text-3xl font-bold tracking-tight">محصولات</h1>
           <p className="text-muted-foreground mt-2">
-            Manage your store's products.
+            محصولات فروشگاه خود را مدیریت کنید.
           </p>
         </div>
         <Button onClick={handleAddProduct}>
-          <Plus className="w-4 h-4 mr-2" />
-          Add Product
+          <Plus className="w-4 h-4 ml-2" />
+          افزودن محصول
         </Button>
       </div>
 
@@ -97,17 +97,17 @@ export default function AdminProducts() {
           </div>
         ) : products.length === 0 ? (
           <div className="p-8 text-center text-muted-foreground">
-            No products found. Add one to get started.
+            هیچ محصولی پیدا نشد. برای شروع یکی اضافه کنید.
           </div>
         ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Slug</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>نام</TableHead>
+                <TableHead>شناسه</TableHead>
+                <TableHead>قیمت</TableHead>
+                <TableHead>وضعیت</TableHead>
+                <TableHead className="text-left">عملیات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -115,19 +115,19 @@ export default function AdminProducts() {
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell className="text-muted-foreground">{product.slug}</TableCell>
-                  <TableCell>${product.price.toFixed(2)}</TableCell>
+                  <TableCell>{new Intl.NumberFormat('fa-IR').format(product.price)} ریال</TableCell>
                   <TableCell>
                     {product.is_active ? (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
-                        Active
+                        فعال
                       </span>
                     ) : (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                        Draft
+                        پیش‌نویس
                       </span>
                     )}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-left">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditProduct(product)}>
                       <Edit className="h-4 w-4" />
                     </Button>

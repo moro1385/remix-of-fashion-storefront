@@ -41,11 +41,11 @@ export default function AdminDashboard() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">داشبورد</h1>
         <p className="text-muted-foreground mt-2">
-          Welcome to the Jami Mode Admin Dashboard.
+          به داشبورد مدیریت جامی مد خوش آمدید.
         </p>
       </div>
 
@@ -57,7 +57,7 @@ export default function AdminDashboard() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">Total Products</h3>
+              <h3 className="tracking-tight text-sm font-medium">کل محصولات</h3>
               <Package className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="text-2xl font-bold">{stats.products}</div>
@@ -65,7 +65,7 @@ export default function AdminDashboard() {
 
           <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">Total Orders</h3>
+              <h3 className="tracking-tight text-sm font-medium">کل سفارشات</h3>
               <ShoppingBag className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="text-2xl font-bold">{stats.orders}</div>
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
 
           <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">Active Users</h3>
+              <h3 className="tracking-tight text-sm font-medium">کاربران فعال</h3>
               <Users className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="text-2xl font-bold">{stats.users}</div>
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
 
           <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
             <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <h3 className="tracking-tight text-sm font-medium">Total Revenue</h3>
+              <h3 className="tracking-tight text-sm font-medium">درآمد کل</h3>
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="text-2xl font-bold">{formatPrice(stats.revenue)}</div>
