@@ -10,7 +10,6 @@ export const SORT_OPTIONS = [
   { value: "newest", label: "Newest (جدیدترین)" },
   { value: "price-asc", label: "Price: Low to High (ارزان‌ترین)" },
   { value: "price-desc", label: "Price: High to Low (گران‌ترین)" },
-  { value: "popular", label: "Most Popular (محبوب‌ترین)" },
 ];
 
 interface ShopSortProps {

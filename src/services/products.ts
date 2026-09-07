@@ -29,6 +29,7 @@ export interface CatalogProduct {
     category: string;
     brand: string[];
     pattern: string;
+    createdAt: string;
   };
 }
 
@@ -51,6 +52,7 @@ type Row = {
   is_featured: boolean;
   is_new: boolean;
   images: string[] | null;
+  created_at: string;
   tags: string[] | null;
   department: string | null;
   category: string | null;
@@ -125,6 +127,7 @@ function mapProduct(row: Row): CatalogProduct {
       category: row.category || "",
       brand: row.brand || [],
       pattern: row.pattern || "",
+      createdAt: row.created_at || "",
     },
   };
 }

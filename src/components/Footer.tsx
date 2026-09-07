@@ -21,11 +21,11 @@ export default function Footer() {
           <div className="flex flex-col gap-3">
             <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">تماس با ما</Link>
             <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">درباره ما</Link>
-            <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">آدرس </Link>
+            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">آدرس </Link>
           </div>
           <div className="flex flex-col gap-3">
             <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">خانه</Link>
-            <Link to="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">فروش عمده</Link>
+            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">فروش عمده</Link>
           </div>
         </div>
       </div>

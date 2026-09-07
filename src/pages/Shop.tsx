@@ -82,6 +82,19 @@ export default function Shop() {
   if (selectedFilters.size && selectedFilters.size.length > 0) {
     visible = visible.filter(p => p.node.sizes?.some(s => selectedFilters.size.includes(s)));
   }
+
+  // Apply sorting after filtering
+  visible = [...visible].sort((a, b) => {
+    if (sortValue === "newest") {
+      return new Date(b.node.createdAt).getTime() - new Date(a.node.createdAt).getTime();
+    } else if (sortValue === "price-asc") {
+      return parseFloat(a.node.priceRange.minVariantPrice.amount) - parseFloat(b.node.priceRange.minVariantPrice.amount);
+    } else if (sortValue === "price-desc") {
+      return parseFloat(b.node.priceRange.minVariantPrice.amount) - parseFloat(a.node.priceRange.minVariantPrice.amount);
+    }
+    return 0;
+  });
+
   const categoryNames: Record<string, string> = {
     "socks": "جوراب",
     "underwear": "لباس زیر",
