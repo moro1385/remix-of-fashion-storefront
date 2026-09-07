@@ -44,7 +44,7 @@ export default function AccountLayout({ title, description, children }: AccountL
 
         <div className="mt-12 flex flex-col md:flex-row gap-10 w-full overflow-hidden">
           <nav className="md:w-[260px] shrink-0 md:sticky md:top-32 h-max w-full">
-            <ul className="flex flex-col gap-1 w-full bg-background border border-border p-2">
+            <ul className="flex flex-col gap-1 w-full bg-background border border-border p-2 rounded-2xl">
               {navItems.map((item) => (
                 <li key={item.to} className="shrink-0 lg:shrink">
                   <NavLink
@@ -52,7 +52,7 @@ export default function AccountLayout({ title, description, children }: AccountL
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center gap-3 px-4 py-3 text-xs uppercase tracking-[0.15em] whitespace-nowrap transition-colors",
+                        "flex items-center gap-3 px-4 py-3 text-xs uppercase tracking-[0.15em] whitespace-nowrap transition-colors rounded-xl",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -68,7 +68,7 @@ export default function AccountLayout({ title, description, children }: AccountL
 
             <button
               onClick={handleSignOut}
-              className="mt-4 w-full flex items-center gap-3 px-4 py-3 border border-border bg-background text-xs uppercase tracking-[0.15em] text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors"
+              className="mt-4 w-full flex items-center gap-3 px-4 py-3 border border-border bg-background text-xs uppercase tracking-[0.15em] text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors rounded-full"
             >
               <LogOut className="w-4 h-4" strokeWidth={1.5} />
               خروج از حساب
@@ -82,7 +82,7 @@ export default function AccountLayout({ title, description, children }: AccountL
             </Link>
           </nav>
 
-          <section className="bg-background border border-border p-6 md:p-10 animate-in fade-in duration-300">
+          <section className="bg-background border border-border p-6 md:p-10 animate-in fade-in duration-300 rounded-2xl w-full">
             <header className="pb-6 border-b border-border">
               <h2 className="text-xl font-light text-foreground">{title}</h2>
               {description && <p className="mt-2 text-sm text-muted-foreground">{description}</p>}

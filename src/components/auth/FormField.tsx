@@ -29,7 +29,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
             aria-invalid={!!error}
             aria-describedby={error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined}
             className={cn(
-              "w-full h-12 bg-background border px-4 text-sm text-foreground placeholder:text-muted-foreground/60",
+              "w-full h-12 bg-background border px-4 text-sm text-foreground placeholder:text-muted-foreground/60 rounded-xl",
               "transition-colors outline-none focus:border-foreground",
               error ? "border-destructive focus:border-destructive" : "border-border",
               trailing && "pr-12",

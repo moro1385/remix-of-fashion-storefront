@@ -1,1 +1,0 @@
-import { sync_playwright } from "playwright";\n\n(async () => {\n  const browser = await sync_playwright().chromium.launch();\n  const page = await browser.newPage();\n  await page.goto("http://localhost:8080/shop");\n  await page.screenshot({ path: "test.png" });\n  await browser.close();\n})();

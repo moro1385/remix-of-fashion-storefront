@@ -122,7 +122,7 @@ export default function Addresses() {
               <button
                 type="submit"
                 disabled={busy}
-                className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
+                className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2 rounded-full"
               >
                 {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                 ذخیره آدرس
@@ -131,7 +131,7 @@ export default function Addresses() {
                 type="button"
                 onClick={() => setEditing(null)}
                 disabled={busy}
-                className="h-12 px-8 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+                className="h-12 px-8 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2 rounded-full"
               >
                 <X className="w-4 h-4" />
                 لغو
@@ -139,7 +139,7 @@ export default function Addresses() {
             </div>
           </form>
         ) : addresses.length === 0 ? (
-          <div className="text-center py-12">
+          <div className="text-center py-12 rounded-2xl border border-border">
             <MapPin className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
             <p className="mt-6 text-lg font-light text-foreground">هنوز آدرسی ذخیره نشده است</p>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -147,7 +147,7 @@ export default function Addresses() {
             </p>
             <button
               onClick={openNew}
-              className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2"
+              className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2 rounded-full"
             >
               <Plus className="w-4 h-4" />
               افزودن آدرس
@@ -156,7 +156,7 @@ export default function Addresses() {
         ) : (
           <div className="space-y-4">
             {addresses.map((address) => (
-              <article key={address.id} className="border border-border p-6 transition-colors hover:border-foreground/30">
+              <article key={address.id} className="border border-border p-6 transition-colors hover:border-foreground/30 rounded-2xl">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <div className="flex items-center gap-3">
@@ -205,7 +205,7 @@ export default function Addresses() {
 
           <button
             onClick={openNew}
-            className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2"
+            className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2 rounded-full"
           >
             <Plus className="w-4 h-4" />
             افزودن آدرس دیگر

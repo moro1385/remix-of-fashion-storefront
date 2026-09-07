@@ -24,7 +24,7 @@ const navigate = useNavigate();
         <p className="text-sm text-foreground mb-8">شما هیچ محصولی در سبد خرید خود ندارید.</p>
         <Link
           to="/shop"
-          className="inline-block px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+          className="inline-block px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity rounded-full"
         >
           ادامه خرید
         </Link>
@@ -41,7 +41,7 @@ const navigate = useNavigate();
             <img
               src={item.image}
               alt={item.productTitle}
-              className="w-24 h-24 object-cover bg-[hsl(var(--warm-bg))]"
+              className="w-24 h-24 object-cover bg-[hsl(var(--warm-bg))] rounded-2xl"
             />
             <div className="flex-1">
               <div className="flex justify-between items-start">
@@ -80,7 +80,7 @@ const navigate = useNavigate();
         </p>
         <button
           onClick={handleCheckout}
-          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2"
+          className="px-8 py-4 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity flex items-center gap-2 rounded-full"
         >
           تسویه حساب
         </button>
