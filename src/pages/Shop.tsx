@@ -15,6 +15,34 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
+const bgMap: Record<string, string> = {
+  // Men (9 categories)
+  'men-socks': '/bg-men-socks.jpg',
+  'men-pants': '/bg-men-pants.jpg',
+  'men-shorts': '/bg-men-shorts.jpg',
+  'men-t-shirts': '/bg-men-tshirts.jpg',
+  'men-tank-tops': '/bg-men-tanktops.jpg',
+  'men-underwear': '/bg-men-underwear.jpg',
+  'men-undershirts': '/bg-men-undershirts.jpg',
+  'men-swimwear': '/bg-men-swimwear.jpg',
+  'men-sets': '/bg-men-sets.jpg',
+
+  // Women (8 categories)
+  'women-socks': '/bg-women-socks.jpg',
+  'women-pants': '/bg-women-pants.jpg',
+  'women-shorts': '/bg-women-shorts.jpg',
+  'women-t-shirts': '/bg-women-tshirts.jpg',
+  'women-tank-tops': '/bg-women-tanktops.jpg',
+  'women-underwear': '/bg-women-underwear.jpg',
+  'women-undershirts': '/bg-women-undershirts.jpg',
+  'women-sets': '/bg-women-sets.jpg',
+
+  // Kids (3 categories)
+  'kids-socks': '/bg-kids-socks.jpg',
+  'kids-underwear': '/bg-kids-underwear.jpg',
+  'kids-undershirts': '/bg-kids-undershirts.jpg',
+};
+
 export default function Shop() {
   const [searchParams] = useSearchParams();
   const departmentQuery = searchParams.get("department");
@@ -71,11 +99,14 @@ export default function Shop() {
     "kids": "بچگانه",
   };
 
+  const currentBgKey = `${departmentQuery || ''}-${categoryQuery || ''}`.toLowerCase();
+  const backgroundImagePath = bgMap[currentBgKey] || '/test_1.jpg';
+
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
 <div
   className="fixed inset-0 z-[-1] pointer-events-none opacity-[0.1] bg-repeat bg-center bg-[length:300px]"
-  style={{ backgroundImage: "url('/test_1.jpg')" }}
+  style={{ backgroundImage: `url('${backgroundImagePath}')` }}
 />
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
