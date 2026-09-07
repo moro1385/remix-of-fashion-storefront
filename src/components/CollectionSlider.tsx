@@ -74,7 +74,7 @@ export default function CollectionSlider() {
                       <p className="text-xl md:text-2xl uppercase tracking-[0.3em] text-primary-foreground/80 mb-4">
                         {collection.eyebrow}
                       </p>
-                      <h2 className="text-5xl md:text-7xl lg:text-8xl font-light text-primary-foreground leading-none tracking-wide">
+                      <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-primary-foreground leading-none tracking-wide">
                         {collection.name}
                       </h2>
                       <p className="mt-5 max-w-xl text-sm md:text-base text-primary-foreground/85">
