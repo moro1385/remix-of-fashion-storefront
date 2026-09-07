@@ -32,7 +32,7 @@ export interface CatalogProduct {
   };
 }
 
-export const CURRENCY_CODE = "USD";
+export const CURRENCY_CODE = "IRR";
 
 const PRODUCT_SELECT = `
   id, name, slug, description, price, is_active, is_featured, is_new, images, created_at, tags, department, category, brand, pattern, type, sizes, colors,
@@ -243,7 +243,8 @@ export async function fetchCategories() {
 
 export function formatPrice(amount: string | number, currencyCode = CURRENCY_CODE) {
   const value = typeof amount === "string" ? parseFloat(amount) : amount;
-  return Number(value).toLocaleString('fa-IR') + ' ریال';
+  const label = currencyCode === "IRR" ? "ریال" : currencyCode;
+  return Number(value).toLocaleString('fa-IR') + ' ' + label;
 }
 
 export function productImage(product: CatalogProduct) {

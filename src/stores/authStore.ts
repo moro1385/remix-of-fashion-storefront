@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { supabase } from "@/integrations/supabase/client";
 import { normalizePhone } from "@/lib/phone";
+import { useCartStore } from "./cartStore";
 import type { Address, Session, User } from "@/types/auth";
 import type { Session as SupabaseSession } from "@supabase/supabase-js";
 
@@ -282,6 +283,7 @@ export const useAuthStore = create<AuthStore>()(
 
         signOut: async () => {
           await supabase.auth.signOut();
+          useCartStore.getState().clearCart();
           set({ session: null, user: null });
         },
 
