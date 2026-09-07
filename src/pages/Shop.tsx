@@ -17,28 +17,28 @@ import {
 
 const bgMap: Record<string, string> = {
   // Men (9 categories)
-  'men-socks': '/bg-men-socks.jpg',
-  'men-pants': '/bg-men-pants.jpg',
-  'men-shorts': '/bg-men-shorts.jpg',
-  'men-t-shirts': '/bg-men-tshirts.jpg',
-  'men-tank-tops': '/bg-men-tanktops.jpg',
+  'men-socks': '/socks_men.jpg',
+  'men-pants': '/pants_men.jpg',
+  'men-shorts': '/shorts_men.jpg',
+  'men-t-shirts': '/tshirt_men.jpg',
+  'men-tank-tops': '/tanktop_men.jpg',
   'men-underwear': '/bg-men-underwear.jpg',
   'men-undershirts': '/bg-men-undershirts.jpg',
   'men-swimwear': '/bg-men-swimwear.jpg',
   'men-sets': '/bg-men-sets.jpg',
 
   // Women (8 categories)
-  'women-socks': '/bg-women-socks.jpg',
-  'women-pants': '/bg-women-pants.jpg',
-  'women-shorts': '/bg-women-shorts.jpg',
-  'women-t-shirts': '/bg-women-tshirts.jpg',
-  'women-tank-tops': '/bg-women-tanktops.jpg',
+  'women-socks': '/socks_women.jpg',
+  'women-pants': '/pants_women.jpg',
+  'women-shorts': '/shorts_women.jpg',
+  'women-t-shirts': '/tshirt_women.jpg',
+  'women-tank-tops': '/tanktop_women.jpg',
   'women-underwear': '/bg-women-underwear.jpg',
   'women-undershirts': '/bg-women-undershirts.jpg',
   'women-sets': '/bg-women-sets.jpg',
 
   // Kids (3 categories)
-  'kids-socks': '/bg-kids-socks.jpg',
+  'kids-socks': '/socks_kid.jpg',
   'kids-underwear': '/bg-kids-underwear.jpg',
   'kids-undershirts': '/bg-kids-undershirts.jpg',
 };
