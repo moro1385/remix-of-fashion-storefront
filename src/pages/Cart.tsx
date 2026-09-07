@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ExternalLink, Loader2, X } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
-import { formatPrice } from "@/lib/shopify";
+import { formatPrice } from "@/services/products";
 import QuantitySelector from "@/components/QuantitySelector";
 
 export default function Cart() {
