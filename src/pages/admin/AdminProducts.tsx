@@ -86,7 +86,7 @@ export default function AdminProducts() {
         onSuccess={fetchProducts}
       />
 
-      <div className="bg-background rounded-md border">
+      <div className="bg-background rounded-2xl border">
         {isLoading ? (
           <div className="flex justify-center p-8">
             <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />

@@ -88,7 +88,7 @@ export default function Shop() {
 {/* Top Promo Images */}
         <div className="flex gap-4 w-full md:max-w-[500px] lg:max-w-[600px] shrink-0">
           {/* بنر بالای صفحه - عکس اول */}
-          <a href="#" className="flex-1 block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+          <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
             <img 
               src="/1.png" 
               alt="پیشنهاد ویژه ۱" 
@@ -97,7 +97,7 @@ export default function Shop() {
           </a>
           
           {/* بنر بالای صفحه - عکس دوم */}
-          <a href="#" className="flex-1 block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+          <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
             <img 
               src="/4.png" 
               alt="پیشنهاد ویژه ۲" 
@@ -115,7 +115,7 @@ export default function Shop() {
           <div className="hidden xl:block w-64 shrink-0">
             <div className="sticky top-24 flex flex-col gap-4 w-full">
               {/* عکس اول */}
-              <a href="#" className="w-full block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+              <a href="#" className="w-full block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
                 <img 
                   src="/3.png" 
                   alt="تبلیغ اول" 
@@ -124,7 +124,7 @@ export default function Shop() {
               </a>
               
               {/* عکس دوم */}
-              <a href="#" className="w-full block overflow-hidden rounded-lg hover:opacity-90 transition-opacity shadow-sm">
+              <a href="#" className="w-full block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
                 <img 
                   src="/2.png" 
                   alt="تبلیغ دوم" 
@@ -162,7 +162,7 @@ export default function Shop() {
 
           {/* Desktop Sidebar */}
           <div className="hidden lg:block w-64 shrink-0">
-            <div className="sticky top-24 bg-card border-x border-y border-border rounded-lg p-5 shadow-sm">
+            <div className="sticky top-24 bg-card border-x border-y border-border rounded-2xl p-5 shadow-sm">
               <h2 className="text-lg font-semibold mb-4">فیلتر</h2>
               <ShopFilters
                 selectedFilters={selectedFilters}
