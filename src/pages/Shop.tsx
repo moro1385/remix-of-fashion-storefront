@@ -191,9 +191,9 @@ export default function Shop() {
                   فیلتر
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px] overflow-y-auto">
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] overflow-y-auto">
                 <SheetHeader>
-                  <SheetTitle className="text-left">فیلتر</SheetTitle>
+                  <SheetTitle className="text-right">فیلتر</SheetTitle>
                 </SheetHeader>
                 <div className="mt-6">
                   <ShopFilters
@@ -233,10 +233,10 @@ export default function Shop() {
               </div>
             ) : error ? (
               <p className="text-center text-sm text-muted-foreground py-24">
-                Products could not be loaded right now. Please try again.
+                در حال حاضر امکان بارگذاری محصولات وجود ندارد. لطفاً دوباره تلاش کنید.
               </p>
             ) : visible.length === 0 ? (
-              <p className="text-center text-sm text-muted-foreground py-24">No products found</p>
+              <p className="text-center text-sm text-muted-foreground py-24">محصولی یافت نشد</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
                 {visible.map((product) => (

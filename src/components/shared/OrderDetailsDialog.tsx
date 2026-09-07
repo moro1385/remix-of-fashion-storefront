@@ -80,7 +80,7 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" dir="rtl">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>جزئیات سفارش</DialogTitle>
           <DialogDescription>

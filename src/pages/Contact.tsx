@@ -48,7 +48,7 @@ export default function Contact() {
   return (
     <>
       {/* اضافه کردن راست‌چین به کل صفحه */}
-      <section className="max-w-6xl mx-auto px-6 py-24 text-right" dir="rtl">
+      <section className="max-w-6xl mx-auto px-6 py-24 text-right">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-16 items-start">
           
           {/* Left — Info */}

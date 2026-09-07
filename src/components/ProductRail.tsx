@@ -56,7 +56,7 @@ export default function ProductRail({
             <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
           </div>
         ) : items.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No products found</p>
+          <p className="text-sm text-muted-foreground">محصولی یافت نشد</p>
         ) : (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {items.map((product) => (

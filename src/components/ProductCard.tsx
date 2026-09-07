@@ -19,7 +19,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
       <div className="mt-4">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="text-base font-medium text-foreground">{title}</h3>
-          {!inStock && <span className="text-xs text-accent font-medium">Sold out</span>}
+          {!inStock && <span className="text-xs text-accent font-medium">ناموجود</span>}
         </div>
         {productType && (
           <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{productType}</p>

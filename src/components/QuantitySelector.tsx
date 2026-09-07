@@ -13,7 +13,7 @@ export default function QuantitySelector({ quantity, onChange, min = 1, max = 99
       <button
         onClick={() => onChange(Math.max(min, quantity - 1))}
         className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
-        aria-label="Decrease quantity"
+        aria-label="کاهش تعداد"
       >
         <Minus className="w-4 h-4" />
       </button>
@@ -31,7 +31,7 @@ export default function QuantitySelector({ quantity, onChange, min = 1, max = 99
       <button
         onClick={() => onChange(Math.min(max, quantity + 1))}
         className="w-10 h-10 border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition-colors"
-        aria-label="Increase quantity"
+        aria-label="افزایش تعداد"
       >
         <Plus className="w-4 h-4" />
       </button>

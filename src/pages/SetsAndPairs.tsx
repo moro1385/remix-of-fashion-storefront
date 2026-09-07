@@ -37,7 +37,7 @@ export default function SetsAndPairs() {
             <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
           </div>
         ) : !products || products.length === 0 ? (
-          <p className="text-center text-sm text-muted-foreground py-16">No products found</p>
+          <p className="text-center text-sm text-muted-foreground py-16">محصولی یافت نشد</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {products.map((product) => (

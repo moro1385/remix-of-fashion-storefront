@@ -39,22 +39,22 @@ export default function OtpRequest() {
 
   return (
     <AuthShell
-      eyebrow="One-time password"
-      title="Sign in with a code"
-      subtitle="Enter your mobile number and we'll text you a six-digit verification code."
+      eyebrow="رمز یک‌بار مصرف"
+      title="ورود با کد"
+      subtitle="شماره موبایل خود را وارد کنید تا یک کد تایید ۶ رقمی برای شما پیامک شود."
       footer={
         <Link
           to="/signin"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to password sign in
+          بازگشت به ورود با رمز عبور
         </Link>
       }
     >
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <FormField
-          label="Mobile number"
+          label="شماره موبایل"
           type="tel"
           inputMode="tel"
           autoComplete="tel"
@@ -77,7 +77,7 @@ export default function OtpRequest() {
           disabled={loading}
           className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Send one-time password"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "ارسال رمز یک‌بار مصرف"}
         </button>
       </form>
     </AuthShell>

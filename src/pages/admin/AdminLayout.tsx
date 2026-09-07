@@ -19,7 +19,7 @@ export default function AdminLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex bg-muted/20" dir="rtl">
+    <div className="min-h-screen flex bg-muted/20">
       <ScrollToTop />
 
       {/* Sidebar */}

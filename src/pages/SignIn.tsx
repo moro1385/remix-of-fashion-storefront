@@ -46,7 +46,7 @@ export default function SignIn() {
   };
 
   return (
-    <div dir="rtl">
+    <div>
       <AuthShell
         eyebrow="حساب کاربری"
         title="ورود"

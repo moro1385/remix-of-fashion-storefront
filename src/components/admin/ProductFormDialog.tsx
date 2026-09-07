@@ -383,7 +383,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto" dir="rtl">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{product ? "ویرایش محصول" : "افزودن محصول"}</DialogTitle>
           <DialogDescription>
@@ -737,7 +737,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                   <FormControl>
                     <div className="space-y-2">
                       <Input
-                        placeholder="Add tags (press Enter)"
+                        placeholder="افزودن برچسب (با زدن دکمه اینتر)"
                         value={tagInput}
                         onChange={(e) => setTagInput(e.target.value)}
                         onKeyDown={handleAddTag}

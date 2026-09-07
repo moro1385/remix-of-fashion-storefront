@@ -78,7 +78,7 @@ export default function AdminTickets() {
   };
 
   return (
-    <div className="space-y-6" dir="rtl">
+    <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">تیکت‌های پشتیبانی</h1>
         <p className="text-muted-foreground mt-2">
@@ -134,7 +134,7 @@ export default function AdminTickets() {
                               مشاهده پیام
                             </Button>
                           </DialogTrigger>
-                          <DialogContent dir="rtl">
+                          <DialogContent>
                             <DialogHeader>
                               <DialogTitle>متن پیام</DialogTitle>
                             </DialogHeader>
