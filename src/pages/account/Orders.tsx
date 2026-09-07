@@ -119,7 +119,7 @@ export default function Orders() {
             {orders.map((order) => (
               <article
                 key={order.id}
-                className="border border-border cursor-pointer hover:bg-muted/10 transition-colors"
+                className="border border-border cursor-pointer hover:bg-muted/10 transition-colors rounded-2xl overflow-hidden"
                 onClick={() => {
                   setSelectedOrderId(order.id);
                   setIsDialogOpen(true);
@@ -139,7 +139,7 @@ export default function Orders() {
                   <div className="flex items-center gap-4">
                     <span
                       className={cn(
-                        "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5",
+                        "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 rounded-full",
                         statusStyles[order.status] || statusStyles.processing
                       )}
                     >
