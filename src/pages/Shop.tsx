@@ -72,7 +72,11 @@ export default function Shop() {
   };
 
   return (
-    <div className="min-h-screen bg-[hsl(var(--warm-bg))]">
+    <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
+      <div
+        className="fixed inset-0 z-[-1] pointer-events-none opacity-[0.04] bg-cover bg-center"
+        style={{ backgroundImage: "url('/1.png')" }}
+      />
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
         <div>
