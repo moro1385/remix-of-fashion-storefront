@@ -18,14 +18,25 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          <div className="flex flex-col gap-3">
-            <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">تماس با ما</Link>
-            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">درباره ما</Link>
-            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">آدرس </Link>
+          <div>
+            <h4 className="text-base font-semibold text-foreground mb-4">دسترسی سریع</h4>
+            <div className="flex flex-col gap-3">
+              <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">خانه</Link>
+              <Link to="/shop" className="text-sm text-muted-foreground hover:text-foreground transition-colors">فروشگاه</Link>
+              <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">درباره ما</Link>
+              <Link to="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">تماس با ما</Link>
+              <Link to="/wholesale" className="text-sm text-muted-foreground hover:text-foreground transition-colors">فروش عمده</Link>
+              <Link to="/address" className="text-sm text-muted-foreground hover:text-foreground transition-colors">آدرس</Link>
+            </div>
           </div>
-          <div className="flex flex-col gap-3">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">خانه</Link>
-            <Link to="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">فروش عمده</Link>
+          <div>
+            <h4 className="text-base font-semibold text-foreground mb-4">خدمات مشتریان</h4>
+            <div className="flex flex-col gap-3">
+              <Link to="/privacy-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">حریم خصوصی</Link>
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">قوانین و مقررات</Link>
+              <Link to="/size-guide" className="text-sm text-muted-foreground hover:text-foreground transition-colors">راهنمای سایز</Link>
+              <Link to="/return-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">شرایط مرجوعی</Link>
+            </div>
           </div>
         </div>
       </div>

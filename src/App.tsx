@@ -8,6 +8,12 @@ import Index from "./pages/Index";
 import Shop from "./pages/Shop";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import SizeGuide from "./pages/SizeGuide";
+import ReturnPolicy from "./pages/ReturnPolicy";
+import Wholesale from "./pages/Wholesale";
+import StoreAddress from "./pages/StoreAddress";
 
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
@@ -50,6 +56,12 @@ const App = () => {
               <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsAndConditions />} />
+              <Route path="/size-guide" element={<SizeGuide />} />
+              <Route path="/return-policy" element={<ReturnPolicy />} />
+              <Route path="/wholesale" element={<Wholesale />} />
+              <Route path="/address" element={<StoreAddress />} />
 
               <Route path="/cart" element={<Cart />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
