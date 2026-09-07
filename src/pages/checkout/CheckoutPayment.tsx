@@ -128,7 +128,7 @@ export default function CheckoutPayment() {
             <div className="space-y-4">
               {/* Wallet Option */}
               <div className={cn(
-                "border p-6",
+                "border p-6 rounded-2xl",
                 !canUseWallet ? "opacity-60 bg-muted/30 border-border" : "border-foreground"
               )}>
                 <div className="flex items-center justify-between mb-4">
@@ -148,14 +148,14 @@ export default function CheckoutPayment() {
                 <button
                   onClick={() => handleCompleteOrder("wallet")}
                   disabled={!canUseWallet || busy}
-                  className="w-full h-12 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full h-12 bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 rounded-full"
                 >
                   {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "پرداخت از کیف پول"}
                 </button>
               </div>
 
               {/* Gateway Option */}
-              <div className="border border-border p-6">
+              <div className="border border-border p-6 rounded-2xl">
                 <div className="flex items-center gap-3 mb-6">
                   <CreditCard className="w-5 h-5" />
                   <span className="font-medium">پرداخت اینترنتی</span>
@@ -164,7 +164,7 @@ export default function CheckoutPayment() {
                 <button
                   onClick={() => handleCompleteOrder("gateway")}
                   disabled={busy}
-                  className="w-full h-12 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full h-12 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-50 flex items-center justify-center gap-2 rounded-full"
                 >
                   {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "پرداخت از طریق درگاه"}
                 </button>
@@ -175,7 +175,7 @@ export default function CheckoutPayment() {
 
         {/* Order Summary Sidebar */}
         <div className="lg:col-span-5">
-          <div className="bg-muted/30 p-6 border border-border sticky top-24">
+          <div className="bg-muted/30 p-6 border border-border sticky top-24 rounded-2xl">
             <h3 className="text-lg font-medium text-foreground mb-6">خلاصه سفارش</h3>
 
             <ul className="divide-y divide-border mb-6">

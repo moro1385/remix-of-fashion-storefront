@@ -81,7 +81,7 @@ export default function PersonalInformation() {
 
           <div className="space-y-2">
             <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">شماره موبایل</p>
-            <div className="h-12 border border-border bg-muted px-4 flex items-center text-sm text-muted-foreground">
+            <div className="h-12 border border-border bg-muted px-4 flex items-center text-sm text-muted-foreground rounded-xl">
               {user?.phone ? formatPhone(user.phone) : "—"}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -99,7 +99,7 @@ export default function PersonalInformation() {
         <button
           type="submit"
           disabled={saving}
-          className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
+          className="h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2 rounded-full"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : "ذخیره تغییرات"}
         </button>

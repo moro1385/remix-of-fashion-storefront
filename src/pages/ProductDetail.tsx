@@ -91,7 +91,7 @@ selectedSize: activeOptions["Size"] ?? null,
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="flex flex-col gap-4">
-            <div className="w-full aspect-[4/5] bg-warm-bg overflow-hidden relative">
+            <div className="w-full aspect-[4/5] bg-warm-bg overflow-hidden relative rounded-2xl">
               <img
                 src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
                 alt={product.node.title}
@@ -104,7 +104,7 @@ selectedSize: activeOptions["Size"] ?? null,
                 {product.node.images.edges.map((img, idx) => (
                   <button
                     key={idx}
-                    className="flex-shrink-0 w-24 h-24 border focus:outline-none focus:ring-2 focus:ring-foreground snap-start bg-warm-bg"
+                    className="flex-shrink-0 w-24 h-24 border focus:outline-none focus:ring-2 focus:ring-foreground snap-start bg-warm-bg rounded-2xl overflow-hidden"
                     onClick={() => {
                       const mainImg = document.getElementById('main-product-image');
                       if (mainImg) (mainImg as HTMLImageElement).src = img.node.url;
@@ -143,7 +143,7 @@ selectedSize: activeOptions["Size"] ?? null,
                         key={value}
                         onClick={() => setSelected((prev) => ({ ...prev, [option.name]: value }))}
                         className={cn(
-                          "px-4 py-2 text-sm border transition-colors",
+                          "px-4 py-2 text-sm border transition-colors rounded-full",
                           activeOptions[option.name] === value
                             ? "border-foreground text-foreground"
                             : "border-border text-muted-foreground hover:text-foreground"
@@ -161,7 +161,7 @@ selectedSize: activeOptions["Size"] ?? null,
                 <QuantitySelector quantity={quantity} onChange={setQuantity} />
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center"
+                  className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center rounded-full"
                 >
                   {"Add To Cart"}
                 </button>
@@ -169,7 +169,7 @@ selectedSize: activeOptions["Size"] ?? null,
             ) : (
               <button
                 disabled
-                className="w-full py-3 bg-muted text-muted-foreground text-sm font-medium cursor-not-allowed"
+                className="w-full py-3 bg-muted text-muted-foreground text-sm font-medium cursor-not-allowed rounded-full"
               >
                 Sold Out
               </button>

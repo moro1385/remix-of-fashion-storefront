@@ -136,7 +136,7 @@ export default function CheckoutAddress() {
           <h2 className="text-lg font-medium text-foreground mb-6">آدرس تحویل</h2>
 
           {editing ? (
-            <form onSubmit={handleSave} className="max-w-xl space-y-6 bg-muted/30 p-6 border border-border" noValidate>
+            <form onSubmit={handleSave} className="max-w-xl space-y-6 bg-muted/30 p-6 border border-border rounded-2xl" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <FormField label="نام آدرس" placeholder="خانه" value={form.label} onChange={set("label")} error={errors.label} disabled={busy} maxLength={40} />
                 <FormField label="گیرنده" value={form.recipient} onChange={set("recipient")} error={errors.recipient} disabled={busy} maxLength={80} />
@@ -165,7 +165,7 @@ export default function CheckoutAddress() {
                 <button
                   type="submit"
                   disabled={busy}
-                  className="h-10 px-6 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2"
+                  className="h-10 px-6 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2 rounded-full"
                 >
                   {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                   ذخیره آدرس
@@ -174,7 +174,7 @@ export default function CheckoutAddress() {
                   type="button"
                   onClick={() => setEditing(null)}
                   disabled={busy}
-                  className="h-10 px-6 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2"
+                  className="h-10 px-6 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2 rounded-full"
                 >
                   <X className="w-4 h-4" />
                   لغو
@@ -182,12 +182,12 @@ export default function CheckoutAddress() {
               </div>
             </form>
           ) : addresses.length === 0 ? (
-            <div className="text-center py-12 border border-border">
+            <div className="text-center py-12 border border-border rounded-2xl">
               <MapPin className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />
               <p className="mt-6 text-lg font-light text-foreground">هنوز آدرسی ذخیره نشده است</p>
               <button
                 onClick={openNew}
-                className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2"
+                className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2 rounded-full"
               >
                 <Plus className="w-4 h-4" />
                 افزودن آدرس
@@ -200,7 +200,7 @@ export default function CheckoutAddress() {
                   key={address.id}
                   onClick={() => setAddress(address)}
                   className={cn(
-                    "relative border p-6 cursor-pointer transition-colors hover:border-foreground/30",
+                    "relative border p-6 cursor-pointer transition-colors hover:border-foreground/30 rounded-2xl",
                     selectedAddress?.id === address.id ? "border-accent bg-accent/5" : "border-border"
                   )}
                 >
@@ -263,7 +263,7 @@ export default function CheckoutAddress() {
 
               <button
                 onClick={openNew}
-                className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2"
+                className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2 rounded-full"
               >
                 <Plus className="w-4 h-4" />
                 افزودن آدرس دیگر
@@ -279,7 +279,7 @@ export default function CheckoutAddress() {
               <label
                 key={method.id}
                 className={cn(
-                  "flex items-center justify-between p-6 border cursor-pointer transition-colors hover:border-foreground/30",
+                  "flex items-center justify-between p-6 border cursor-pointer transition-colors hover:border-foreground/30 rounded-2xl",
                   shippingMethod === method.id ? "border-accent bg-accent/5" : "border-border"
                 )}
               >
@@ -304,7 +304,7 @@ export default function CheckoutAddress() {
         <div className="flex justify-end pt-8 border-t border-border">
           <button
             onClick={handleNextStep}
-            className="h-14 px-10 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+            className="h-14 px-10 bg-accent text-accent-foreground text-sm font-medium hover:opacity-90 transition-opacity rounded-full"
           >
             مرحله بعد
           </button>
