@@ -145,7 +145,7 @@ export default function Header() {
 
             {/* Desktop Mega Menu */}
             {shopMenuOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50 rounded-2xl overflow-hidden">
                 {shopDepartments.map((dept) => (
                   <div key={dept.name} className="flex-1">
                     <h3 className="font-medium text-foreground mb-4 border-b border-border pb-2 uppercase text-sm flex items-center justify-between gap-2">

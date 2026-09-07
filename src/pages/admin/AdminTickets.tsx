@@ -86,7 +86,7 @@ export default function AdminTickets() {
         </p>
       </div>
 
-      <div className="bg-background border rounded-md">
+      <div className="bg-background border rounded-2xl">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-right">
             <thead className="bg-muted/50 border-b">

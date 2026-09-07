@@ -24,7 +24,7 @@ export default function About() {
         <img
           src={aboutBg}
           alt="فروشگاه جامی مد"
-          className="w-full h-auto object-cover rounded-lg shadow-sm"
+          className="w-full h-auto object-cover rounded-2xl shadow-sm"
         />
       </div>
 
@@ -65,7 +65,7 @@ export default function About() {
         <h3 className="text-xl font-bold text-foreground mt-12 mb-4">
           راه‌های ارتباطی با ما
         </h3>
-        <div className="bg-muted/30 border border-border rounded-xl p-6 space-y-4 text-base">
+        <div className="bg-muted/30 border border-border rounded-2xl p-6 space-y-4 text-base">
           <p>
             <strong className="text-foreground ml-2">آدرس فروشگاه حضوری:</strong>
             تبریز - بازار بزرگ تربیت - بازار شیخ صفی - طبقه اول - پلاک 58

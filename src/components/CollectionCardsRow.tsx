@@ -55,7 +55,7 @@ export default function CollectionCardsRow() {
               to={`/shop?department=${card.dept}&category=${card.handle}`}
               className="group snap-start shrink-0 w-[70%] sm:w-[45%] lg:w-[24%]"
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden rounded-2xl">
                 <img
                   src={card.image}
                   alt={`${card.deptLabel} ${card.name}`}

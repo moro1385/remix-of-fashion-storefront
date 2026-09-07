@@ -8,7 +8,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
 
   return (
     <Link to={`/product/${handle}`} className="group relative block">
-      <div className="relative overflow-hidden bg-[hsl(var(--warm-bg))]">
+      <div className="relative overflow-hidden rounded-2xl bg-[hsl(var(--warm-bg))]">
         <img
           src={productImage(product)}
           alt={title}
