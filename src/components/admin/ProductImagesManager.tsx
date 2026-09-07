@@ -97,9 +97,9 @@ export function ProductImagesManager({ productId }: ProductImagesManagerProps) {
 
       setImages([...images, ...newImageObjects]);
       toast.success("تصاویر با موفقیت بارگذاری شدند");
-    } catch (err: any) {
+    } catch (err) {
       console.error("Error uploading image:", err);
-      toast.error(err.message || "بارگذاری تصویر با شکست مواجه شد");
+      toast.error(err instanceof Error ? err.message : "بارگذاری تصویر با شکست مواجه شد");
     } finally {
       setIsUploading(false);
       event.target.value = '';
