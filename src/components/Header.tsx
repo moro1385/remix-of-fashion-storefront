@@ -295,7 +295,7 @@ export default function Header() {
                   pathname.startsWith("/shop") && "text-foreground font-medium"
                 )}
               >
-                Shop
+                محصولات
                 <ChevronDown className={cn("w-5 h-5 transition-transform", mobileShopMenuOpen && "rotate-180")} />
               </button>
             </div>
@@ -335,7 +335,7 @@ export default function Header() {
               pathname === "/about" && "text-foreground font-medium"
             )}
           >
-            About
+            درباره ما
           </Link>
 
           <Link
@@ -346,7 +346,7 @@ export default function Header() {
               pathname === "/contact" && "text-foreground font-medium"
             )}
           >
-            Contact
+            ارتباط با ما
           </Link>
 
           <div className="pt-4 mt-4 border-t border-border">
@@ -355,7 +355,7 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
               className="block text-sm uppercase tracking-wider text-muted-foreground"
             >
-              {isAuthenticated ? "My account" : "Sign in"}
+              {isAuthenticated ? "حساب کاربری" : "Sign in"}
             </Link>
           </div>
         </nav>
