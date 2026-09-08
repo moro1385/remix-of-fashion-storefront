@@ -32,7 +32,7 @@ export default function WhyJamiMode() {
           <p className="text-xl uppercase tracking-[0.3em] text-muted-foreground mb-4">
             ؟ Jami Mode چرا 
           </p>
-          <h2 className="text-3xl md:text-5xl font-light text-foreground leading-tight">
+          <h2 className="text-3xl md:text-5xl font-display font-black text-foreground leading-tight">
             از راحتیِ نامرئی تا اوج عملکرد در تمرین
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">
