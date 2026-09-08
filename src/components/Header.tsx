@@ -148,9 +148,8 @@ export default function Header() {
               <div className="absolute top-full right-1/2 translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50 rounded-2xl overflow-hidden">
                 {shopDepartments.map((dept) => (
                   <div key={dept.name} className="flex-1">
-                    <h3 className="font-medium text-foreground mb-4 border-b border-border pb-2 uppercase text-sm flex items-center justify-between gap-2">
-                      <span>{dept.name}</span>
-                      <span className="text-xs text-muted-foreground">{dept.label}</span>
+                    <h3 className="font-medium text-foreground mb-4 border-b border-border pb-2 text-sm flex items-center gap-2">
+                      <span>{dept.label}</span>
                     </h3>
                     <ul className="space-y-2">
                       {dept.categories.map((cat) => (
@@ -304,9 +303,8 @@ export default function Header() {
               <div className="pl-4 mt-4 space-y-6">
                 {shopDepartments.map((dept) => (
                   <div key={dept.name}>
-                    <h3 className="font-medium text-foreground mb-3 uppercase text-xs flex items-center justify-between pr-4">
-                      <span>{dept.name}</span>
-                      <span className="text-muted-foreground">{dept.label}</span>
+                    <h3 className="font-medium text-foreground mb-3 text-xs flex items-center pr-4">
+                      <span>{dept.label}</span>
                     </h3>
                     <ul className="space-y-3">
                       {dept.categories.map((cat) => (
