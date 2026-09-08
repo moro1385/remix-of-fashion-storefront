@@ -222,7 +222,7 @@ export function ShopFilters({
             <AccordionContent>
               <div className="flex flex-col space-y-3 pt-1">
                 {cat.options.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3 space-x-reverse text-right" dir="rtl">
+                  <div key={option.value} className="flex items-center space-x-3 space-x-reverse text-right">
                     <Checkbox
                       id={`filter-${cat.id}-${option.value}`}
                       checked={selectedFilters[cat.id]?.includes(option.value) || false}

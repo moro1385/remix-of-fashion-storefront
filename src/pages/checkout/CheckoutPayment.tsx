@@ -109,7 +109,7 @@ export default function CheckoutPayment() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-24" dir="rtl">
+    <div className="max-w-4xl mx-auto px-6 py-24">
       <h1 className="text-2xl font-medium text-foreground mb-8">تسویه حساب</h1>
 
       <div className="flex items-center gap-2 mb-12 text-sm text-muted-foreground">

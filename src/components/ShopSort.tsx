@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/select";
 
 export const SORT_OPTIONS = [
-  { value: "newest", label: "Newest (جدیدترین)" },
-  { value: "price-asc", label: "Price: Low to High (ارزان‌ترین)" },
-  { value: "price-desc", label: "Price: High to Low (گران‌ترین)" },
+  { value: "newest", label: "جدیدترین" },
+  { value: "price-asc", label: "ارزان‌ترین" },
+  { value: "price-desc", label: "گران‌ترین" },
 ];
 
 interface ShopSortProps {
@@ -21,9 +21,9 @@ interface ShopSortProps {
 export function ShopSort({ value, onValueChange, className }: ShopSortProps) {
   return (
     <div className={className}>
-      <Select value={value} onValueChange={onValueChange} dir="rtl">
+      <Select value={value} onValueChange={onValueChange}>
         <SelectTrigger className="w-[200px] text-right">
-          <SelectValue placeholder="Sort by..." />
+          <SelectValue placeholder="مرتب‌سازی بر اساس..." />
         </SelectTrigger>
         <SelectContent>
           {SORT_OPTIONS.map((option) => (

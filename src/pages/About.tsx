@@ -3,7 +3,7 @@ import { Instagram, Send } from "lucide-react";
 
 export default function About() {
   return (
-    <article className="max-w-3xl mx-auto px-6 pt-8 pb-32 text-right" dir="rtl">
+    <article className="max-w-3xl mx-auto px-6 pt-8 pb-32 text-right">
       {/* Headline */}
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-16 leading-tight">
         درباره جامی مد

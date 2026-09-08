@@ -85,7 +85,7 @@ selectedSize: activeOptions["Size"] ?? null,
     <>
       <section className="max-w-6xl mx-auto px-6 py-8">
         <nav className="text-sm text-muted-foreground mb-6">
-          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+          <Link to="/shop" className="hover:text-foreground transition-colors">فروشگاه</Link>
           <span className="mx-2">›</span>
           <span className="text-foreground">{product.node.title}</span>
         </nav>
@@ -166,7 +166,7 @@ selectedSize: activeOptions["Size"] ?? null,
                   onClick={handleAddToCart}
                   className="flex-1 py-3 bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center rounded-full"
                 >
-                  {"Add To Cart"}
+                  {"افزودن به سبد خرید"}
                 </button>
               </div>
             ) : (
@@ -174,7 +174,7 @@ selectedSize: activeOptions["Size"] ?? null,
                 disabled
                 className="w-full py-3 bg-muted text-muted-foreground text-sm font-medium cursor-not-allowed rounded-full"
               >
-                Sold Out
+                ناموجود
               </button>
             )}
 
@@ -185,7 +185,7 @@ selectedSize: activeOptions["Size"] ?? null,
 
       {related.length > 0 && (
         <section className="max-w-6xl mx-auto px-6 py-16">
-          <h2 className="text-2xl font-light text-foreground mb-8">You Might Also Like</h2>
+          <h2 className="text-2xl font-light text-foreground mb-8">شاید این‌ها را هم دوست داشته باشید</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {related.map((p) => (
               <ProductCard key={p.node.id} product={p} />

@@ -14,7 +14,7 @@ import {
 const AUTOPLAY_MS = 5000;
 
 export default function CollectionSlider() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, direction: "rtl" });
   const [selected, setSelected] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalCategory, setModalCategory] = useState({ handle: "", name: "" });
@@ -96,15 +96,15 @@ export default function CollectionSlider() {
         </div>
 
         <button
-          onClick={() => emblaApi?.scrollPrev()}
-          aria-label="Previous collection"
+          onClick={() => emblaApi?.scrollNext()}
+          aria-label="Next collection"
           className="hidden md:flex absolute left-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
-          onClick={() => emblaApi?.scrollNext()}
-          aria-label="Next collection"
+          onClick={() => emblaApi?.scrollPrev()}
+          aria-label="Previous collection"
           className="hidden md:flex absolute right-6 top-1/2 -translate-y-1/2 w-11 h-11 items-center justify-center bg-background/20 backdrop-blur-sm text-primary-foreground hover:bg-background/35 transition-colors"
         >
           <ChevronRight className="w-5 h-5" />
@@ -128,27 +128,27 @@ export default function CollectionSlider() {
       <Dialog open={modalOpen} onOpenChange={setModalOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl font-light">Who are you shopping for?</DialogTitle>
+            <DialogTitle className="text-center text-xl font-light">برای چه کسی خرید می‌کنید؟</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-3 py-4">
             <button
               onClick={() => navigateToCategory('men')}
               className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
             >
-              Men's {modalCategory.name}
+              {modalCategory.name} مردانه
             </button>
             <button
               onClick={() => navigateToCategory('women')}
               className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
             >
-              Women's {modalCategory.name}
+              {modalCategory.name} زنانه
             </button>
             {showKids && (
               <button
                 onClick={() => navigateToCategory('kids')}
                 className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
               >
-                Kids' {modalCategory.name}
+                {modalCategory.name} بچگانه
               </button>
             )}
           </div>

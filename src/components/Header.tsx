@@ -59,7 +59,7 @@ export default function Header() {
   const session = useAuthStore(state => state.session);
   const isAuthenticated = !!session && session.expiresAt > Date.now();
   const accountHref = isAuthenticated ? "/account" : "/signin";
-  const accountLabel = isAuthenticated ? "My account" : "Sign in";
+  const accountLabel = isAuthenticated ? "حساب کاربری" : "ورود";
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -145,7 +145,7 @@ export default function Header() {
 
             {/* Desktop Mega Menu */}
             {shopMenuOpen && (
-              <div className="absolute top-full left-1/2 -translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50 rounded-2xl overflow-hidden">
+              <div className="absolute top-full right-1/2 translate-x-1/2 bg-background border border-border shadow-lg p-6 w-[600px] flex gap-8 z-50 rounded-2xl overflow-hidden">
                 {shopDepartments.map((dept) => (
                   <div key={dept.name} className="flex-1">
                     <h3 className="font-medium text-foreground mb-4 border-b border-border pb-2 uppercase text-sm flex items-center justify-between gap-2">
@@ -203,7 +203,7 @@ export default function Header() {
           <form onSubmit={handleSearchSubmit} className="relative flex items-center">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="جستجو..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={cn(
@@ -213,7 +213,7 @@ export default function Header() {
                   : "border-border text-foreground placeholder:text-muted-foreground focus:border-foreground"
               )}
             />
-            <button type="submit" aria-label="Search" className="absolute right-0 top-1/2 -translate-y-1/2">
+            <button type="submit" aria-label="Search" className="absolute left-0 top-1/2 -translate-y-1/2">
               <Search className={cn("w-4 h-4", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
             </button>
           </form>
@@ -226,7 +226,7 @@ export default function Header() {
           <Link to="/cart" className="relative" aria-label="Shopping cart">
             <ShoppingCart className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
+              <span className="absolute -top-2 -left-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
                 {totalItems}
               </span>
             )}
@@ -242,7 +242,7 @@ export default function Header() {
           <Link to="/cart" className="relative" aria-label="Shopping cart">
             <ShoppingCart className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
+              <span className="absolute -top-2 -left-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
                 {totalItems}
               </span>
             )}
@@ -262,12 +262,12 @@ export default function Header() {
           <form onSubmit={handleSearchSubmit} className="relative flex items-center mb-6">
             <input
               type="text"
-              placeholder="Search..."
+              placeholder="جستجو..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full px-3 py-2 text-sm bg-muted border border-border rounded-md text-foreground placeholder:text-muted-foreground outline-none focus:border-foreground transition-colors"
             />
-            <button type="submit" aria-label="Search" className="absolute right-3 top-1/2 -translate-y-1/2">
+            <button type="submit" aria-label="Search" className="absolute left-3 top-1/2 -translate-y-1/2">
               <Search className="w-4 h-4 text-muted-foreground" />
             </button>
           </form>
@@ -355,7 +355,7 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
               className="block text-sm uppercase tracking-wider text-muted-foreground"
             >
-              {isAuthenticated ? "حساب کاربری" : "Sign in"}
+              {isAuthenticated ? "حساب کاربری" : "ورود"}
             </Link>
           </div>
         </nav>

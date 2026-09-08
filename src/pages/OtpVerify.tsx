@@ -66,12 +66,12 @@ export default function OtpVerify() {
 
   return (
     <AuthShell
-      eyebrow="Verification"
-      title="Enter your code"
+      eyebrow="تایید شماره"
+      title="کد تایید را وارد کنید"
       subtitle={
         <>
-          We sent a six-digit verification code to{" "}
-          <span className="text-foreground">{formatPhone(phone)}</span>. It expires in five minutes.
+          ما یک کد تایید ۶ رقمی به شماره{" "}
+          <span className="text-foreground" dir="ltr">{formatPhone(phone)}</span> ارسال کردیم. این کد ۵ دقیقه اعتبار دارد.
         </>
       }
       footer={
@@ -80,14 +80,14 @@ export default function OtpVerify() {
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Use a different number
+          استفاده از شماره دیگر
         </Link>
       }
     >
       <form onSubmit={handleVerify} className="space-y-6" noValidate>
         <div className="space-y-2">
           <label htmlFor="otp" className="block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            Verification code
+            کد تایید
           </label>
           <input
             id="otp"
@@ -111,13 +111,13 @@ export default function OtpVerify() {
           disabled={loading || code.length !== 6}
           className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verify and continue"}
+          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "تایید و ادامه"}
         </button>
 
         <div className="text-center text-sm">
           {remaining > 0 ? (
             <p className="text-muted-foreground">
-              You can request a new code in{" "}
+              شما می‌توانید درخواست کد جدید کنید در{" "}
               <span className="text-foreground tabular-nums">{formatCountdown(remaining)}</span>
             </p>
           ) : (
@@ -127,7 +127,7 @@ export default function OtpVerify() {
               disabled={resending}
               className="text-foreground underline underline-offset-4 hover:text-accent transition-colors disabled:opacity-60"
             >
-              {resending ? "Sending…" : "Resend code"}
+              {resending ? "در حال ارسال..." : "ارسال مجدد کد"}
             </button>
           )}
         </div>

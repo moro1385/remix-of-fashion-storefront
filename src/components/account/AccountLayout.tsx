@@ -34,7 +34,7 @@ export default function AccountLayout({ title, description, children }: AccountL
   };
 
   return (
-    <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]" dir="rtl">
+    <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         <p className="text-[20px] uppercase tracking-[0.3em] text-accent">حساب کاربری</p>
         <h1 className="mt-4 text-3xl md:text-4xl font-light text-foreground">

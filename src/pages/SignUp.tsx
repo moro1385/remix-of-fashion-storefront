@@ -70,7 +70,7 @@ export default function SignUp() {
   };
 
   return (
-    <div dir="rtl">
+    <div>
       <AuthShell
         eyebrow="کاربر جدید"
         title="ایجاد حساب کاربری"
