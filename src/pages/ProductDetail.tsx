@@ -8,6 +8,7 @@ import { useAuthStore } from "@/stores/authStore";
 import { toast } from "sonner";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
+import DynamicSizeGuide from "@/components/DynamicSizeGuide";
 import { cn } from "@/lib/utils";
 
 export default function ProductDetail() {
@@ -92,12 +93,14 @@ selectedSize: activeOptions["Size"] ?? null,
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="flex flex-col gap-4">
             <div className="w-full aspect-[4/5] bg-warm-bg overflow-hidden relative rounded-2xl">
-              <img
-                src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
-                alt={product.node.title}
-                className="w-full h-full object-cover absolute top-0 left-0 transition-opacity duration-500 opacity-100"
-                id="main-product-image"
-              />
+              <div className="w-full h-full overflow-hidden rounded-2xl relative">
+                <img
+                  src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
+                  alt={product.node.title}
+                  className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-transform duration-500"
+                  id="main-product-image"
+                />
+              </div>
             </div>
             {product.node.images.edges.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2 snap-x">
@@ -174,6 +177,8 @@ selectedSize: activeOptions["Size"] ?? null,
                 Sold Out
               </button>
             )}
+
+            <DynamicSizeGuide department={product.node.department} category={product.node.category} />
           </div>
         </div>
       </section>
