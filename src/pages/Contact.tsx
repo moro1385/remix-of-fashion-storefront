@@ -65,10 +65,10 @@ export default function Contact() {
               </p>
               {/* چپ‌چین کردن شماره تلفن برای نمایش درست اعداد */}
               <p className="text-lg text-foreground font-medium" dir="ltr" style={{ textAlign: "right" }}>
-                <a href="tel:09144582859" className="hover:underline">09144582859
+                  0914 458 2859
                   <br />
-                  09143140040
-                </a>
+                  0914 314 0040
+                
               </p>
             </div>
           </div>

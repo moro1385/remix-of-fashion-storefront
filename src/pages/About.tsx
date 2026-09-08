@@ -74,15 +74,15 @@ export default function About() {
             <strong className="text-foreground ml-2">شماره تماس (پشتیبانی و فروش عمده):</strong>
             <br></br>
 
-            59 28 458 0914
+            2859 458 0914
             <br></br>
-            40 00 314 0914
-            <br></br>
-
-            98 28 553 0413
+            0040 314 0914
             <br></br>
 
-            89 72 553 0413
+            2898 553 0413
+            <br></br>
+
+            7298 553 0413
           </p>
           <p>
             <div className="flex items-center">

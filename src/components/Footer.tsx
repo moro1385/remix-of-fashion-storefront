@@ -9,13 +9,17 @@ export default function Footer() {
           <div>
             <h3 className="text-2xl font-light tracking-wide text-foreground mb-3">Jami Mode</h3>
             <p className="text-sm text-muted-foreground">مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</p>
-            <div className="flex gap-4 mt-6 mb-8">
+            <div className="flex gap-4 mt-6">
               <a href="https://www.instagram.com/jami_modee?igsi=Z2N2cXdwNWZpeDRw&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <Instagram className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
               </a>
               <a href="https://t.me/foroshgahejamaly" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
                 <Send className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
               </a>
+            </div>
+            <div className="mt-6 space-y-2 text-sm text-muted-foreground">
+              <p>تلفن پشتیبانی: 2859 458 0914</p>
+              <p>آدرس : تبریز - بازار بزرگ تربیت - بازار شیخ صفی - طبقه اول - پلاک 58 </p>
             </div>
           </div>
           <div>
