@@ -18,8 +18,8 @@ export default function Footer() {
               </a>
             </div>
             <div className="mt-6 space-y-2 text-sm text-muted-foreground">
-              <p>تلفن پشتیبانی: ۰۲۱-۱۲۳۴۵۶۷۸</p>
-              <p>آدرس: تهران، [آدرس دقیق شرکت جامی مد]</p>
+              <p>تلفن پشتیبانی: 2859 458 0914</p>
+              <p>آدرس : تبریز - بازار بزرگ تربیت - بازار شیخ صفی - طبقه اول - پلاک 58 </p>
             </div>
           </div>
           <div>
