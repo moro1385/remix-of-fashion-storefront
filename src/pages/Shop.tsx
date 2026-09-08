@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import FadeIn from "@/components/FadeIn";
 
 const bgMap: Record<string, string> = {
   // Men (9 categories)
@@ -239,8 +240,10 @@ export default function Shop() {
               <p className="text-center text-sm text-muted-foreground py-24">No products found</p>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
-                {visible.map((product) => (
-                  <ProductCard key={product.node.id} product={product} />
+                {visible.map((product, index) => (
+                  <FadeIn key={product.node.id} delay={(index % 10) * 50}>
+                    <ProductCard product={product} />
+                  </FadeIn>
                 ))}
               </div>
             )}
