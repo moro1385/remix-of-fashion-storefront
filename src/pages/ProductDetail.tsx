@@ -93,11 +93,11 @@ selectedSize: activeOptions["Size"] ?? null,
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <div className="flex flex-col gap-4">
             <div className="w-full aspect-[4/5] bg-warm-bg overflow-hidden relative rounded-2xl">
-              <div className="w-full h-full overflow-hidden rounded-2xl">
+              <div className="w-full h-full overflow-hidden rounded-2xl relative">
                 <img
                   src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
                   alt={product.node.title}
-                  className="w-full h-full object-cover absolute top-0 left-0 transition-all duration-500 opacity-100 hover:scale-110"
+                  className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-transform duration-500"
                   id="main-product-image"
                 />
               </div>
