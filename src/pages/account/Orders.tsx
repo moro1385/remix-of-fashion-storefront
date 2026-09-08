@@ -15,6 +15,15 @@ const statusStyles: Record<string, string> = {
   cancelled: "bg-destructive/10 text-destructive",
 };
 
+const statusTranslations: Record<string, string> = {
+  pending: "در انتظار",
+  processing: "در حال پردازش",
+  confirmed: "تایید شده",
+  shipped: "ارسال شده",
+  delivered: "تحویل داده شده",
+  cancelled: "لغو شده",
+};
+
 interface OrderLine {
   title: string;
   variant: string;
@@ -62,7 +71,7 @@ export default function Orders() {
           total: o.total_amount,
           currencyCode: "IRR",
           status: o.status,
-          deliveryStatus: o.status === "confirmed" ? "Processing" : o.status,
+          deliveryStatus: statusTranslations[(o.status === "confirmed" ? "processing" : o.status).toLowerCase()] || (o.status === "confirmed" ? "Processing" : o.status),
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           lines: ((o as any).order_items || []).map((line: any) => ({
             title: line.title || "محصول",
@@ -143,7 +152,7 @@ export default function Orders() {
                         statusStyles[order.status] || statusStyles.processing
                       )}
                     >
-                      {order.status}
+                      {statusTranslations[order.status.toLowerCase()] || order.status}
                     </span>
                     <p className="text-sm text-foreground tabular-nums">
                       {new Intl.NumberFormat('fa-IR').format(order.total)} ریال
