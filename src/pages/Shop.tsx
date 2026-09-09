@@ -124,15 +124,13 @@ export default function Shop() {
 />
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
-        <div>
-          <h1 className="text-4xl md:text-5xl font-light text-foreground">خرید</h1>
-            <p className="mt-3 text-sm text-muted-foreground">
-            {departmentQuery || categoryQuery
-              ? `${categoryQuery ? categoryNames[categoryQuery] || categoryQuery : ""} ${departmentQuery ? departmentNames[departmentQuery] || departmentQuery : ""}`.trim()
-              : 'جوراب، لباس زیر، زیرپوش، لباس راحتی و شلوارک'
-            }
-           </p>
-        </div>
+<div className="w-full flex justify-center items-center py-4">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground text-center">
+              {departmentQuery || categoryQuery
+                ? `${categoryQuery ? categoryNames[categoryQuery] || categoryQuery : ""} ${departmentQuery ? departmentNames[departmentQuery] || departmentQuery : ""}`.trim()
+                : "جوراب، لباس زیر، زیرپوش، لباس راحتی و شلوارک"}
+            </h1>
+          </div>
         {/* Top Header Image Placeholder */}
 {/* Top Promo Images */}
         <div className="flex gap-4 w-full md:max-w-[500px] lg:max-w-[600px] shrink-0">
@@ -160,28 +158,7 @@ export default function Shop() {
       <div className="w-full px-6 pb-24">
         <div className="flex flex-col lg:flex-row gap-8 mt-6 md:mt-12">
 
-          {/* Far Left Vertical Images (Desktop only) */}
-          <div className="hidden xl:block w-64 shrink-0">
-            <div className="sticky top-24 flex flex-col gap-4 w-full">
-              {/* عکس اول */}
-              <a href="#" className="w-full block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
-                <img 
-                  src="/3.png" 
-                  alt="تبلیغ اول" 
-                  className="w-full h-1000 object-cover"
-                />
-              </a>
-              
-              {/* عکس دوم */}
-              <a href="#" className="w-full block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
-                <img 
-                  src="/2.png" 
-                  alt="تبلیغ دوم" 
-                  className="w-full h-auto object-cover"
-                />
-              </a>
-            </div>
-          </div>
+
 
           {/* Mobile Filter Toggle & Sort */}
           <div className="flex lg:hidden justify-between items-center w-full mb-6">
