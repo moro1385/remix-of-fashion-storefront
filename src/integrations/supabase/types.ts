@@ -394,6 +394,57 @@ export type Database = {
           },
         ]
       }
+      return_requests: {
+        Row: {
+          id: string
+          user_id: string
+          order_id: string
+          phone: string
+          description: string
+          image_urls: string[]
+          status: string
+          admin_note: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          order_id: string
+          phone: string
+          description: string
+          image_urls?: string[]
+          status?: string
+          admin_note?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          order_id?: string
+          phone?: string
+          description?: string
+          image_urls?: string[]
+          status?: string
+          admin_note?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       tickets: {
         Row: {
           id: string
