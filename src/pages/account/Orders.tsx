@@ -104,6 +104,15 @@ export default function Orders() {
 
   return (
     <AccountLayout title="سفارشات" description="هر سفارش را از تأیید تا تحویل پیگیری کنید.">
+      <div className="flex justify-end mb-6">
+        <Link
+          to="/account/returns/new"
+          className="inline-flex h-10 items-center px-4 border border-border rounded-lg text-sm hover:bg-muted/10 transition-colors"
+        >
+          ثبت درخواست مرجوعی
+        </Link>
+      </div>
+
       <OrderDetailsDialog
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}

@@ -29,6 +29,7 @@ import Wallet from "./pages/account/Wallet";
 import Orders from "./pages/account/Orders";
 import CheckoutAddress from "./pages/checkout/CheckoutAddress";
 import CheckoutPayment from "./pages/checkout/CheckoutPayment";
+import ReturnRequest from "./pages/account/ReturnRequest";
 import RequireAuth from "./components/auth/RequireAuth";
 import RedirectIfAuthenticated from "./components/auth/RedirectIfAuthenticated";
 import RequireAdmin from "./components/auth/RequireAdmin";
@@ -80,6 +81,7 @@ const App = () => {
                 <Route path="/account/addresses" element={<Addresses />} />
                 <Route path="/account/wallet" element={<Wallet />} />
                 <Route path="/account/orders" element={<Orders />} />
+                <Route path="/account/returns/new" element={<ReturnRequest />} />
                 <Route path="/checkout" element={<CheckoutAddress />} />
                 <Route path="/checkout/payment" element={<CheckoutPayment />} />
               </Route>
