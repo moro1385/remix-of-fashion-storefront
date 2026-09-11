@@ -1,6 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { CreditCard, LogOut, MapPin, Package, ShoppingCart, User } from "lucide-react";
+import { CreditCard, LogOut, MapPin, Package, ShoppingCart, User, Mail } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { formatPhone } from "@/lib/phone";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ const navItems = [
   { to: "/account/wallet", label: "کیف پول", icon: CreditCard },
   { to: "/cart", label: "سبد خرید", icon: ShoppingCart },
   { to: "/account/orders", label: "سفارشات", icon: Package },
+  { to: "/account/messages", label: "پیام‌ها", icon: Mail },
 ];
 
 interface AccountLayoutProps {
