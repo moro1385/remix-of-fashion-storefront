@@ -91,15 +91,7 @@ export default function Header() {
 
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 60000);
-
-    // Listen for custom event to update instantly when user marks messages read
-    const handleReadUpdated = () => fetchUnreadCount();
-    window.addEventListener("messages_read_updated", handleReadUpdated);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("messages_read_updated", handleReadUpdated);
-    };
+    return () => clearInterval(interval);
   }, [isAuthenticated, session?.user.id]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -256,10 +248,10 @@ export default function Header() {
             <User className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </Link>
           {isAuthenticated && (
-            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
+            <Link to="/account/messages" className="relative" aria-label="Messages">
               <Mail className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
               {unreadMessageCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                <span className="absolute -top-2 -left-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
                   {unreadMessageCount}
                 </span>
               )}
@@ -282,10 +274,10 @@ export default function Header() {
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
           {isAuthenticated && (
-            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
+            <Link to="/account/messages" className="relative" aria-label="Messages">
               <Mail className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
               {unreadMessageCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                <span className="absolute -top-2 -left-2 bg-accent text-accent-foreground text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center font-medium">
                   {unreadMessageCount}
                 </span>
               )}
