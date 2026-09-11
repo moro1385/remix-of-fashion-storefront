@@ -66,8 +66,7 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [shopMenuOpen, setShopMenuOpen] = useState(false);
   const [mobileShopMenuOpen, setMobileShopMenuOpen] = useState(false);
-  // Force 3 as requested by user to ensure visibility in testing
-  const [unreadMessageCount, setUnreadMessageCount] = useState(3);
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -92,7 +91,15 @@ export default function Header() {
 
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 60000);
-    return () => clearInterval(interval);
+
+    // Listen for custom event to update instantly when user marks messages read
+    const handleReadUpdated = () => fetchUnreadCount();
+    window.addEventListener("messages_read_updated", handleReadUpdated);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("messages_read_updated", handleReadUpdated);
+    };
   }, [isAuthenticated, session?.user.id]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {

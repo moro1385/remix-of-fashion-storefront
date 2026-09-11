@@ -56,6 +56,9 @@ export default function Messages() {
         .eq("user_id", user.id);
 
       if (error) throw error;
+
+      // Dispatch event so Header updates instantly
+      window.dispatchEvent(new Event("messages_read_updated"));
     } catch (err) {
       console.error("Failed to mark message as read:", err);
       // Revert if error
