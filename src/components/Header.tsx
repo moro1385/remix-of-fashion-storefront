@@ -66,7 +66,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [shopMenuOpen, setShopMenuOpen] = useState(false);
   const [mobileShopMenuOpen, setMobileShopMenuOpen] = useState(false);
-  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+  // Force 3 as requested by user to ensure visibility in testing
+  const [unreadMessageCount, setUnreadMessageCount] = useState(3);
 
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
@@ -248,10 +249,10 @@ export default function Header() {
             <User className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </Link>
           {isAuthenticated && (
-            <Link to="/account/messages" className="relative" aria-label="Messages">
+            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
               <Mail className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
               {unreadMessageCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white font-medium">
+                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                   {unreadMessageCount}
                 </span>
               )}
@@ -274,10 +275,10 @@ export default function Header() {
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
           {isAuthenticated && (
-            <Link to="/account/messages" className="relative" aria-label="Messages">
+            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
               <Mail className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
               {unreadMessageCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] text-white font-medium">
+                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
                   {unreadMessageCount}
                 </span>
               )}
