@@ -66,13 +66,39 @@ export default function AdminReturnRequests() {
         .from("return_requests")
         .select(`
           *,
-          orders (id),
-          profiles:user_id (first_name, last_name, phone)
+          orders (id)
         `)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setRequests((data as unknown) as ReturnRequest[] || []);
+
+      const reqs = data || [];
+      if (reqs.length === 0) {
+        setRequests([]);
+        return;
+      }
+
+      const uniqueUserIds = Array.from(new Set(reqs.map(r => r.user_id)));
+
+      const { data: profilesData, error: profilesError } = await supabase
+        .from("profiles")
+        .select("id, first_name, last_name, phone")
+        .in("id", uniqueUserIds);
+
+      if (profilesError) throw profilesError;
+
+      type ProfileData = { id: string, first_name: string | null, last_name: string | null, phone: string | null };
+      const profilesMap = (profilesData || []).reduce((acc: Record<string, ProfileData>, p) => {
+        acc[p.id] = p as ProfileData;
+        return acc;
+      }, {});
+
+      const mergedRequests = reqs.map((req) => ({
+        ...req,
+        profiles: profilesMap[req.user_id] || { first_name: null, last_name: null, phone: null }
+      }));
+
+      setRequests(mergedRequests as ReturnRequest[]);
     } catch (error: unknown) {
       toast.error("خطا در دریافت لیست درخواست‌های مرجوعی");
       if (error instanceof Error) {
