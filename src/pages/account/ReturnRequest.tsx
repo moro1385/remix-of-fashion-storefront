@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2, Upload, X, ArrowRight } from "lucide-react";
-import { useForm } from "react-form";
-import { z } from "zod";
 import AccountLayout from "@/components/account/AccountLayout";
 import { useAuthStore } from "@/stores/authStore";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +8,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { normalizePhone, isValidPhone } from "@/lib/phone";
 
 interface Order {
   id: string;
@@ -26,10 +25,10 @@ export default function ReturnRequest() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [selectedOrderId, setSelectedOrderId] = useState<string>("");
-  const [phone, setPhone] = useState("");
+  const [phone, setPhone] = useState(user?.phone || "");
   const [description, setDescription] = useState("");
   const [files, setFiles] = useState<File[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [errors, setErrors] = useState<{ phone?: string; description?: string }>({});
 
   useEffect(() => {
     async function fetchOrders() {
@@ -106,19 +105,31 @@ export default function ReturnRequest() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Inline validation
+    const newErrors: { phone?: string; description?: string } = {};
     if (!selectedOrderId) {
       toast.error("لطفاً یک سفارش را انتخاب کنید.");
       return;
     }
+
+    const normalizedPhone = normalizePhone(phone);
     if (!phone.trim()) {
-      toast.error("شماره تماس الزامی است.");
-      return;
+      newErrors.phone = "شماره تماس الزامی است.";
+    } else if (!isValidPhone(normalizedPhone)) {
+      newErrors.phone = "شماره موبایل نامعتبر است (مثال: ۰۹۱۲۳۴۵۶۷۸۹)";
     }
+
     if (!description.trim()) {
-      toast.error("توضیحات مرجوعی الزامی است.");
+      newErrors.description = "توضیحات مرجوعی الزامی است.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
     try {
       // 1. Upload images first
@@ -133,7 +144,7 @@ export default function ReturnRequest() {
         .insert({
           user_id: user!.id,
           order_id: selectedOrderId,
-          phone,
+          phone: normalizedPhone,
           description,
           image_urls: uploadedUrls,
         });
@@ -202,12 +213,16 @@ export default function ReturnRequest() {
                 id="phone"
                 type="tel"
                 value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (errors.phone) setErrors({ ...errors, phone: undefined });
+                }}
                 placeholder="۰۹۱۲۳۴۵۶۷۸۹"
-                className="text-left font-sans"
+                className={`text-left font-sans ${errors.phone ? 'border-destructive focus-visible:ring-destructive' : ''}`}
                 dir="ltr"
                 required
               />
+              {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
             </div>
 
             {/* Description */}
@@ -218,12 +233,16 @@ export default function ReturnRequest() {
               <Textarea
                 id="description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                  if (errors.description) setErrors({ ...errors, description: undefined });
+                }}
                 placeholder="لطفاً توضیح دهید کدام کالا و به چه علتی مرجوع می‌شود..."
                 rows={4}
                 required
-                className="resize-none"
+                className={`resize-none ${errors.description ? 'border-destructive focus-visible:ring-destructive' : ''}`}
               />
+              {errors.description && <p className="text-sm text-destructive mt-1">{errors.description}</p>}
             </div>
 
             {/* Image Upload */}

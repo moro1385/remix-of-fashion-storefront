@@ -14,6 +14,8 @@ import SizeGuide from "./pages/SizeGuide";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import Wholesale from "./pages/Wholesale";
 import StoreAddress from "./pages/StoreAddress";
+import FAQ from "./pages/FAQ";
+import OrderTracking from "./pages/OrderTracking";
 
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
@@ -63,6 +65,8 @@ const App = () => {
               <Route path="/return-policy" element={<ReturnPolicy />} />
               <Route path="/wholesale" element={<Wholesale />} />
               <Route path="/address" element={<StoreAddress />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/order-tracking" element={<OrderTracking />} />
 
               <Route path="/cart" element={<Cart />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
