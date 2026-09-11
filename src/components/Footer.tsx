@@ -40,6 +40,8 @@ export default function Footer() {
               <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">قوانین و مقررات</Link>
               <Link to="/size-guide" className="text-sm text-muted-foreground hover:text-foreground transition-colors">راهنمای سایز</Link>
               <Link to="/return-policy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">شرایط مرجوعی</Link>
+              <Link to="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">سوالات متداول</Link>
+              <Link to="/order-tracking" className="text-sm text-muted-foreground hover:text-foreground transition-colors">پیگیری سفارش</Link>
             </div>
           </div>
         </div>

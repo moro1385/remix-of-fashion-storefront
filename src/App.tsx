@@ -14,6 +14,8 @@ import SizeGuide from "./pages/SizeGuide";
 import ReturnPolicy from "./pages/ReturnPolicy";
 import Wholesale from "./pages/Wholesale";
 import StoreAddress from "./pages/StoreAddress";
+import FAQ from "./pages/FAQ";
+import OrderTracking from "./pages/OrderTracking";
 
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
@@ -29,6 +31,7 @@ import Wallet from "./pages/account/Wallet";
 import Orders from "./pages/account/Orders";
 import CheckoutAddress from "./pages/checkout/CheckoutAddress";
 import CheckoutPayment from "./pages/checkout/CheckoutPayment";
+import ReturnRequest from "./pages/account/ReturnRequest";
 import RequireAuth from "./components/auth/RequireAuth";
 import RedirectIfAuthenticated from "./components/auth/RedirectIfAuthenticated";
 import RequireAdmin from "./components/auth/RequireAdmin";
@@ -40,6 +43,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminTickets from "./pages/admin/AdminTickets";
+import AdminReturnRequests from "./pages/admin/AdminReturnRequests";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +66,8 @@ const App = () => {
               <Route path="/return-policy" element={<ReturnPolicy />} />
               <Route path="/wholesale" element={<Wholesale />} />
               <Route path="/address" element={<StoreAddress />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/order-tracking" element={<OrderTracking />} />
 
               <Route path="/cart" element={<Cart />} />
               <Route path="/product/:slug" element={<ProductDetail />} />
@@ -80,6 +86,7 @@ const App = () => {
                 <Route path="/account/addresses" element={<Addresses />} />
                 <Route path="/account/wallet" element={<Wallet />} />
                 <Route path="/account/orders" element={<Orders />} />
+                <Route path="/account/returns/new" element={<ReturnRequest />} />
                 <Route path="/checkout" element={<CheckoutAddress />} />
                 <Route path="/checkout/payment" element={<CheckoutPayment />} />
               </Route>
@@ -92,6 +99,7 @@ const App = () => {
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/tickets" element={<AdminTickets />} />
+                <Route path="/admin/return-requests" element={<AdminReturnRequests />} />
               </Route>
             </Route>
 
