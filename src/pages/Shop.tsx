@@ -137,7 +137,7 @@ export default function Shop() {
           {/* بنر بالای صفحه - عکس اول */}
           <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
             <img 
-              src="/1.png" 
+              src="/socks_clipcart.jpg" 
               alt="پیشنهاد ویژه ۱" 
               className="w-full h-[240px] object-cover"
             />
@@ -146,7 +146,7 @@ export default function Shop() {
           {/* بنر بالای صفحه - عکس دوم */}
           <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
             <img 
-              src="/4.png" 
+              src="/underwear_clipcart.jpg" 
               alt="پیشنهاد ویژه ۲" 
               className="w-full h-[240px] object-cover"
             />
