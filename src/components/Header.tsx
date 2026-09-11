@@ -1,7 +1,8 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {  ShoppingCart, Menu, X, Instagram, User, ChevronDown , Search } from "lucide-react";
+import {  ShoppingCart, Menu, X, Instagram, User, ChevronDown , Search, Mail } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
+import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
@@ -65,9 +66,41 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [shopMenuOpen, setShopMenuOpen] = useState(false);
   const [mobileShopMenuOpen, setMobileShopMenuOpen] = useState(false);
+  const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    async function fetchUnreadCount() {
+      if (!isAuthenticated || !session?.user.id) return;
+      try {
+        const { count, error } = await supabase
+          .from("user_messages")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", session.user.id)
+          .eq("is_read", false);
+
+        if (!error && count !== null) {
+          setUnreadMessageCount(count);
+        }
+      } catch (err) {
+        console.error("Failed to fetch unread message count:", err);
+      }
+    }
+
+    fetchUnreadCount();
+    const interval = setInterval(fetchUnreadCount, 60000);
+
+    // Listen for custom event to update instantly when user marks messages read
+    const handleReadUpdated = () => fetchUnreadCount();
+    window.addEventListener("messages_read_updated", handleReadUpdated);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("messages_read_updated", handleReadUpdated);
+    };
+  }, [isAuthenticated, session?.user.id]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -222,6 +255,16 @@ export default function Header() {
           <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
           </Link>
+          {isAuthenticated && (
+            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
+              <Mail className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
+              {unreadMessageCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {unreadMessageCount}
+                </span>
+              )}
+            </Link>
+          )}
           <Link to="/cart" className="relative" aria-label="Shopping cart">
             <ShoppingCart className={cn("w-[18px] h-[18px] transition-colors", transparent ? "text-primary-foreground/80 hover:text-primary-foreground" : "text-muted-foreground hover:text-foreground")} />
             {totalItems > 0 && (
@@ -238,6 +281,16 @@ export default function Header() {
           <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
+          {isAuthenticated && (
+            <Link to="/account/messages" className="relative inline-flex items-center justify-center" aria-label="Messages">
+              <Mail className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
+              {unreadMessageCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white">
+                  {unreadMessageCount}
+                </span>
+              )}
+            </Link>
+          )}
           <Link to="/cart" className="relative" aria-label="Shopping cart">
             <ShoppingCart className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
             {totalItems > 0 && (

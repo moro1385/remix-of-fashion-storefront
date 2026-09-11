@@ -394,6 +394,13 @@ export type Database = {
           },
         ]
       }
+      user_messages: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          body: string
+          is_read: boolean
       return_requests: {
         Row: {
           id: string
@@ -409,6 +416,9 @@ export type Database = {
         Insert: {
           id?: string
           user_id: string
+          title: string
+          body: string
+          is_read?: boolean
           order_id: string
           phone: string
           description: string
@@ -420,6 +430,9 @@ export type Database = {
         Update: {
           id?: string
           user_id?: string
+          title?: string
+          body?: string
+          is_read?: boolean
           order_id?: string
           phone?: string
           description?: string
@@ -430,6 +443,7 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "user_messages_user_id_fkey"
             foreignKeyName: "return_requests_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false

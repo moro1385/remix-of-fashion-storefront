@@ -29,6 +29,7 @@ import PersonalInformation from "./pages/account/PersonalInformation";
 import Addresses from "./pages/account/Addresses";
 import Wallet from "./pages/account/Wallet";
 import Orders from "./pages/account/Orders";
+import Messages from "./pages/account/Messages";
 import CheckoutAddress from "./pages/checkout/CheckoutAddress";
 import CheckoutPayment from "./pages/checkout/CheckoutPayment";
 import ReturnRequest from "./pages/account/ReturnRequest";
@@ -43,6 +44,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminTickets from "./pages/admin/AdminTickets";
+import AdminMessages from "./pages/admin/AdminMessages";
 import AdminReturnRequests from "./pages/admin/AdminReturnRequests";
 
 const queryClient = new QueryClient();
@@ -86,6 +88,7 @@ const App = () => {
                 <Route path="/account/addresses" element={<Addresses />} />
                 <Route path="/account/wallet" element={<Wallet />} />
                 <Route path="/account/orders" element={<Orders />} />
+                <Route path="/account/messages" element={<Messages />} />
                 <Route path="/account/returns/new" element={<ReturnRequest />} />
                 <Route path="/checkout" element={<CheckoutAddress />} />
                 <Route path="/checkout/payment" element={<CheckoutPayment />} />
@@ -99,6 +102,7 @@ const App = () => {
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/tickets" element={<AdminTickets />} />
+                <Route path="/admin/messages" element={<AdminMessages />} />
                 <Route path="/admin/return-requests" element={<AdminReturnRequests />} />
               </Route>
             </Route>
