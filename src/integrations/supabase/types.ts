@@ -401,6 +401,16 @@ export type Database = {
           title: string
           body: string
           is_read: boolean
+      return_requests: {
+        Row: {
+          id: string
+          user_id: string
+          order_id: string
+          phone: string
+          description: string
+          image_urls: string[]
+          status: string
+          admin_note: string | null
           created_at: string
         }
         Insert: {
@@ -409,6 +419,12 @@ export type Database = {
           title: string
           body: string
           is_read?: boolean
+          order_id: string
+          phone: string
+          description: string
+          image_urls?: string[]
+          status?: string
+          admin_note?: string | null
           created_at?: string
         }
         Update: {
@@ -417,11 +433,25 @@ export type Database = {
           title?: string
           body?: string
           is_read?: boolean
+          order_id?: string
+          phone?: string
+          description?: string
+          image_urls?: string[]
+          status?: string
+          admin_note?: string | null
           created_at?: string
         }
         Relationships: [
           {
             foreignKeyName: "user_messages_user_id_fkey"
+            foreignKeyName: "return_requests_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "return_requests_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
