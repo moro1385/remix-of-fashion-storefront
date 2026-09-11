@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function ReturnPolicy() {
   return (
     <article className="max-w-3xl mx-auto px-6 pt-8 pb-32 text-right" dir="rtl">
@@ -37,7 +39,7 @@ export default function ReturnPolicy() {
           ۲. ثبت درخواست آنلاین
         </h3>
         <p>
-          همچنین می‌توانید از طریق بخش «درخواست مرجوعی کالا» در حساب کاربری خود داخل سایت، درخواست خود را به‌صورت آنلاین ثبت کنید. در این بخش می‌توانید:
+          همچنین می‌توانید از طریق بخش «<Link to="/account/returns/new" className="font-bold underline text-primary hover:text-primary/80">درخواست مرجوعی کالا</Link>» در حساب کاربری خود داخل سایت، درخواست خود را به‌صورت آنلاین ثبت کنید. در این بخش می‌توانید:
         </p>
         <ul className="list-disc pr-6 space-y-2 mt-4">
           <li>شماره سفارش را وارد کنید.</li>
