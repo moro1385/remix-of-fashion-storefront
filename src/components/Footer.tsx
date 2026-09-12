@@ -7,14 +7,14 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-12">
           <div>
-<Link to="/" className="inline-block mb-4">
+<Link to="/" className="block mb-4 w-full">
   <img 
     src="/logo.png" 
     alt="جامی مد" 
-    className="w-64 md:w-80 lg:w-96 aspect-[2/1] object-cover object-center rounded-2xl shadow-sm" 
+    className="w-full md:w-80 lg:w-96 aspect-[2/1] object-cover object-center rounded-xl md:rounded-2xl shadow-sm mx-auto" 
   />
 </Link>
-            <p className="text-sm text-muted-foreground">مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</p>
+            <h1>مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</h1>
             <div className="flex gap-4 mt-6">
               <a href="https://www.instagram.com/jami_modee?igsi=Z2N2cXdwNWZpeDRw&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <Instagram className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
