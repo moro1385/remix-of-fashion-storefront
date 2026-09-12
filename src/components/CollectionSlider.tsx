@@ -1,24 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { collections } from "@/data/collections";
 import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { useDepartmentDialog } from "@/hooks/useDepartmentDialog";
 
 const AUTOPLAY_MS = 5000;
 
 export default function CollectionSlider() {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, direction: "rtl" });
   const [selected, setSelected] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalCategory, setModalCategory] = useState({ handle: "", name: "" });
-  const navigate = useNavigate();
+  const { openDialogFor, departmentDialog } = useDepartmentDialog();
 
   const onSelect = useCallback(() => {
     if (emblaApi) setSelected(emblaApi.selectedScrollSnap());
@@ -41,16 +34,8 @@ export default function CollectionSlider() {
 
   const handleCtaClick = (e: React.MouseEvent, handle: string, name: string) => {
     e.preventDefault();
-    setModalCategory({ handle, name });
-    setModalOpen(true);
+    openDialogFor(handle, name);
   };
-
-  const navigateToCategory = (department: string) => {
-    setModalOpen(false);
-    navigate(`/shop?department=${department}&category=${modalCategory.handle}`);
-  };
-
-  const showKids = ["socks", "underwear", "undershirts", "shorts"].includes(modalCategory.handle);
 
   return (
     <>
@@ -125,35 +110,7 @@ export default function CollectionSlider() {
         </div>
       </section>
 
-      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-center text-xl font-light">برای چه کسی خرید می‌کنید؟</DialogTitle>
-          </DialogHeader>
-          <div className="flex flex-col gap-3 py-4">
-            <button
-              onClick={() => navigateToCategory('men')}
-              className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
-            >
-              {modalCategory.name} مردانه
-            </button>
-            <button
-              onClick={() => navigateToCategory('women')}
-              className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
-            >
-              {modalCategory.name} زنانه
-            </button>
-            {showKids && (
-              <button
-                onClick={() => navigateToCategory('kids')}
-                className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
-              >
-                {modalCategory.name} بچگانه
-              </button>
-            )}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {departmentDialog}
     </>
   );
 }
