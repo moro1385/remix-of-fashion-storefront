@@ -7,7 +7,13 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr] gap-12">
           <div>
-            <h3 className="text-2xl font-light tracking-wide text-foreground mb-3">Jami Mode</h3>
+<Link to="/" className="inline-block mb-4">
+  <img 
+    src="/logo.png" 
+    alt="جامی مد" 
+    className="w-64 md:w-80 lg:w-96 aspect-[2/1] object-cover object-center rounded-2xl shadow-sm" 
+  />
+</Link>
             <p className="text-sm text-muted-foreground">مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</p>
             <div className="flex gap-4 mt-6">
               <a href="https://www.instagram.com/jami_modee?igsi=Z2N2cXdwNWZpeDRw&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">

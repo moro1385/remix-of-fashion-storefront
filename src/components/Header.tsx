@@ -123,17 +123,28 @@ export default function Header() {
           : "bg-white border-b border-border shadow-sm"
       )}
     >
-      <div className="flex items-center justify-between px-6 h-[88px] md:h-[104px] max-w-7xl mx-auto">
+<div className="flex items-center justify-between px-6 h-[88px] md:h-[104px] max-w-7xl mx-auto">
         <Link
           to="/"
-          className={cn(
-            "text-2xl md:text-4xl font-light uppercase tracking-[0.28em] transition-colors leading-none",
-            transparent ? "text-primary-foreground" : "text-foreground"
-          )}
+          className="flex items-center gap-2 md:gap-3"
         >
-          Jami<span className="font-medium text-accent">Mode</span>
+          {/* عکس لوگو */}
+          <img 
+            src="/favicon.png" 
+            alt="لوگو جامی مد" 
+            className="w-10 h-10 md:w-12 md:h-12 object-contain" 
+          />
+          
+          {/* نوشته جامی مد (با حفظ استایل‌های قبلی) */}
+          <span 
+            className={cn(
+              "text-2xl md:text-4xl font-light uppercase tracking-[0.28em] transition-colors leading-none mt-1",
+              transparent ? "text-primary-foreground" : "text-foreground"
+            )}
+          >
+            Jami<span className="font-medium text-accent">Mode</span>
+          </span>
         </Link>
-
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
