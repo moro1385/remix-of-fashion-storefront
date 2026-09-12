@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Package, ShoppingCart, Users, MessageSquare, Menu, Mail } from "lucide-react";
-import { LayoutDashboard, Package, ShoppingCart, Users, MessageSquare, Menu, RotateCcw } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, MessageSquare, Menu, RotateCcw, Mail } from "lucide-react";
 import ScrollToTop from "@/components/ScrollToTop";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";

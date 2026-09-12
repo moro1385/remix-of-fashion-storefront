@@ -1,7 +1,6 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import type { ReactNode } from "react";
-import { CreditCard, LogOut, MapPin, Package, ShoppingCart, User, Mail } from "lucide-react";
-import { CreditCard, LogOut, MapPin, Package, ShoppingCart, User, RotateCcw } from "lucide-react";
+import { CreditCard, LogOut, MapPin, Package, ShoppingCart, User, RotateCcw, Mail } from "lucide-react";
 import { useAuthStore } from "@/stores/authStore";
 import { formatPhone } from "@/lib/phone";
 import { cn } from "@/lib/utils";

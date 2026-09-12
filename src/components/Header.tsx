@@ -92,7 +92,7 @@ export default function Header() {
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 60000);
     return () => clearInterval(interval);
-  }, [isAuthenticated, session?.user.id]);
+  }, [isAuthenticated, session?.user?.id]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
