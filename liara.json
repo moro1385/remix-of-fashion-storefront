@@ -1,6 +1,6 @@
 {
   "app": "jami-mode",
-  "port": 3000,
+  "port": 80,
   "build": {
     "location": "iran"
   },
