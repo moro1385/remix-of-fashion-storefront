@@ -1,4 +1,5 @@
 import CollectionSlider from "@/components/CollectionSlider";
+import CategoryQuickNav from "@/components/CategoryQuickNav";
 import CollectionCardsRow from "@/components/CollectionCardsRow";
 import ProductRail from "@/components/ProductRail";
 import WhyJamiMode from "@/components/WhyJamiMode";
@@ -9,6 +10,10 @@ export default function Index() {
     <>
       <FadeIn>
         <CollectionSlider />
+      </FadeIn>
+
+      <FadeIn>
+        <CategoryQuickNav />
       </FadeIn>
 
       <FadeIn>
