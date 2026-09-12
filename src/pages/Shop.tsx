@@ -133,25 +133,18 @@ export default function Shop() {
           </div>
         {/* Top Header Image Placeholder */}
 {/* Top Promo Images */}
-        <div className="flex gap-4 w-full md:max-w-[500px] lg:max-w-[600px] shrink-0">
-          {/* بنر بالای صفحه - عکس اول */}
-          <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
-            <img 
-              src="/socks_clipcart.jpg" 
-              alt="پیشنهاد ویژه ۱" 
-              className="w-full h-[240px] object-cover"
-            />
-          </a>
-          
-          {/* بنر بالای صفحه - عکس دوم */}
-          <a href="#" className="flex-1 block overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
-            <img 
-              src="/underwear_clipcart.jpg" 
-              alt="پیشنهاد ویژه ۲" 
-              className="w-full h-[240px] object-cover"
-            />
-          </a>
-        </div>
+<div className="flex gap-4 shrink-0">
+  {/* بنر بالای صفحه - عکس اول */}
+  <a href="#" className="block w-[320px] h-[320px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm bg-white">
+    <img 
+      src="/socks_clipcart.jpg" 
+      alt="پیشنهاد ویژه ۱" 
+      className="w-full h-full object-contain p-2"
+    />
+  </a>
+</div>
+
+      
       </div>
 
       {/* Main Content Layout */}
