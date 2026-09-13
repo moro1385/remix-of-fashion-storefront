@@ -52,7 +52,7 @@ export default function Wallet() {
       description="اعتبار فروشگاه، استردادها و موجودی هدیه — به‌طور خودکار در تسویه حساب استفاده می‌شود."
     >
       <div className="bg-primary text-primary-foreground p-8 md:p-10 rounded-2xl">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-primary-foreground/60">
+          <p className="text-[11px] text-primary-foreground/60">
             موجودی در دسترس
           </p>
           <p className="mt-4 text-4xl md:text-5xl font-light">
@@ -74,7 +74,7 @@ export default function Wallet() {
             <button
               onClick={handleTopUp}
               disabled={busy || !topUpAmount}
-              className="h-12 px-8 bg-accent text-accent-foreground text-xs uppercase tracking-[0.2em] disabled:opacity-60 hover:opacity-90 transition-opacity whitespace-nowrap flex items-center justify-center min-w-[140px] rounded-full"
+              className="h-12 px-8 bg-accent text-accent-foreground text-xs disabled:opacity-60 hover:opacity-90 transition-opacity whitespace-nowrap flex items-center justify-center min-w-[140px] rounded-full"
             >
               {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : "شارژ کیف پول"}
             </button>
@@ -82,7 +82,7 @@ export default function Wallet() {
         </div>
 
         <div className="mt-10">
-          <h3 className="text-sm uppercase tracking-[0.2em] text-muted-foreground">فعالیت</h3>
+          <h3 className="text-sm text-muted-foreground">فعالیت</h3>
           {transactions.length === 0 ? (
             <div className="mt-6 border border-border py-14 text-center rounded-2xl">
               <WalletIcon className="w-8 h-8 mx-auto text-muted-foreground" strokeWidth={1.25} />

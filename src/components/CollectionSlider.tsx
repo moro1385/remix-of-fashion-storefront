@@ -56,10 +56,10 @@ export default function CollectionSlider() {
                   <div className="absolute inset-0 bg-[hsl(30_30%_18%/0.42)]" />
                   <div className="absolute inset-0 flex items-end">
                     <div className="max-w-7xl mx-auto w-full px-6 pb-20 md:pb-24">
-                      <p className="text-xl md:text-2xl uppercase tracking-[0.3em] text-primary-foreground/80 mb-4">
+                      <p className="text-xl md:text-2xl text-primary-foreground/80 mb-4">
                         {collection.eyebrow}
                       </p>
-                      <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-primary-foreground leading-none tracking-wide">
+                      <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-black text-primary-foreground leading-none">
                         {collection.name}
                       </h2>
                       <p className="mt-5 max-w-xl text-sm md:text-base text-primary-foreground/85">
@@ -68,7 +68,7 @@ export default function CollectionSlider() {
                       <Link
                         to={`/shop?category=${collection.handle}`}
                         onClick={(e) => handleCtaClick(e, collection.handle, collection.name)}
-                        className="inline-block mt-8 px-8 py-3 bg-accent text-accent-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
+                        className="inline-block mt-8 px-8 py-3 bg-accent text-accent-foreground text-xs hover:opacity-90 transition-opacity"
                       >
                         خرید {collection.name}
                       </Link>

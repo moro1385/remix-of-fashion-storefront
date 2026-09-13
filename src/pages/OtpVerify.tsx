@@ -86,7 +86,7 @@ export default function OtpVerify() {
     >
       <form onSubmit={handleVerify} className="space-y-6" noValidate>
         <div className="space-y-2">
-          <label htmlFor="otp" className="block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+          <label htmlFor="otp" className="block text-[11px] text-muted-foreground">
             کد تایید
           </label>
           <input
@@ -109,7 +109,7 @@ export default function OtpVerify() {
         <button
           type="submit"
           disabled={loading || code.length !== 6}
-          className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+          className="w-full h-12 bg-primary text-primary-foreground text-xs hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "تایید و ادامه"}
         </button>

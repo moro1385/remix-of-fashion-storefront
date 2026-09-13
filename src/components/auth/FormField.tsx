@@ -18,7 +18,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>(
       <div className="space-y-2">
         <label
           htmlFor={inputId}
-          className="block text-[11px] uppercase tracking-[0.2em] text-muted-foreground"
+          className="block text-[11px] text-muted-foreground"
         >
           {label}
         </label>

@@ -38,13 +38,13 @@ export default function ProductRail({
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">{eyebrow}</p>
+            <p className="text-xs text-muted-foreground mb-3">{eyebrow}</p>
             <h2 className="text-3xl md:text-4xl font-light text-foreground">{title}</h2>
           </div>
           {ctaLabel && (
             <Link
               to={ctaTo}
-              className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
             >
               {ctaLabel}
             </Link>
