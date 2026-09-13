@@ -87,14 +87,9 @@ export default function Shop() {
   };
 
   const collection = categoryQuery ? getCollection(categoryQuery) : undefined;
-  const backgroundImagePath = collection?.gridImage || '/test_1.jpg';
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
-<div
-  className="fixed inset-0 z-[-1] pointer-events-none opacity-[0.1] bg-repeat bg-center bg-[length:300px]"
-  style={{ backgroundImage: `url('${backgroundImagePath}')` }}
-/>
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
 <div className="w-full flex justify-center items-center py-4">
@@ -110,8 +105,8 @@ export default function Shop() {
   {/* بنر بالای صفحه - عکس اول */}
   <a href="#" className="block w-[320px] h-[320px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm bg-white">
     <img 
-      src="/socks_clipcart.jpg" 
-      alt="پیشنهاد ویژه ۱" 
+      src={collection?.gridImage || "/socks_clipcart.jpg"}
+      alt={categoryQuery ? (categoryNames[categoryQuery] || categoryQuery) : "دسته‌بندی"}
       className="w-full h-full object-contain p-2"
     />
   </a>
