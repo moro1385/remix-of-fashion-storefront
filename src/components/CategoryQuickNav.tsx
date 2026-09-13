@@ -40,13 +40,7 @@ export default function CategoryQuickNav() {
 function SockIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" {...props}>
-      {/* Back sock */}
-      <path d="M13 2h5v7.5c0 1.5 1 2.5 1 4 0 2-2 4-5 4c-1 0-2-.3-3-1" />
-      <path d="M13 2v3.5" />
-      <path d="M13 5h5" />
-      {/* Front sock */}
-      <path d="M9 5v7.5c0 1.5 1 2.5 1 4 0 2-2 4-5 4s-5-2-5-4c0-2.5 1.5-4 4-5V5h5z" />
-      <path d="M9 8h5" />
+      <path d="M9 2h6v9.5c1.8 0.7 3.6 2 4.4 3.8c1 2.2 0.1 4.8-2.3 6.1c-2.4 1.3-5.5 1-7.3-0.9c-1.1-1.2-1.3-2.8-1.3-4.4z" />
     </svg>
   );
 }
