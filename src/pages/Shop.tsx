@@ -103,11 +103,11 @@ export default function Shop() {
 {/* Top Promo Images */}
 <div className="flex gap-4 shrink-0">
   {/* بنر بالای صفحه - عکس اول */}
-  <a href="#" className="block w-[320px] h-[320px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm bg-white">
+  <a href="#" className="block w-[380px] h-[380px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
     <img 
       src={collection?.gridImage || "/socks_clipcart.jpg"}
       alt={categoryQuery ? (categoryNames[categoryQuery] || categoryQuery) : "دسته‌بندی"}
-      className="w-full h-full object-contain p-2"
+      className="w-full h-full object-cover"
     />
   </a>
 </div>
