@@ -15,34 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import FadeIn from "@/components/FadeIn";
-
-const bgMap: Record<string, string> = {
-  // // Men (9 categories)
-  // 'men-socks': '/socks_men.jpg',
-  // 'men-pants': '/pants_men.jpg',
-  // 'men-shorts': '/shorts_men.jpg',
-  // 'men-t-shirts': '/tshirt_men.jpg',
-  // 'men-tank-tops': '/tanktop_men.jpg',
-  // 'men-underwear': '/bg-men-underwear.jpg',
-  // 'men-undershirts': '/bg-men-undershirts.jpg',
-  // 'men-swimwear': '/bg-men-swimwear.jpg',
-  // 'men-sets': '/bg-men-sets.jpg',
-
-  // // Women (8 categories)
-  // 'women-socks': '/socks_women.jpg',
-  // 'women-pants': '/pants_women.jpg',
-  // 'women-shorts': '/shorts_women.jpg',
-  // 'women-t-shirts': '/tshirt_women.jpg',
-  // 'women-tank-tops': '/tanktop_women.jpg',
-  // 'women-underwear': '/bg-women-underwear.jpg',
-  // 'women-undershirts': '/bg-women-undershirts.jpg',
-  // 'women-sets': '/bg-women-sets.jpg',
-
-  // // Kids (3 categories)
-  // 'kids-socks': '/socks_kid.jpg',
-  // 'kids-underwear': '/bg-kids-underwear.jpg',
-  // 'kids-undershirts': '/bg-kids-undershirts.jpg',
-};
+import { getCollection } from "@/data/collections";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -113,8 +86,8 @@ export default function Shop() {
     "kids": "بچگانه",
   };
 
-  const currentBgKey = `${departmentQuery || ''}-${categoryQuery || ''}`.toLowerCase();
-  const backgroundImagePath = bgMap[currentBgKey] || '/test_1.jpg';
+  const collection = categoryQuery ? getCollection(categoryQuery) : undefined;
+  const backgroundImagePath = collection?.gridImage || '/test_1.jpg';
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
