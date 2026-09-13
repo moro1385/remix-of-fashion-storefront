@@ -104,20 +104,20 @@ export default function SignIn() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
+            className="w-full h-12 bg-primary text-primary-foreground text-xs hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "ورود"}
           </button>
 
           <div className="flex items-center gap-4">
             <span className="h-px flex-1 bg-border" />
-            <span className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">یا</span>
+            <span className="text-[10px] text-muted-foreground">یا</span>
             <span className="h-px flex-1 bg-border" />
           </div>
 
           <Link
             to="/signin/otp"
-            className="w-full h-12 border border-foreground text-foreground text-xs uppercase tracking-[0.2em] hover:bg-foreground hover:text-primary-foreground transition-colors flex items-center justify-center gap-2"
+            className="w-full h-12 border border-foreground text-foreground text-xs hover:bg-foreground hover:text-primary-foreground transition-colors flex items-center justify-center gap-2"
           >
             <MessageSquare className="w-4 h-4" />
             ورود با رمز یک‌بار مصرف
