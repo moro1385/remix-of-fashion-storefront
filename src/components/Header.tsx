@@ -73,12 +73,12 @@ export default function Header() {
 
   useEffect(() => {
     async function fetchUnreadCount() {
-      if (!isAuthenticated || !session?.user.id) return;
+      if (!isAuthenticated || !session?.userId) return;
       try {
         const { count, error } = await supabase
           .from("user_messages")
           .select("*", { count: "exact", head: true })
-          .eq("user_id", session.user.id)
+          .eq("user_id", session.userId)
           .eq("is_read", false);
 
         if (!error && count !== null) {
@@ -92,7 +92,7 @@ export default function Header() {
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 60000);
     return () => clearInterval(interval);
-  }, [isAuthenticated, session?.user?.id]);
+  }, [isAuthenticated, session?.userId]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
