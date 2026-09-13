@@ -291,7 +291,7 @@ export default function ReturnRequest() {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-12 rounded-lg text-sm tracking-wide"
+                className="w-full h-12 rounded-lg text-sm"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />

@@ -118,7 +118,7 @@ export default function Orders() {
             </p>
             <Link
               to="/shop"
-              className="mt-8 inline-flex h-12 items-center px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity"
+              className="mt-8 inline-flex h-12 items-center px-8 bg-primary text-primary-foreground text-xs hover:opacity-90 transition-opacity"
             >
               شروع خرید
             </Link>
@@ -136,7 +136,7 @@ export default function Orders() {
               >
                 <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5 border-b border-border">
                   <div>
-                    <p className="text-sm uppercase tracking-[0.15em] text-foreground">
+                    <p className="text-sm text-foreground">
                       سفارش {order.number}
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
@@ -148,7 +148,7 @@ export default function Orders() {
                   <div className="flex items-center gap-4">
                     <span
                       className={cn(
-                        "text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 rounded-full",
+                        "text-[10px] px-3 py-1.5 rounded-full",
                         statusStyles[order.status] || statusStyles.processing
                       )}
                     >
