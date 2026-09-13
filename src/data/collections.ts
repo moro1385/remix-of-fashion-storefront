@@ -13,6 +13,7 @@ export interface Collection {
   tagline: string;
   description: string;
   image: string;
+  gridImage: string;
   /** Shopify Storefront search query used to populate the collection */
   query: string;
 }
@@ -25,6 +26,7 @@ export const collections: Collection[] = [
     tagline: "از مچی تا ساقدار؛ بافته‌شده برای راحتیِ هر روز",
     description: "جوراب‌های ورزشی، حوله‌ای و پشمی، تولیدشده از الیاف پنبه، بامبو و پارچه‌های نانو.",
     image: socksImg,
+    gridImage: socksImg,
     query: "product_type:Socks",
   },
   {
@@ -34,6 +36,7 @@ export const collections: Collection[] = [
     tagline: "راحتیِ نامرئی زیر لباس‌های شما",
     description: "انواع شورت‌های باکسر، پادار و اسلیپ در قواره‌های ورزشی و آزاد، به همراه برش‌های کلاسیک زنانه.",
     image: underwearImg,
+    gridImage: underwearImg,
     query: "tag:underwear",
   },
   {
@@ -43,6 +46,7 @@ export const collections: Collection[] = [
     tagline: "سبک و تنفس‌پذیر برای راحتیِ تمام روز",
     description: "زیرپوش‌های نرم و خوش‌دوخت، طراحی‌شده برای اینکه کاملاً روی بدن بخوابند و زیر لباس جمع نشوند.",
     image: undershirtsImg,
+    gridImage: undershirtsImg,
     query: "tag:undershirt",
   },
  {
@@ -52,6 +56,7 @@ export const collections: Collection[] = [
     tagline: "شلوارهای ورزشی برای اوج عملکرد و راحتی",
     description: "شلوارهای ورزشی و جاگرهای تنفس‌پذیر، طراحی‌شده برای تمرینات باشگاهی، دویدن و روزهای پرتحرک.",
     image: pantsImg,
+    gridImage: pantsImg,
     query: "tag:loungewear OR product_type:Pants",
   },
   {
@@ -61,6 +66,7 @@ export const collections: Collection[] = [
     tagline: "شلوارک‌هایی که پابه‌پای شما می‌آیند",
     description: "شلوارک‌های ورزشیِ سبک و منعطف، انتخابی ایده‌آل برای تمرینات پرفشار و فعالیت‌های ورزشی.",
     image: shortsImg,
+    gridImage: shortsImg,
     query: "product_type:Shorts OR tag:shorts",
   },
   {
@@ -70,6 +76,7 @@ export const collections: Collection[] = [
     tagline: "تیشرت‌های روزمره و ورزشی",
     description: "مدل‌های آستین‌کوتاه، تاپ و یقه‌خشتی از جنس نخ‌پنبه یا مودال.",
     image: tshirtsImg,
+    gridImage: tshirtsImg,
     query: "tag:undershirt OR product_type:T-Shirts",
   },
   {
@@ -79,6 +86,7 @@ export const collections: Collection[] = [
     tagline: "ست‌های کامل؛ یک انتخاب ساده",
     description: "پوشاکِ ضروری و هماهنگ در یک بسته‌بندی — راحت‌ترین راه برای تکمیل کمد لباس‌هایتان.",
     image: setsImg,
+    gridImage: setsImg,
     query: "tag:set OR tag:underwear",
   },
 ];

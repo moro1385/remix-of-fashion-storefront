@@ -10,7 +10,7 @@ const collectionCards = [
   { dept: "men", deptLabel: "مردانه", handle: "pants" },
   { dept: "men", deptLabel: "مردانه", handle: "shorts" },
   { dept: "men", deptLabel: "مردانه", handle: "t-shirts" },
-  { dept: "men", deptLabel: "مردانه", handle: "tank-tops", labelOverride: "Tank Tops" },
+  { dept: "men", deptLabel: "مردانه", handle: "tank-tops", labelOverride: "تاپ" },
   { dept: "men", deptLabel: "مردانه", handle: "sets" },
   // زنانه
   { dept: "women", deptLabel: "زنانه", handle: "socks" },
@@ -19,7 +19,7 @@ const collectionCards = [
   { dept: "women", deptLabel: "زنانه", handle: "pants" },
   { dept: "women", deptLabel: "زنانه", handle: "shorts" },
   { dept: "women", deptLabel: "زنانه", handle: "t-shirts" },
-  { dept: "women", deptLabel: "زنانه", handle: "tank-tops", labelOverride: "Tank Tops" },
+  { dept: "women", deptLabel: "زنانه", handle: "tank-tops", labelOverride: "تاپ" },
   { dept: "women", deptLabel: "زنانه", handle: "sets" },
   // بچه گانه
   { dept: "kids", deptLabel: "بچه گانه", handle: "socks" },
@@ -33,6 +33,7 @@ const collectionCards = [
     ...item,
     name: item.labelOverride || baseCollection?.name || item.handle,
     image: baseCollection?.image || '',
+    gridImage: baseCollection?.gridImage || '',
     eyebrow: baseCollection?.eyebrow || 'نیاز روزمره شما',
   };
 });
@@ -57,7 +58,7 @@ export default function CollectionCardsRow() {
             >
               <div className="overflow-hidden rounded-2xl">
                 <img
-                  src={card.image}
+                  src={card.gridImage}
                   alt={`${card.deptLabel} ${card.name}`}
                   width={1920}
                   height={1080}
@@ -66,7 +67,6 @@ export default function CollectionCardsRow() {
                 />
               </div>
               <h3 className="mt-4 text-lg font-light text-foreground"> {card.name} {card.deptLabel}</h3>
-              <p className="text-xs text-muted-foreground mt-1">{card.eyebrow}</p>
             </Link>
           ))}
         </div>

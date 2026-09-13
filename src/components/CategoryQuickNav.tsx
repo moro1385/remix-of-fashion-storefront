@@ -7,7 +7,7 @@ const categories = [
   { handle: "pants", label: "شلوار", Icon: PantsIcon },
   { handle: "shorts", label: "شلوارک", Icon: ShortsIcon },
   { handle: "t-shirts", label: "تیشرت", Icon: TshirtIcon },
-  { handle: "tank-tops", label: "تانک تاپ", Icon: TankTopIcon },
+  { handle: "tank-tops", label: "تاپ", Icon: TankTopIcon },
   { handle: "sets", label: "ست‌ها", Icon: SetIcon },
 ];
 
