@@ -132,13 +132,13 @@ export default function Header() {
           <img 
             src="/favicon.png" 
             alt="لوگو جامی مد" 
-            className="w-10 h-10 md:w-12 md:h-12 object-contain" 
+            className="w-8 h-8 md:w-12 md:h-12 object-contain"
           />
           
           {/* نوشته جامی مد (با حفظ استایل‌های قبلی) */}
           <span 
             className={cn(
-              "text-2xl md:text-4xl font-light uppercase tracking-[0.28em] transition-colors leading-none mt-1",
+              "text-xl md:text-4xl font-light uppercase tracking-[0.28em] transition-colors leading-none mt-1",
               transparent ? "text-primary-foreground" : "text-foreground"
             )}
           >
@@ -280,7 +280,7 @@ export default function Header() {
 
 
         {/* Mobile */}
-        <div className="flex md:hidden items-center gap-4">
+        <div className="flex md:hidden items-center gap-3">
           <Link to={accountHref} aria-label={accountLabel}>
             <User className={cn("w-5 h-5 transition-colors", transparent ? "text-primary-foreground" : "text-foreground")} />
           </Link>
