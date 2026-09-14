@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { collections } from "@/data/collections";
+import { getCollectionImage } from "@/data/collectionImages";
 
 // Explode standard collections into department-specific routes as requested
 const collectionCards = [
@@ -23,18 +24,18 @@ const collectionCards = [
   { dept: "women", deptLabel: "زنانه", handle: "sets" },
   // بچه گانه
   { dept: "kids", deptLabel: "بچه گانه", handle: "socks" },
-  { dept: "kids", deptLabel: "بچه گانه", handle: "underwear", },
+  { dept: "kids", deptLabel: "بچه گانه", handle: "underwear" },
   { dept: "kids", deptLabel: "بچه گانه", handle: "undershirts" },
 ].map((item) => {
-  // Use 't-shirts' image for 'tank-tops' fallback if needed, but get base from collections
-  const baseCollection = collections.find((c) => c.handle === item.handle) ||
-                         collections.find((c) => c.handle === (item.handle === 'tank-tops' ? 't-shirts' : item.handle));
+  const baseCollection =
+    collections.find((c) => c.handle === item.handle) ||
+    collections.find((c) => c.handle === (item.handle === "tank-tops" ? "t-shirts" : item.handle));
   return {
     ...item,
     name: item.labelOverride || baseCollection?.name || item.handle,
-    image: baseCollection?.image || '',
-    gridImage: baseCollection?.gridImage || '',
-    eyebrow: baseCollection?.eyebrow || 'نیاز روزمره شما',
+    image: baseCollection?.image || "",
+    gridImage: getCollectionImage(item.dept, item.handle),
+    eyebrow: baseCollection?.eyebrow || "نیاز روزمره شما",
   };
 });
 
@@ -44,7 +45,6 @@ export default function CollectionCardsRow() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3"></p>
             <h2 className="text-3xl md:text-4xl font-light text-foreground">همه کالکشن ها</h2>
           </div>
         </div>
@@ -57,14 +57,19 @@ export default function CollectionCardsRow() {
               className="group snap-start shrink-0 w-[70%] sm:w-[45%] lg:w-[24%]"
             >
               <div className="overflow-hidden rounded-2xl">
-                <img
-                  src={card.gridImage}
-                  alt={`${card.deptLabel} ${card.name}`}
-                  width={1920}
-                  height={1080}
-                  loading="lazy"
-                  className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
+<img
+  src={card.gridImage}
+  onError={(e) => {
+    if (card.image && e.currentTarget.src !== card.image) {
+      e.currentTarget.src = card.image;
+    }
+  }}
+  alt={`${card.deptLabel} ${card.name}`}
+  width={1920}
+  height={1080}
+  loading="lazy"
+  className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+/>
               </div>
               <h3 className="mt-4 text-lg font-light text-foreground"> {card.name} {card.deptLabel}</h3>
             </Link>
