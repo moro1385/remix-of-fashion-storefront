@@ -23,7 +23,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
           {!inStock && <span className="text-xs text-accent font-medium">ناموجود</span>}
         </div>
         {productType && (
-          <p className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{categoryNames[productType.toLowerCase()] || productType}</p>
+          <p className="text-xs text-muted-foreground mt-1">{categoryNames[productType.toLowerCase()] || productType}</p>
         )}
         <div className="flex items-center gap-2 mt-1">
           <span className="text-sm text-foreground">

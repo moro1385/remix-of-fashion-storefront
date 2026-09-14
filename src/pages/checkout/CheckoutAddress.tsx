@@ -165,7 +165,7 @@ export default function CheckoutAddress() {
                 <button
                   type="submit"
                   disabled={busy}
-                  className="h-10 px-6 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2 rounded-full"
+                  className="h-10 px-6 bg-primary text-primary-foreground text-xs hover:opacity-90 transition-opacity disabled:opacity-60 inline-flex items-center gap-2 rounded-full"
                 >
                   {busy ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
                   ذخیره آدرس
@@ -174,7 +174,7 @@ export default function CheckoutAddress() {
                   type="button"
                   onClick={() => setEditing(null)}
                   disabled={busy}
-                  className="h-10 px-6 border border-border text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2 rounded-full"
+                  className="h-10 px-6 border border-border text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2 rounded-full"
                 >
                   <X className="w-4 h-4" />
                   لغو
@@ -187,7 +187,7 @@ export default function CheckoutAddress() {
               <p className="mt-6 text-lg font-light text-foreground">هنوز آدرسی ذخیره نشده است</p>
               <button
                 onClick={openNew}
-                className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs uppercase tracking-[0.2em] hover:opacity-90 transition-opacity inline-flex items-center gap-2 rounded-full"
+                className="mt-8 h-12 px-8 bg-primary text-primary-foreground text-xs hover:opacity-90 transition-opacity inline-flex items-center gap-2 rounded-full"
               >
                 <Plus className="w-4 h-4" />
                 افزودن آدرس
@@ -216,9 +216,9 @@ export default function CheckoutAddress() {
                       </div>
                       <div>
                         <div className="flex items-center gap-3">
-                          <h3 className="text-sm uppercase tracking-[0.15em] text-foreground">{address.label}</h3>
+                          <h3 className="text-sm text-foreground">{address.label}</h3>
                           {address.isDefault && (
-                            <span className="text-[10px] uppercase tracking-[0.2em] bg-muted text-muted-foreground px-2 py-1">
+                            <span className="text-[10px] bg-muted text-muted-foreground px-2 py-1">
                               پیش‌فرض
                             </span>
                           )}
@@ -263,7 +263,7 @@ export default function CheckoutAddress() {
 
               <button
                 onClick={openNew}
-                className="h-12 px-8 border border-foreground text-xs uppercase tracking-[0.2em] text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2 rounded-full"
+                className="h-12 px-8 border border-foreground text-xs text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors inline-flex items-center gap-2 rounded-full"
               >
                 <Plus className="w-4 h-4" />
                 افزودن آدرس دیگر

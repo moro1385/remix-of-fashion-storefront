@@ -121,7 +121,7 @@ selectedSize: activeOptions["Size"] ?? null,
           </div>
 
           <div className="flex flex-col">
-            <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wide text-foreground mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               {product.node.title}
             </h1>
             <p className="text-2xl font-bold text-foreground mb-6">
@@ -137,7 +137,7 @@ selectedSize: activeOptions["Size"] ?? null,
               .filter((o) => o.name !== "Title")
               .map((option) => (
                 <div key={option.name} className="mb-6">
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground mb-2">
+                  <p className="text-xs text-muted-foreground mb-2">
                     {option.name}
                   </p>
                   <div className="flex flex-wrap gap-2">

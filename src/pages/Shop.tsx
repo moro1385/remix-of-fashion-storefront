@@ -15,34 +15,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import FadeIn from "@/components/FadeIn";
-
-const bgMap: Record<string, string> = {
-  // // Men (9 categories)
-  // 'men-socks': '/socks_men.jpg',
-  // 'men-pants': '/pants_men.jpg',
-  // 'men-shorts': '/shorts_men.jpg',
-  // 'men-t-shirts': '/tshirt_men.jpg',
-  // 'men-tank-tops': '/tanktop_men.jpg',
-  // 'men-underwear': '/bg-men-underwear.jpg',
-  // 'men-undershirts': '/bg-men-undershirts.jpg',
-  // 'men-swimwear': '/bg-men-swimwear.jpg',
-  // 'men-sets': '/bg-men-sets.jpg',
-
-  // // Women (8 categories)
-  // 'women-socks': '/socks_women.jpg',
-  // 'women-pants': '/pants_women.jpg',
-  // 'women-shorts': '/shorts_women.jpg',
-  // 'women-t-shirts': '/tshirt_women.jpg',
-  // 'women-tank-tops': '/tanktop_women.jpg',
-  // 'women-underwear': '/bg-women-underwear.jpg',
-  // 'women-undershirts': '/bg-women-undershirts.jpg',
-  // 'women-sets': '/bg-women-sets.jpg',
-
-  // // Kids (3 categories)
-  // 'kids-socks': '/socks_kid.jpg',
-  // 'kids-underwear': '/bg-kids-underwear.jpg',
-  // 'kids-undershirts': '/bg-kids-undershirts.jpg',
-};
+import { getCollection } from "@/data/collections";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -113,15 +86,10 @@ export default function Shop() {
     "kids": "بچگانه",
   };
 
-  const currentBgKey = `${departmentQuery || ''}-${categoryQuery || ''}`.toLowerCase();
-  const backgroundImagePath = bgMap[currentBgKey] || '/test_1.jpg';
+  const collection = categoryQuery ? getCollection(categoryQuery) : undefined;
 
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
-<div
-  className="fixed inset-0 z-[-1] pointer-events-none opacity-[0.1] bg-repeat bg-center bg-[length:300px]"
-  style={{ backgroundImage: `url('${backgroundImagePath}')` }}
-/>
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
 <div className="w-full flex justify-center items-center py-4">
@@ -135,11 +103,11 @@ export default function Shop() {
 {/* Top Promo Images */}
 <div className="flex gap-4 shrink-0">
   {/* بنر بالای صفحه - عکس اول */}
-  <a href="#" className="block w-[320px] h-[320px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm bg-white">
+  <a href="#" className="block w-[380px] h-[380px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
     <img 
-      src="/socks_clipcart.jpg" 
-      alt="پیشنهاد ویژه ۱" 
-      className="w-full h-full object-contain p-2"
+      src={collection?.gridImage || "/socks_clipcart.jpg"}
+      alt={categoryQuery ? (categoryNames[categoryQuery] || categoryQuery) : "دسته‌بندی"}
+      className="w-full h-full object-cover"
     />
   </a>
 </div>

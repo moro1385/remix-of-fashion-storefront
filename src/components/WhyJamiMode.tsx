@@ -29,7 +29,7 @@ export default function WhyJamiMode() {
     <section className="py-24">
       <div className="max-w-7xl mx-auto px-6">
         <div className="max-w-2xl">
-          <p className="text-xl uppercase tracking-[0.3em] text-muted-foreground mb-4">
+          <p className="text-xl text-muted-foreground mb-4">
             چرا jamimode ؟
           </p>
           <h2 className="text-3xl md:text-5xl font-display font-black text-foreground leading-tight">

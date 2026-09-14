@@ -113,7 +113,7 @@ export default function Messages() {
                 </div>
                 <div className="flex items-center gap-4 shrink-0">
                   {!message.is_read && (
-                    <span className="text-[10px] uppercase tracking-[0.2em] px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
+                    <span className="text-[10px] px-3 py-1.5 rounded-full bg-primary text-primary-foreground">
                       جدید
                     </span>
                   )}
