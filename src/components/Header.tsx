@@ -150,7 +150,7 @@ export default function Header() {
           <Link
             to="/"
             className={cn(
-              "text-sm uppercase tracking-wider transition-colors",
+                "text-sm transition-colors",
               transparent
                 ? "text-primary-foreground/80 hover:text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -168,7 +168,7 @@ export default function Header() {
             <button
               onClick={(e) => e.preventDefault()}
               className={cn(
-                "text-sm uppercase tracking-wider transition-colors flex items-center gap-1 py-4",
+                "text-sm transition-colors flex items-center gap-1 py-4",
                 transparent
                   ? "text-primary-foreground/80 hover:text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -209,7 +209,7 @@ export default function Header() {
           <Link
             to="/about"
             className={cn(
-              "text-sm uppercase tracking-wider transition-colors",
+              "text-sm transition-colors",
               transparent
                 ? "text-primary-foreground/80 hover:text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -222,7 +222,7 @@ export default function Header() {
           <Link
             to="/contact"
             className={cn(
-              "text-sm uppercase tracking-wider transition-colors",
+              "text-sm transition-colors",
               transparent
                 ? "text-primary-foreground/80 hover:text-primary-foreground"
                 : "text-muted-foreground hover:text-foreground",
@@ -331,7 +331,7 @@ export default function Header() {
             to="/"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "block text-sm uppercase tracking-wider text-muted-foreground",
+              "block text-sm text-muted-foreground",
               pathname === "/" && "text-foreground font-medium"
             )}
           >
@@ -346,7 +346,7 @@ export default function Header() {
                   setMobileShopMenuOpen(!mobileShopMenuOpen);
                 }}
                 className={cn(
-                  "flex items-center justify-between w-full text-sm uppercase tracking-wider text-muted-foreground text-left",
+                  "flex items-center justify-between w-full text-sm text-muted-foreground text-left",
                   pathname.startsWith("/shop") && "text-foreground font-medium"
                 )}
               >
@@ -385,7 +385,7 @@ export default function Header() {
             to="/about"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "block text-sm uppercase tracking-wider text-muted-foreground",
+              "block text-sm text-muted-foreground",
               pathname === "/about" && "text-foreground font-medium"
             )}
           >
@@ -396,7 +396,7 @@ export default function Header() {
             to="/contact"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "block text-sm uppercase tracking-wider text-muted-foreground",
+              "block text-sm text-muted-foreground",
               pathname === "/contact" && "text-foreground font-medium"
             )}
           >
@@ -407,7 +407,7 @@ export default function Header() {
             <Link
               to={accountHref}
               onClick={() => setMobileOpen(false)}
-              className="block text-sm uppercase tracking-wider text-muted-foreground"
+              className="block text-sm text-muted-foreground"
             >
               {isAuthenticated ? "حساب کاربری" : "ورود"}
             </Link>

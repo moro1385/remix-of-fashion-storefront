@@ -33,20 +33,20 @@ export function useDepartmentDialog() {
         <div className="flex flex-col gap-3 py-4">
           <button
             onClick={() => navigateToCategory('men')}
-            className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
+            className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm"
           >
             {modalCategory.name} مردانه
           </button>
           <button
             onClick={() => navigateToCategory('women')}
-            className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
+            className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm"
           >
             {modalCategory.name} زنانه
           </button>
           {showKids && (
             <button
               onClick={() => navigateToCategory('kids')}
-              className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm uppercase tracking-wider"
+              className="w-full py-4 border border-border hover:border-foreground hover:bg-foreground hover:text-background transition-colors text-sm"
             >
               {modalCategory.name} بچگانه
             </button>

@@ -45,7 +45,7 @@ export default function AuthShell({ eyebrow, title, subtitle, children, footer }
       <main className="flex items-center justify-center px-6 py-16 sm:px-10 lg:px-16">
         <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-2 duration-500">
           {eyebrow && (
-            <p className="text-[11px] uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
+            <p className="text-[11px] text-accent">{eyebrow}</p>
           )}
           <h1 className="mt-4 text-3xl sm:text-4xl font-light text-foreground">{title}</h1>
           {subtitle && <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{subtitle}</p>}

@@ -44,7 +44,7 @@ export default function CollectionCardsRow() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between gap-6 mb-10">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3"></p>
+            <p className="text-xs text-muted-foreground mb-3"></p>
             <h2 className="text-3xl md:text-4xl font-light text-foreground">همه کالکشن ها</h2>
           </div>
         </div>
