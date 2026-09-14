@@ -27,13 +27,23 @@ export default function SignIn() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
     if (!validate()) return;
     setLoading(true);
+
+    // --- شروع کدهای تبدیل شماره ---
+    let finalPhone = phone.trim();
+    if (finalPhone.startsWith('0')) {
+      finalPhone = '+98' + finalPhone.substring(1);
+    } else if (!finalPhone.startsWith('+')) {
+      finalPhone = '+98' + finalPhone;
+    }
+    // --- پایان کدهای تبدیل شماره ---
+
     try {
-      await signInWithPassword(phone, password);
+      await signInWithPassword(finalPhone, password); // <-- اینجا finalPhone رو به تابع میدیم
       toast.success("خوش آمدید");
       navigate("/account", { replace: true });
     } catch (error) {

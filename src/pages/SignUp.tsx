@@ -44,14 +44,24 @@ export default function SignUp() {
     return Object.keys(next).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
     if (!validate()) return;
     setLoading(true);
+
+    // --- شروع کدهای تبدیل شماره ---
+    let finalPhone = form.phone.trim();
+    if (finalPhone.startsWith('0')) {
+      finalPhone = '+98' + finalPhone.substring(1);
+    } else if (!finalPhone.startsWith('+')) {
+      finalPhone = '+98' + finalPhone;
+    }
+    // --- پایان کدهای تبدیل شماره ---
+
     try {
       await signUp({
-        phone: form.phone,
+        phone: finalPhone, // <-- اینجا به جای form.phone از finalPhone استفاده می‌کنیم
         firstName: form.firstName,
         lastName: form.lastName,
         password: form.password,
@@ -59,7 +69,7 @@ export default function SignUp() {
       toast.success("حساب کاربری ایجاد شد. لطفاً شماره موبایل خود را تأیید کنید.");
       // Navigate to OTP verify passing the phone number in state
       const { normalizePhone } = await import("@/lib/phone");
-      navigate("/signin/otp/verify", { state: { phone: normalizePhone(form.phone) }, replace: true });
+      navigate("/signin/otp/verify", { state: { phone: normalizePhone(finalPhone) }, replace: true });
     } catch (error) {
       const msg = error instanceof Error ? error.message : "خطایی رخ داد. لطفاً دوباره تلاش کنید.";
       setFormError(msg);
