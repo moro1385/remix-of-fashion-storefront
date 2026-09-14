@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import FadeIn from "@/components/FadeIn";
 import { getCollection } from "@/data/collections";
+import { getCollectionImage } from "@/data/collectionImages";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -105,7 +106,13 @@ export default function Shop() {
   {/* بنر بالای صفحه - عکس اول */}
   <a href="#" className="block w-[380px] h-[380px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
     <img 
-      src={collection?.gridImage || "/socks_clipcart.jpg"}
+src={getCollectionImage(departmentQuery, categoryQuery) || "/socks_clipcart.jpg"}
+onError={(e) => {
+  const fallback = collection?.image || "/socks_clipcart.jpg";
+  if (e.currentTarget.src !== fallback) {
+    e.currentTarget.src = fallback;
+  }
+}}
       alt={categoryQuery ? (categoryNames[categoryQuery] || categoryQuery) : "دسته‌بندی"}
       className="w-full h-full object-cover"
     />
