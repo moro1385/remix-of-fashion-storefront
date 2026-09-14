@@ -27,8 +27,8 @@ export default function AdminLayout() {
       {/* Sidebar */}
       <aside className="w-64 bg-background border-l flex flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b">
-          <Link to="/" className="text-xl font-light uppercase tracking-widest">
-            Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground mr-1">مدیریت</span>
+          <Link to="/" className="text-xl font-light">
+            <span className="uppercase tracking-widest">Jami<span className="font-medium text-accent">Mode</span></span> <span className="text-sm text-muted-foreground mr-1">مدیریت</span>
           </Link>
         </div>
         <nav className="flex-1 px-4 py-6 space-y-1">
@@ -68,8 +68,8 @@ export default function AdminLayout() {
               </SheetTrigger>
               <SheetContent side="right" className="w-64 p-0">
                 <div className="h-16 flex items-center px-6 border-b">
-                  <Link to="/" className="text-xl font-light uppercase tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
-                    Jami<span className="font-medium text-accent">Mode</span> <span className="text-sm text-muted-foreground mr-1">مدیریت</span>
+                  <Link to="/" className="text-xl font-light" onClick={() => setIsMobileMenuOpen(false)}>
+                    <span className="uppercase tracking-widest">Jami<span className="font-medium text-accent">Mode</span></span> <span className="text-sm text-muted-foreground mr-1">مدیریت</span>
                   </Link>
                 </div>
                 <nav className="flex-1 px-4 py-6 space-y-1">
@@ -97,8 +97,8 @@ export default function AdminLayout() {
                 </nav>
               </SheetContent>
             </Sheet>
-            <Link to="/" className="text-xl font-light uppercase tracking-widest">
-               Jami<span className="font-medium text-accent">Mode</span>
+            <Link to="/" className="text-xl font-light">
+               <span className="uppercase tracking-widest">Jami<span className="font-medium text-accent">Mode</span></span>
             </Link>
           </div>
           <div className="flex items-center gap-4">

@@ -38,7 +38,7 @@ export default function AccountLayout({ title, description, children }: AccountL
   return (
     <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
-        <p className="text-[20px] uppercase tracking-[0.3em] text-accent">حساب کاربری</p>
+        <p className="text-[20px] text-accent">حساب کاربری</p>
         <h1 className="mt-4 text-3xl md:text-4xl font-light text-foreground">
           {displayName || "خوش آمدید"}
         </h1>
@@ -54,7 +54,7 @@ export default function AccountLayout({ title, description, children }: AccountL
                     end={item.end}
                     className={({ isActive }) =>
                       cn(
-                        "flex items-center gap-3 px-4 py-3 text-xs uppercase tracking-[0.15em] whitespace-nowrap transition-colors rounded-xl",
+                        "flex items-center gap-3 px-4 py-3 text-xs whitespace-nowrap transition-colors rounded-xl",
                         isActive
                           ? "bg-primary text-primary-foreground"
                           : "text-muted-foreground hover:text-foreground hover:bg-muted"
@@ -70,7 +70,7 @@ export default function AccountLayout({ title, description, children }: AccountL
 
             <button
               onClick={handleSignOut}
-              className="mt-4 w-full flex items-center gap-3 px-4 py-3 border border-border bg-background text-xs uppercase tracking-[0.15em] text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors rounded-full"
+              className="mt-4 w-full flex items-center gap-3 px-4 py-3 border border-border bg-background text-xs text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-colors rounded-full"
             >
               <LogOut className="w-4 h-4" strokeWidth={1.5} />
               خروج از حساب
@@ -78,7 +78,7 @@ export default function AccountLayout({ title, description, children }: AccountL
 
             <Link
               to="/shop"
-              className="mt-4 inline-block text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors"
+              className="mt-4 inline-block text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
               ادامه خرید
             </Link>
