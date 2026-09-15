@@ -4,10 +4,15 @@ import CollectionCardsRow from "@/components/CollectionCardsRow";
 import ProductRail from "@/components/ProductRail";
 import WhyJamiMode from "@/components/WhyJamiMode";
 import FadeIn from "@/components/FadeIn";
+import SEO from "@/components/SEO";
 
 export default function Index() {
   return (
     <>
+      <SEO
+        title="جامی مد"
+        description="فروشگاه اینترنتی جوراب، لباس زیر، زیرپوش و لباس راحتی — ارسال سریع و کیفیت مطمئن."
+      />
       <FadeIn>
         <CollectionSlider />
       </FadeIn>

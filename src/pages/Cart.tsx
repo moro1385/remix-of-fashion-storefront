@@ -3,6 +3,7 @@ import { ExternalLink, Loader2, X } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/services/products";
 import QuantitySelector from "@/components/QuantitySelector";
+import SEO from "@/components/SEO";
 
 export default function Cart() {
 const navigate = useNavigate();
@@ -20,6 +21,10 @@ const navigate = useNavigate();
   if (!items || items.length === 0) {
     return (
       <div className="max-w-6xl mx-auto px-6 py-24">
+        <SEO
+          title="سبد خرید"
+          description="مشاهده و تکمیل سبد خرید شما در جامی مد."
+        />
         <h1 className="text-2xl font-medium text-foreground mb-4">سبد خرید</h1>
         <p className="text-sm text-foreground mb-8">شما هیچ محصولی در سبد خرید خود ندارید.</p>
         <Link
@@ -34,6 +39,10 @@ const navigate = useNavigate();
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-24">
+      <SEO
+        title="سبد خرید"
+        description="مشاهده و تکمیل سبد خرید شما در جامی مد."
+      />
       <h1 className="text-2xl font-medium text-foreground mb-12">سبد خرید</h1>
       <div className="space-y-8">
         {items.map((item) => (

@@ -10,6 +10,7 @@ import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
 import DynamicSizeGuide from "@/components/DynamicSizeGuide";
 import { cn } from "@/lib/utils";
+import SEO from "@/components/SEO";
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -83,6 +84,11 @@ selectedSize: activeOptions["Size"] ?? null,
 
   return (
     <>
+      <SEO
+        title={product.node.title}
+        description={product.node.description ? (product.node.description.length > 155 ? product.node.description.substring(0, 155) + "..." : product.node.description) : "خرید از جامی مد"}
+        image={productImage(product)}
+      />
       <section className="max-w-6xl mx-auto px-6 py-8">
         <nav className="text-sm text-muted-foreground mb-6">
           <Link to="/shop" className="hover:text-foreground transition-colors">فروشگاه</Link>

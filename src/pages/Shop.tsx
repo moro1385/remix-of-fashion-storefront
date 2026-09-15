@@ -17,6 +17,7 @@ import {
 import FadeIn from "@/components/FadeIn";
 import { getCollection } from "@/data/collections";
 import { getCollectionImage } from "@/data/collectionImages";
+import SEO from "@/components/SEO";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -89,8 +90,17 @@ export default function Shop() {
 
   const collection = categoryQuery ? getCollection(categoryQuery) : undefined;
 
+  const dynamicTitle = departmentQuery || categoryQuery
+    ? `${categoryQuery ? categoryNames[categoryQuery] || categoryQuery : ""} ${departmentQuery ? departmentNames[departmentQuery] || departmentQuery : ""}`.trim()
+    : "فروشگاه";
+
+  const dynamicDesc = departmentQuery || categoryQuery
+    ? `خرید ${categoryQuery ? categoryNames[categoryQuery] || categoryQuery : "محصولات"} ${departmentQuery ? departmentNames[departmentQuery] || departmentQuery : ""} با بهترین کیفیت از جامی مد.`.trim()
+    : "مشاهده تمام محصولات جامی مد";
+
   return (
     <div className="min-h-screen bg-[hsl(var(--warm-bg))] relative z-0">
+      <SEO title={dynamicTitle} description={dynamicDesc} />
       {/* Header Section */}
       <div className="py-16 px-6 text-center w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-6">
 <div className="w-full flex justify-center items-center py-4">

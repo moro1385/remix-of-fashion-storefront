@@ -4,10 +4,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import SEO from "@/components/SEO";
 
 export default function FAQ() {
   return (
     <article className="max-w-3xl mx-auto px-6 pt-8 pb-32 text-right">
+      <SEO
+        title="سوالات متداول"
+        description="پاسخ سوالات پرتکرار مشتریان جامی مد."
+      />
       {/* Headline */}
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-16 leading-tight">
         سوالات متداول
