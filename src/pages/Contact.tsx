@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import SEO from "@/components/SEO";
 
 export default function Contact() {
   const { toast } = useToast();
@@ -47,6 +48,10 @@ export default function Contact() {
 
   return (
     <>
+      <SEO
+        title="ارتباط با ما"
+        description="با تیم پشتیبانی جامی مد در ارتباط باشید."
+      />
       {/* اضافه کردن راست‌چین به کل صفحه */}
       <section className="max-w-6xl mx-auto px-6 py-24 text-right">
         <div className="grid grid-cols-1 md:grid-cols-[1fr_1.2fr] gap-16 items-start">

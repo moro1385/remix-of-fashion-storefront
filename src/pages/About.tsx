@@ -1,9 +1,14 @@
 import aboutBg from "@/assets/about-bg.jpg";
 import { Instagram, Send } from "lucide-react";
+import SEO from "@/components/SEO";
 
 export default function About() {
   return (
     <article className="max-w-3xl mx-auto px-6 pt-8 pb-32 text-right">
+      <SEO
+        title="درباره ما"
+        description="داستان ما از یک فروشگاه کوچکی در سال ۱۳۷۵ در بازار بزرگ تبریز آغاز شد."
+      />
       {/* Headline */}
       <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-16 leading-tight">
         درباره جامی مد
