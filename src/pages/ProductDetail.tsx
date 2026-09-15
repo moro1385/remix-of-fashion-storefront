@@ -11,6 +11,7 @@ import ProductCard from "@/components/ProductCard";
 import DynamicSizeGuide from "@/components/DynamicSizeGuide";
 import { cn } from "@/lib/utils";
 import SEO from "@/components/SEO";
+import { Helmet } from "react-helmet-async";
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -82,6 +83,21 @@ selectedSize: activeOptions["Size"] ?? null,
     setQuantity(1);
   };
 
+  const productSchema = {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": product.node.title,
+    "description": product.node.description,
+    "image": [productImage(product)],
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "IRR",
+      "price": product.node.priceRange.minVariantPrice.amount,
+      "availability": "https://schema.org/InStock",
+      "url": window.location.href
+    }
+  };
+
   return (
     <>
       <SEO
@@ -89,6 +105,11 @@ selectedSize: activeOptions["Size"] ?? null,
         description={product.node.description ? (product.node.description.length > 155 ? product.node.description.substring(0, 155) + "..." : product.node.description) : "خرید از جامی مد"}
         image={productImage(product)}
       />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(productSchema)}
+        </script>
+      </Helmet>
       <section className="max-w-6xl mx-auto px-6 py-8">
         <nav className="text-sm text-muted-foreground mb-6">
           <Link to="/shop" className="hover:text-foreground transition-colors">فروشگاه</Link>
