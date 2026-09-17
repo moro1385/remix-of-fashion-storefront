@@ -17,6 +17,29 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
           loading="lazy"
         />
       </div>
+      {product.node.images?.edges && product.node.images.edges.length > 1 && (
+        <div className="flex gap-2 mt-2">
+          {product.node.images.edges.slice(0, 3).map((edge, index) => {
+            const isLast = index === 2;
+            const hasMore = product.node.images.edges.length > 3;
+            return (
+              <div key={index} className="relative w-12 h-12 rounded-lg overflow-hidden bg-[hsl(var(--warm-bg))] border border-border/50">
+                <img
+                  src={edge.node?.url}
+                  alt={`${title} thumbnail ${index + 1}`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                {isLast && hasMore && (
+                  <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                    <span className="text-white text-xs font-medium">+{product.node.images.edges.length - 3}</span>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
       <div className="mt-4">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="text-base font-medium text-foreground">{title}</h3>

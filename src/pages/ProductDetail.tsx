@@ -129,7 +129,7 @@ selectedSize: activeOptions["Size"] ?? null,
                 />
               </div>
             </div>
-            {product.node.images.edges.length > 1 && (
+            {product.node.images?.edges && product.node.images.edges.length > 1 && (
               <div className="flex gap-4 overflow-x-auto pb-2 snap-x">
                 {product.node.images.edges.map((img, idx) => (
                   <button
@@ -137,10 +137,10 @@ selectedSize: activeOptions["Size"] ?? null,
                     className="flex-shrink-0 w-24 h-24 border focus:outline-none focus:ring-2 focus:ring-foreground snap-start bg-warm-bg rounded-2xl overflow-hidden"
                     onClick={() => {
                       const mainImg = document.getElementById('main-product-image');
-                      if (mainImg) (mainImg as HTMLImageElement).src = img.node.url;
+                      if (mainImg) (mainImg as HTMLImageElement).src = img.node?.url;
                     }}
                   >
-                    <img src={img.node.url} className="w-full h-full object-cover" alt="thumbnail" />
+                    <img src={img.node?.url} className="w-full h-full object-cover" alt="thumbnail" />
                   </button>
                 ))}
               </div>
