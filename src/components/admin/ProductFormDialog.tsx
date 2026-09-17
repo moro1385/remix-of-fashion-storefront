@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { getBrandOptions } from "@/lib/brands";
+import { colorNames } from "@/lib/translations";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
@@ -244,28 +245,10 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       ];
     }
 
-    const cOptions = [
-      { value: "Black", label: "مشکی (Black)" },
-      { value: "White", label: "سفید (White)" },
-      { value: "Navy", label: "سرمه‌ای (Navy)" },
-      { value: "Grey", label: "طوسی (Grey)" },
-      { value: "Cream", label: "کرم (Cream)" },
-      { value: "Brown", label: "قهوه‌ای (Brown)" },
-      { value: "Red", label: "قرمز (Red)" },
-      { value: "Maroon", label: "زرشکی (Maroon)" },
-      { value: "Blue", label: "آبی (Blue)" },
-      { value: "Light Blue", label: "آبی روشن / آبی آسمانی (Light Blue)" },
-      { value: "Green", label: "سبز (Green)" },
-      { value: "Dark Green", label: "سبز یشمی (Dark Green)" },
-      { value: "Olive", label: "زیتونی (Olive)" },
-      { value: "Yellow", label: "زرد (Yellow)" },
-      { value: "Mustard", label: "خردلی (Mustard)" },
-      { value: "Orange", label: "نارنجی (Orange)" },
-      { value: "Pink", label: "صورتی (Pink)" },
-      { value: "Purple", label: "بنفش (Purple)" },
-      { value: "Beige", label: "بژ (Beige)" },
-      { value: "Multi-color", label: "چندرنگ / ترکیبی (Multi-color)" },
-    ];
+    const cOptions = Object.entries(colorNames).map(([value, label]) => ({
+      value,
+      label: `${label} (${value})`,
+    }));
     setColorOptions(cOptions);
 
     setTypeOptions(tOptions);
