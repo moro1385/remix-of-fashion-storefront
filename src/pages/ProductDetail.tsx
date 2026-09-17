@@ -10,6 +10,7 @@ import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
 import DynamicSizeGuide from "@/components/DynamicSizeGuide";
 import { cn } from "@/lib/utils";
+import { colorNames, colorCodes } from "@/lib/translations";
 import SEO from "@/components/SEO";
 import { Helmet } from "react-helmet-async";
 
@@ -173,13 +174,23 @@ selectedSize: activeOptions["Size"] ?? null,
                         key={value}
                         onClick={() => setSelected((prev) => ({ ...prev, [option.name]: value }))}
                         className={cn(
-                          "px-4 py-2 text-sm border transition-colors rounded-full",
+                          "px-4 py-2 text-sm border transition-colors rounded-full flex items-center justify-center",
                           activeOptions[option.name] === value
                             ? "border-foreground text-foreground"
                             : "border-border text-muted-foreground hover:text-foreground"
                         )}
                       >
-                        {value}
+                        {option.name === "Color" ? (
+                          <>
+                            <span
+                              className="inline-block w-3 h-3 rounded-full border border-black/10 ml-2"
+                              style={{ background: colorCodes[value] || value }}
+                            />
+                            <span>{colorNames[value] || value}</span>
+                          </>
+                        ) : (
+                          value
+                        )}
                       </button>
                     ))}
                   </div>
