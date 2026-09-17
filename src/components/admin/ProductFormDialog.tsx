@@ -15,6 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { getBrandOptions } from "@/lib/brands";
 import { colorNames } from "@/lib/translations";
+import { slugify } from "@/lib/slugify";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductImagesManager } from "./ProductImagesManager";
 import { fetchCategories } from "@/services/products";
@@ -57,6 +58,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(false);
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(productSchema),
@@ -84,6 +86,15 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
   const department = form.watch("department");
   const category = form.watch("category");
+  const name = form.watch("name");
+
+  useEffect(() => {
+    if (!product && !slugManuallyEdited && name) {
+      form.setValue("slug", slugify(name), { shouldValidate: true });
+    } else if (!product && !slugManuallyEdited && !name) {
+      form.setValue("slug", "", { shouldValidate: true });
+    }
+  }, [name, product, slugManuallyEdited, form]);
 
   const [typeOptions, setTypeOptions] = useState<{ value: string; label: string }[]>([]);
   const [brandOptions, setBrandOptions] = useState<{ value: string; label: string }[]>([]);
@@ -281,6 +292,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
   useEffect(() => {
     if (product) {
+      setSlugManuallyEdited(true);
       form.reset({
         name: product.name,
         slug: product.slug,
@@ -302,6 +314,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
       });
     } else {
+      setSlugManuallyEdited(false);
       form.reset({
         name: "",
         slug: "",
@@ -347,11 +360,18 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
   async function onSubmit(values: ProductFormValues) {
     setIsSubmitting(true);
+
+    // Safety net: slugify the final value before saving
+    const finalValues = {
+      ...values,
+      slug: slugify(values.slug)
+    };
+
     try {
       if (product) {
         const { error } = await supabase
           .from("products")
-          .update(values)
+          .update(finalValues)
           .eq("id", product.id);
 
         if (error) throw error;
@@ -359,7 +379,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       } else {
         const { error } = await supabase
           .from("products")
-          .insert([values]);
+          .insert([finalValues]);
 
         if (error) throw error;
         toast.success("محصول با موفقیت ایجاد شد");
@@ -367,9 +387,15 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
 
       onSuccess();
       onOpenChange(false);
-    } catch (error: unknown) {
+    } catch (error: any) {
       console.error("Error saving product:", error);
-      toast.error(error.message || "ذخیره محصول با شکست مواجه شد");
+
+      // Catch duplicate slug error
+      if (error?.code === "23505" || (error?.message && error.message.includes("products_slug_key"))) {
+        toast.error("این نامک (Slug) قبلاً برای محصول دیگری استفاده شده — لطفاً کمی تغییرش بده.");
+      } else {
+        toast.error(error?.message || "ذخیره محصول با شکست مواجه شد");
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -408,7 +434,14 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                 <FormItem>
                   <FormLabel>شناسه</FormLabel>
                   <FormControl>
-                    <Input placeholder="product-slug" {...field} />
+                    <Input
+                      placeholder="product-slug"
+                      {...field}
+                      onChange={(e) => {
+                        setSlugManuallyEdited(true);
+                        field.onChange(e);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
