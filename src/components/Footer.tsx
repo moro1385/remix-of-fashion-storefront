@@ -13,6 +13,20 @@ export default function Footer() {
     alt="جامی مد" 
     className="w-full md:w-80 lg:w-96 aspect-[2/1] object-cover object-center rounded-xl md:rounded-2xl shadow-sm mx-auto" 
   />
+
+  <a 
+  referrerPolicy="origin" 
+  target="_blank" 
+  href="https://trustseal.enamad.ir/?id=7744824&Code=9OTe2M4698F0OP4esQoF6tv5Y7lcIMjq"
+>
+  <img 
+    referrerPolicy="origin" 
+    src="https://trustseal.enamad.ir/logo.aspx?id=7744824&Code=9OTe2M4698F0OP4esQoF6tv5Y7lcIMjq" 
+    alt="نماد اعتماد الکترونیکی" 
+    style={{ cursor: "pointer" }} 
+    id="9OTe2M4698F0OP4esQoF6tv5Y7lcIMjq" 
+  />
+</a>
 </Link>
             <h1>مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</h1>
             <div className="flex gap-4 mt-6">
