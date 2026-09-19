@@ -15,7 +15,7 @@ serve(async (req: Request) => {
 
     // Extract phone and OTP
     const rawPhoneNumber = payload?.user?.phone
-    const otpCode = payload?.sms?.code || payload?.sms?.otp
+    const otpCode = payload?.sms?.code || payload?.sms?.otp || payload?.otp
 
     if (!rawPhoneNumber || !otpCode) {
       console.error('Invalid payload:', payload)
@@ -33,13 +33,13 @@ serve(async (req: Request) => {
       formattedPhone = "0" + formattedPhone.slice(2)
     }
 
-    console.log(`Sending OTP to ${formattedPhone}`)
+    console.log(`Sending OTP (${otpCode}) to ${formattedPhone}`)
 
     const username = Deno.env.get("MELIPAYAMAK_USERNAME")
     const password = Deno.env.get("MELIPAYAMAK_PASSWORD")
 
     if (!username || !password) {
-      console.error("Missing MeliPayamak credentials in environment variables")
+      console.error("Missing MeliPayamak credentials")
       return new Response(JSON.stringify({ error: 'Server configuration error' }), {
         status: 500,
         headers: { 'Content-Type': 'application/json' },
@@ -50,10 +50,12 @@ serve(async (req: Request) => {
     const smsData = {
       username: username,
       password: password,
-      text: String(otpCode),
+      text: [String(otpCode)], // <--- نکته کلیدی: مقادیر پترن حتماً باید داخل آرایه باشند
       to: formattedPhone,
       bodyId: 537763
     }
+
+    console.log("Payload prepared for MeliPayamak (password hidden):", { ...smsData, password: "***" });
 
     // Call MeliPayamak API
     const response = await fetch("https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber", {
