@@ -223,6 +223,9 @@ export default function AdminReturnRequests() {
                                     src={url}
                                     alt="Return Request"
                                     className="w-8 h-8 rounded-md object-cover border-2 border-background"
+                                    loading="lazy"
+                                    width={32}
+                                    height={32}
                                   />
                                 ))}
                                 {req.image_urls.length > 3 && (
@@ -243,6 +246,7 @@ export default function AdminReturnRequests() {
                                       src={url}
                                       alt={`Return Request ${i + 1}`}
                                       className="w-full h-40 object-cover rounded-lg border border-border hover:opacity-90 transition-opacity"
+                                      loading="lazy"
                                     />
                                   </a>
                                 ))}

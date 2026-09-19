@@ -127,6 +127,7 @@ selectedSize: activeOptions["Size"] ?? null,
                   alt={product.node.title}
                   className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-transform duration-500"
                   id="main-product-image"
+                  loading="lazy"
                 />
               </div>
             </div>
@@ -141,7 +142,7 @@ selectedSize: activeOptions["Size"] ?? null,
                       if (mainImg) (mainImg as HTMLImageElement).src = img.node?.url;
                     }}
                   >
-                    <img src={img.node?.url} className="w-full h-full object-cover" alt="thumbnail" />
+                    <img src={img.node?.url} className="w-full h-full object-cover" alt="thumbnail" loading="lazy" />
                   </button>
                 ))}
               </div>

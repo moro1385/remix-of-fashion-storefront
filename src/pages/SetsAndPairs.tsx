@@ -9,7 +9,7 @@ export default function SetsAndPairs() {
   return (
     <>
       <section className="relative w-full h-[60vh]">
-        <img src={setsImg} alt="Everyday Essentials" className="w-full h-full object-cover" />
+        <img src={setsImg} alt="Everyday Essentials" className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
           <div className="text-center text-white">
             <p className="text-sm uppercase tracking-widest mb-3">Start Fresh</p>

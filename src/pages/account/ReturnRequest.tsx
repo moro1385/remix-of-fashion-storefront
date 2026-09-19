@@ -257,6 +257,9 @@ export default function ReturnRequest() {
                       src={URL.createObjectURL(file)}
                       alt={`Preview ${index}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
+                      width={80}
+                      height={80}
                     />
                     <button
                       type="button"
