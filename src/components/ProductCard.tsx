@@ -28,7 +28,7 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
               <div key={index} className="relative w-12 h-12 rounded-lg overflow-hidden bg-[hsl(var(--warm-bg))] border border-border/50">
                 <img
                   src={edge.node?.url}
-                  alt={`${title} thumbnail ${index + 1}`}
+                  alt={`${title} تصویر ${index + 1}`}
                   className="w-full h-full object-cover"
                   loading="lazy"
                   width={48}
