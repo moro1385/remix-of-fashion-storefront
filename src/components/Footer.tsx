@@ -12,6 +12,9 @@ export default function Footer() {
     src="/logo.png" 
     alt="جامی مد" 
     className="w-full md:w-80 lg:w-96 aspect-[2/1] object-cover object-center rounded-xl md:rounded-2xl shadow-sm mx-auto" 
+    loading="lazy"
+    width={384}
+    height={192}
   />
 
   <a 
@@ -25,6 +28,7 @@ export default function Footer() {
     alt="نماد اعتماد الکترونیکی" 
     style={{ cursor: "pointer" }} 
     id="9OTe2M4698F0OP4esQoF6tv5Y7lcIMjq" 
+    loading="lazy"
   />
 </a>
 </Link>

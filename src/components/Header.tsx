@@ -133,6 +133,9 @@ export default function Header() {
             src="/favicon.png" 
             alt="لوگو جامی مد" 
             className="w-8 h-8 md:w-12 md:h-12 object-contain"
+            loading="lazy"
+            width={48}
+            height={48}
           />
           
           {/* نوشته جامی مد (با حفظ استایل‌های قبلی) */}

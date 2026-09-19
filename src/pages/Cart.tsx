@@ -51,6 +51,9 @@ const navigate = useNavigate();
               src={item.image}
               alt={item.productTitle}
               className="w-24 h-24 object-cover bg-[hsl(var(--warm-bg))] rounded-2xl"
+              loading="lazy"
+              width={96}
+              height={96}
             />
             <div className="flex-1">
               <div className="flex justify-between items-start">

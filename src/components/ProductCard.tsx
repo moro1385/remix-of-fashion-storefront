@@ -15,6 +15,8 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
           alt={title}
           className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          width={400}
+          height={500}
         />
       </div>
       {product.node.images?.edges && product.node.images.edges.length > 1 && (
@@ -29,6 +31,8 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
                   alt={`${title} thumbnail ${index + 1}`}
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  width={48}
+                  height={48}
                 />
                 {isLast && hasMore && (
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center">

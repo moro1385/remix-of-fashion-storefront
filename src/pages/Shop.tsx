@@ -117,6 +117,9 @@ export default function Shop() {
   <a href="#" className="block w-[380px] h-[380px] overflow-hidden rounded-2xl hover:opacity-90 transition-opacity shadow-sm">
     <img 
 src={getCollectionImage(departmentQuery, categoryQuery) || "/socks_clipcart.jpg"}
+loading="lazy"
+width={380}
+height={380}
 onError={(e) => {
   const fallback = collection?.image || "/socks_clipcart.jpg";
   if (e.currentTarget.src !== fallback) {
