@@ -13,12 +13,11 @@ serve(async (req: Request) => {
     // Parse the payload from the Supabase custom auth webhook
     const payload = await req.json()
 
-    // Extract phone and OTP. The exact payload depends on Supabase Auth Hook version.
-    // Usually it provides payload.user.phone and payload.sms.code (or otp).
-    const phoneNumber = payload?.user?.phone
+    // Extract phone and OTP
+    const rawPhoneNumber = payload?.user?.phone
     const otpCode = payload?.sms?.code || payload?.sms?.otp
 
-    if (!phoneNumber || !otpCode) {
+    if (!rawPhoneNumber || !otpCode) {
       console.error('Invalid payload:', payload)
       return new Response(JSON.stringify({ error: 'Missing phone number or OTP code in payload' }), {
         status: 400,
@@ -26,7 +25,15 @@ serve(async (req: Request) => {
       })
     }
 
-    console.log(`Sending OTP to ${phoneNumber}`)
+    // نرمال‌سازی شماره موبایل به فرمت محلی ایران (09...)
+    let formattedPhone = String(rawPhoneNumber).trim()
+    if (formattedPhone.startsWith("+98")) {
+      formattedPhone = "0" + formattedPhone.slice(3)
+    } else if (formattedPhone.startsWith("98")) {
+      formattedPhone = "0" + formattedPhone.slice(2)
+    }
+
+    console.log(`Sending OTP to ${formattedPhone}`)
 
     const username = Deno.env.get("MELIPAYAMAK_USERNAME")
     const password = Deno.env.get("MELIPAYAMAK_PASSWORD")
@@ -43,8 +50,8 @@ serve(async (req: Request) => {
     const smsData = {
       username: username,
       password: password,
-      text: otpCode,
-      to: phoneNumber,
+      text: String(otpCode),
+      to: formattedPhone,
       bodyId: 537763
     }
 
@@ -59,15 +66,15 @@ serve(async (req: Request) => {
 
     const result = await response.json()
 
-    if (!response.ok) {
+    // بررسی نتیجه پاسخ ملی‌پیامک
+    if (!response.ok || Number(result.RetStatus) !== 1) {
       console.error("MeliPayamak API error:", result)
-      throw new Error(`SMS Provider Error: ${result.RetStatus || 'Unknown error'}`)
+      throw new Error(`SMS Provider Error: ${result.StrRetStatus || result.Value || 'Failed to send'}`)
     }
 
     console.log("SMS sent successfully:", result)
 
     // Return successful response to Supabase Auth
-    // Auth hooks expect the unmodified payload to be returned or they will fail.
     return new Response(JSON.stringify(payload), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
