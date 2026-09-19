@@ -283,7 +283,6 @@ export const useAuthStore = create<AuthStore>()(
 
         signOut: async () => {
           await supabase.auth.signOut();
-          useCartStore.getState().clearCart();
           set({ session: null, user: null });
         },
 
