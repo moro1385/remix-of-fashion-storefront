@@ -4,7 +4,6 @@ import { Loader2 } from "lucide-react";
 import { useProduct, useProducts } from "@/hooks/useProducts";
 import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { useCartStore } from "@/stores/cartStore";
-import { useAuthStore } from "@/stores/authStore";
 import { toast } from "sonner";
 import QuantitySelector from "@/components/QuantitySelector";
 import ProductCard from "@/components/ProductCard";
@@ -19,7 +18,6 @@ export default function ProductDetail() {
   const { data: product, isLoading } = useProduct(slug);
   const { data: allProducts } = useProducts();
   const addItem = useCartStore((s) => s.addItem);
-  const isAuthenticated = useAuthStore((s) => s.isAuthenticated());
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState<Record<string, string>>({});
 
@@ -64,10 +62,6 @@ export default function ProductDetail() {
   const price = selectedVariant?.price ?? product.node.priceRange.minVariantPrice;
 
   const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      toast.error("Auth Required", { description: "Please sign in to add to cart." });
-      return;
-    }
     if (isSoldOut) return;
 
     addItem({
