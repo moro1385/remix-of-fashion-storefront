@@ -142,7 +142,7 @@ selectedSize: activeOptions["Size"] ?? null,
                       if (mainImg) (mainImg as HTMLImageElement).src = img.node?.url;
                     }}
                   >
-                    <img src={img.node?.url} className="w-full h-full object-cover" alt="thumbnail" loading="lazy" />
+                    <img src={img.node?.url} className="w-full h-full object-cover" alt={`${product.node.title} - تصویر ${idx + 1}`} loading="lazy" />
                   </button>
                 ))}
               </div>
