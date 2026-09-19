@@ -22,8 +22,8 @@ const emptyForm = {
 };
 
 const SHIPPING_METHODS = [
-  { id: "regular", label: "پست معمولی", cost: 500000 },
-  { id: "express", label: "پست پیشتاز", cost: 800000 },
+  { id: "express", label: "پست پیشتاز", cost: 2000000 },
+  { id: "tipax", label: "پس‌کرایه (تیپاکس)", cost: 0 },
 ];
 
 export default function CheckoutAddress() {
@@ -299,6 +299,11 @@ export default function CheckoutAddress() {
               </label>
             ))}
           </div>
+          {shippingMethod === "tipax" && (
+            <div className="mt-4 p-4 bg-muted/50 border border-border rounded-xl text-sm text-foreground leading-relaxed">
+              مشخصات ارسال و لینک پرداخت نهایت تا دو روز براتون ارسال میشه و هزینه ارسال رو از اون لینک میزنین
+            </div>
+          )}
         </section>
 
         <div className="flex justify-end pt-8 border-t border-border">
