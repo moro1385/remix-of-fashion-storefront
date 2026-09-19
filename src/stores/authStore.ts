@@ -168,6 +168,7 @@ export const useAuthStore = create<AuthStore>()(
           } catch {
             set({ session: null, user: null });
           } finally {
+            useCartStore.getState().initializeCart();
             set({ isBootstrapping: false });
           }
         },
@@ -217,6 +218,7 @@ export const useAuthStore = create<AuthStore>()(
                 orders: currentUser?.orders || [],
               }
             });
+            useCartStore.getState().initializeCart();
           }
         },
 
@@ -262,6 +264,7 @@ export const useAuthStore = create<AuthStore>()(
                   orders: currentUser?.orders || [],
                 }
               });
+                useCartStore.getState().initializeCart();
             }
           }
         },

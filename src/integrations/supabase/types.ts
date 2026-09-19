@@ -65,6 +65,8 @@ export type Database = {
           created_at: string
           id: string
           product_id: string
+          selected_size?: string | null
+          selected_color?: string | null
           quantity: number
           variant_id: string | null
         }
@@ -73,6 +75,8 @@ export type Database = {
           created_at?: string
           id?: string
           product_id: string
+          selected_size?: string | null
+          selected_color?: string | null
           quantity?: number
           variant_id?: string | null
         }
@@ -81,6 +85,8 @@ export type Database = {
           created_at?: string
           id?: string
           product_id?: string
+          selected_size?: string | null
+          selected_color?: string | null
           quantity?: number
           variant_id?: string | null
         }
@@ -159,6 +165,8 @@ export type Database = {
           order_id: string
           price: number
           product_id: string | null
+          selected_size?: string | null
+          selected_color?: string | null
           quantity: number
           variant_id: string | null
           title: string | null
@@ -288,6 +296,8 @@ export type Database = {
           product_id: string
           size: string | null
           sku: string | null
+          selected_size?: string | null
+          selected_color?: string | null
           stock_quantity: number
         }
         Insert: {
