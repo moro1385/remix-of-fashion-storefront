@@ -1,15 +1,14 @@
 import { Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
-import coreCollectionImg from "@/assets/collections/core-collection.jpg";
+
 
 export default function CoreCollection() {
-  const { data: products, isLoading } = useProducts("product_type:Socks");
+  const { data: products, isLoading } = useProducts();
 
   return (
     <>
       <section className="relative w-full h-[60vh]">
-        <img src={coreCollectionImg} alt="The Sock Collection" className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
           <div className="text-center text-white">
             <p className="text-sm uppercase tracking-widest mb-3">Explore</p>

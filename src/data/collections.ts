@@ -1,9 +1,9 @@
-import socksImg from "@/assets/collections/socks.png";
-import underwearImg from "@/assets/collections/underwear.png";
-import pantsImg from "@/assets/collections/pants.png";
-import shortsImg from "@/assets/collections/shorts.jfif";
-import tshirtsImg from "@/assets/collections/tshirts.png";
-import undershirtsImg from "@/assets/collections/undershirts.png";
+import socksImg from "@/assets/collections/socks.webp";
+import underwearImg from "@/assets/collections/underwear.webp";
+import pantsImg from "@/assets/collections/pants.webp";
+import shortsImg from "@/assets/collections/shorts.webp";
+import tshirtsImg from "@/assets/collections/tshirts.webp";
+import undershirtsImg from "@/assets/collections/undershirts.webp";
 import setsImg from "@/assets/collections/sets.jpg";
 
 export interface Collection {
