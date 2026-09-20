@@ -32,12 +32,12 @@ export default function Footer() {
   />
 </a>
 </Link>
-            <h1>مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</h1>
+            <p>مهم ترین نیاز های روزمره خود را با بیشترین کیفیت از جامی مد تهیه کنید</p>
             <div className="flex gap-4 mt-6">
-              <a href="https://www.instagram.com/jami_modee?igsi=Z2N2cXdwNWZpeDRw&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="https://www.instagram.com/jami_modee?igsi=Z2N2cXdwNWZpeDRw&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-3 -m-3">
                 <Instagram className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
               </a>
-              <a href="https://t.me/foroshgahejamaly" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+              <a href="https://t.me/foroshgahejamaly" target="_blank" rel="noopener noreferrer" aria-label="Telegram" className="p-3 -m-3">
                 <Send className="w-[18px] h-[18px] text-muted-foreground hover:text-foreground transition-colors" />
               </a>
             </div>

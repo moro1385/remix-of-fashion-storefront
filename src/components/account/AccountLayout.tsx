@@ -39,9 +39,9 @@ export default function AccountLayout({ title, description, children }: AccountL
     <div className="bg-[hsl(var(--warm-bg))] min-h-[calc(100vh-104px)]">
       <div className="max-w-6xl mx-auto px-6 py-16 md:py-24">
         <p className="text-[20px] text-accent">حساب کاربری</p>
-        <h1 className="mt-4 text-3xl md:text-4xl font-light text-foreground">
+        <p className="mt-4 text-3xl md:text-4xl font-light text-foreground">
           {displayName || "خوش آمدید"}
-        </h1>
+        </p>
 
 
         <div className="mt-12 flex flex-col md:flex-row gap-10 w-full overflow-hidden">
@@ -86,7 +86,7 @@ export default function AccountLayout({ title, description, children }: AccountL
 
           <section className="bg-background border border-border p-6 md:p-10 animate-in fade-in duration-300 rounded-2xl w-full">
             <header className="pb-6 border-b border-border">
-              <h2 className="text-xl font-light text-foreground">{title}</h2>
+              <h1 className="text-xl font-light text-foreground">{title}</h1>
               {description && <p className="mt-2 text-sm text-muted-foreground">{description}</p>}
             </header>
             <div className="pt-8">{children}</div>
