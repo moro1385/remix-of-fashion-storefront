@@ -47,6 +47,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminTickets from "./pages/admin/AdminTickets";
 import AdminMessages from "./pages/admin/AdminMessages";
 import AdminReturnRequests from "./pages/admin/AdminReturnRequests";
+import CartSync from "./components/CartSync";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,7 @@ const App = () => {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
+        <CartSync />
         <TooltipProvider>
         <Toaster />
         <Sonner position="top-center" />
