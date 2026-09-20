@@ -3,6 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { supabase } from "@/integrations/supabase/client";
 import { normalizePhone } from "@/lib/phone";
 import { useCartStore } from "./cartStore";
+import { flushCartToServer } from "@/lib/cartSync";
 import type { Address, Session, User } from "@/types/auth";
 import type { Session as SupabaseSession } from "@supabase/supabase-js";
 
@@ -282,6 +283,10 @@ export const useAuthStore = create<AuthStore>()(
         },
 
         signOut: async () => {
+          const userId = get().user?.id;
+          if (userId) {
+            await flushCartToServer(userId);
+          }
           await supabase.auth.signOut();
           useCartStore.getState().clearCart();
           set({ session: null, user: null });

@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useCartStore, CartItem } from "@/stores/cartStore";
 import { supabase } from "@/integrations/supabase/client";
+import { flushCartToServer } from "@/lib/cartSync";
 
 export default function CartSync() {
   const user = useAuthStore((s) => s.user);
@@ -87,14 +88,11 @@ export default function CartSync() {
         // Only sync if not currently actively handling initial fetch/merge
         if (isFetchingRef.current) return;
 
-        const { error } = await supabase.from("carts").upsert({
-          user_id: userId,
-          items: currentItems,
-          updated_at: new Date().toISOString(),
-        });
+        const freshUserId = useAuthStore.getState().user?.id;
+        const freshIsAuthenticated = useAuthStore.getState().isAuthenticated();
 
-        if (error) {
-          console.error("Error syncing cart to server:", error);
+        if (freshIsAuthenticated && freshUserId) {
+          await flushCartToServer(freshUserId);
         }
       }, 600);
     }
