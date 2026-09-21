@@ -122,10 +122,15 @@ selectedSize: activeOptions["Size"] ?? null,
           <div className="flex flex-col gap-4">
             <div className="w-full aspect-[4/5] bg-warm-bg overflow-hidden relative rounded-2xl">
               <div className="w-full h-full overflow-hidden rounded-2xl relative">
+                {isSoldOut && (
+                  <span className="absolute top-4 right-4 bg-white/90 text-red-600 text-sm font-bold px-3 py-1 rounded-md z-10">
+                    ناموجود
+                  </span>
+                )}
                 <img
                   src={product.node.images.edges[0]?.node.url || "/placeholder.svg"}
                   alt={product.node.title}
-                  className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-transform duration-500"
+                  className={cn("w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-transform duration-500", isSoldOut && "grayscale opacity-75")}
                   id="main-product-image"
                   loading="lazy"
                 />

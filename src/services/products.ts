@@ -36,7 +36,7 @@ export interface CatalogProduct {
 export const CURRENCY_CODE = "IRR";
 
 const PRODUCT_SELECT = `
-  id, name, slug, description, price, is_active, is_featured, is_new, images, created_at, tags, department, category, brand, pattern, type, sizes, colors,
+  id, name, slug, description, price, is_active, is_out_of_stock, is_featured, is_new, images, created_at, tags, department, category, brand, pattern, type, sizes, colors,
   categories:category_id ( id, name, slug ),
   product_images ( id, image_url, alt_text, sort_order ),
   product_variants ( id, size, color, sku, price, stock_quantity )
@@ -49,6 +49,7 @@ type Row = {
   description: string | null;
   price: number | null;
   is_active: boolean;
+  is_out_of_stock: boolean;
   is_featured: boolean;
   is_new: boolean;
   images: string[] | null;
@@ -101,7 +102,7 @@ function mapProduct(row: Row): CatalogProduct {
       id: row.id,
       title: "Default",
       price: money(row.price),
-      availableForSale: true,
+      availableForSale: !row.is_out_of_stock,
       selectedOptions: [],
   }];
 

@@ -30,6 +30,7 @@ const productSchema = z.object({
   description: z.string().optional().nullable(),
   price: z.coerce.number().min(0, "Price must be positive"),
   is_active: z.boolean().default(true),
+  is_out_of_stock: z.boolean().default(false),
   is_featured: z.boolean().default(false),
   is_new: z.boolean().default(false),
   category_id: z.string().optional().nullable(),
@@ -68,6 +69,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
       description: "",
       price: 0,
       is_active: true,
+      is_out_of_stock: false,
       is_featured: false,
       is_new: false,
       category_id: null,
@@ -299,6 +301,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         description: product.description || "",
         price: product.price,
         is_active: product.is_active,
+        is_out_of_stock: product.is_out_of_stock,
         is_featured: product.is_featured,
         is_new: product.is_new,
         category_id: product.category_id,
@@ -321,6 +324,7 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
         description: "",
         price: 0,
         is_active: true,
+        is_out_of_stock: false,
         is_featured: false,
         is_new: false,
         category_id: null,
@@ -468,6 +472,24 @@ export function ProductFormDialog({ open, onOpenChange, product, onSuccess }: Pr
                       </SelectContent>
                     </Select>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="is_out_of_stock"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 w-full">
+                    <div className="space-y-0.5">
+                      <FormLabel className="text-base">ناموجود</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
                   </FormItem>
                 )}
               />
