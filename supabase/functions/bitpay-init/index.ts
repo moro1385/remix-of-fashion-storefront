@@ -94,7 +94,7 @@ serve(async (req: Request) => {
     }
 
     const amount = Math.round(order.total_amount)
-    const redirectUrl = `${supabaseUrl}/functions/v1/bitpay-verify?order_id=${orderId}`
+    const redirectUrl = `https://jamimode.ir/checkout/verify?order_id=${orderId}`
 
     const bodyParams = new URLSearchParams()
     bodyParams.append('api', bitpayApiKey)
