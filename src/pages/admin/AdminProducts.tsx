@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, Loader2, Copy } from "lucide-react";
 import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductFormDialog } from "@/components/admin/ProductFormDialog";
+import { slugify } from "@/lib/slugify";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
@@ -42,6 +43,32 @@ export default function AdminProducts() {
     } catch (err: unknown) {
       console.error("Error deleting product:", err);
       toast.error(err.message || "حذف محصول با شکست مواجه شد");
+    }
+  };
+
+  const handleDuplicateProduct = async (product: Product) => {
+    try {
+      const { id, created_at, ...rest } = product;
+      const duplicatedData = { ...rest };
+      duplicatedData.name = `${product.name} - کپی`;
+      duplicatedData.slug = slugify(duplicatedData.name);
+      duplicatedData.images = [];
+
+      const { error } = await supabase.from("products").insert([duplicatedData]);
+
+      if (error) {
+        if (error.code === "23505" || (error.message && error.message.includes("products_slug_key"))) {
+          toast.error("این نامک (Slug) قبلاً برای محصول دیگری استفاده شده — لطفاً کمی تغییرش بده.");
+        } else {
+          throw error;
+        }
+      } else {
+        toast.success("محصول با موفقیت کپی شد");
+        fetchProducts();
+      }
+    } catch (err: any) {
+      console.error("Error duplicating product:", err);
+      toast.error(err.message || "کپی محصول با شکست مواجه شد");
     }
   };
 
@@ -128,6 +155,9 @@ export default function AdminProducts() {
                     )}
                   </TableCell>
                   <TableCell className="text-left">
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleDuplicateProduct(product)} title="کپی محصول">
+                      <Copy className="h-4 w-4" />
+                    </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditProduct(product)}>
                       <Edit className="h-4 w-4" />
                     </Button>
