@@ -42,6 +42,8 @@ const Messages = lazy(() => import("./pages/account/Messages"));
 const ReturnRequest = lazy(() => import("./pages/account/ReturnRequest"));
 const CheckoutAddress = lazy(() => import("./pages/checkout/CheckoutAddress"));
 const CheckoutPayment = lazy(() => import("./pages/checkout/CheckoutPayment"));
+const CheckoutSuccess = lazy(() => import("./pages/checkout/CheckoutSuccess"));
+const CheckoutFailed = lazy(() => import("./pages/checkout/CheckoutFailed"));
 const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
 const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminProducts = lazy(() => import("./pages/admin/AdminProducts"));
@@ -99,6 +101,8 @@ const App = () => {
                 <Route path="/account/returns/new" element={<ReturnRequest />} />
                 <Route path="/checkout" element={<CheckoutAddress />} />
                 <Route path="/checkout/payment" element={<CheckoutPayment />} />
+                <Route path="/checkout/success" element={<CheckoutSuccess />} />
+                <Route path="/checkout/failed" element={<CheckoutFailed />} />
               </Route>
             </Route>
 

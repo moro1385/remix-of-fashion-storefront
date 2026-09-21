@@ -85,8 +85,11 @@ export default function CheckoutPayment() {
           body: { orderId: orderData.id }
         });
 
-        if (bitpayError || !bitpayData?.redirectUrl) {
-          throw new Error(bitpayData?.error || bitpayError?.message || "Failed to initialize payment gateway");
+        if (bitpayError || bitpayData?.error || !bitpayData?.redirectUrl) {
+          const errMsg = bitpayData?.error || bitpayError?.message || "مشکلی در اتصال به درگاه پرداخت رخ داد.";
+          toast.error(errMsg);
+          setBusy(false);
+          return;
         }
 
         // Redirect to Bitpay
