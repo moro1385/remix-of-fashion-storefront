@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowDownLeft, ArrowUpRight, Loader2, Wallet as WalletIcon } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import AccountLayout from "@/components/account/AccountLayout";
 import { useAuthStore } from "@/stores/authStore";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,12 +10,26 @@ const formatAmount = (amount: number) =>
   new Intl.NumberFormat('fa-IR').format(amount) + " ریال";
 
 export default function Wallet() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const user = useAuthStore((s) => s.user);
   const wallet = user?.wallet;
   const transactions = wallet?.transactions ?? [];
 
   const [topUpAmount, setTopUpAmount] = useState("");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const topupStatus = searchParams.get("topup");
+    if (topupStatus === "success") {
+      toast.success("کیف پول با موفقیت شارژ شد");
+      useAuthStore.getState().bootstrap();
+      navigate("/account/wallet", { replace: true });
+    } else if (topupStatus === "failed") {
+      toast.error("شارژ کیف پول ناموفق بود یا لغو شد");
+      navigate("/account/wallet", { replace: true });
+    }
+  }, [searchParams, navigate]);
 
   const handleTopUp = async () => {
     if (!user) return;
@@ -26,22 +41,37 @@ export default function Wallet() {
 
     setBusy(true);
     try {
-      const newBalance = (wallet?.balance ?? 0) + amount;
-      const { error } = await supabase
-        .from("profiles")
-        .update({ wallet_balance: newBalance })
-        .eq("id", user.id);
+      // Create topup record
+      const { data: topupData, error: topupError } = await supabase
+        .from("wallet_topups")
+        .insert({
+          user_id: user.id,
+          amount: amount,
+          status: "pending_payment"
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (topupError) throw topupError;
 
-      toast.success("کیف پول شارژ شد");
-      setTopUpAmount("");
-      // Refresh user store to get new balance
-      useAuthStore.getState().bootstrap();
+      // Init payment gateway
+      const { data: bitpayData, error: bitpayError } = await supabase.functions.invoke("bitpay-wallet-init", {
+        body: { topupId: topupData.id }
+      });
+
+      if (bitpayError || bitpayData?.error || !bitpayData?.redirectUrl) {
+        const errMsg = bitpayData?.error || bitpayError?.message || "مشکلی در اتصال به درگاه پرداخت رخ داد.";
+        toast.error(errMsg);
+        setBusy(false);
+        return;
+      }
+
+      // Redirect to gateway
+      window.location.href = bitpayData.redirectUrl;
+
     } catch (err) {
       console.error("Top up error", err);
-      toast.error("شارژ کیف پول با شکست مواجه شد");
-    } finally {
+      toast.error("شروع فرآیند شارژ کیف پول با شکست مواجه شد");
       setBusy(false);
     }
   };
@@ -59,7 +89,7 @@ export default function Wallet() {
             {formatAmount(wallet?.balance ?? 0)}
           </p>
           <p className="mt-4 text-sm text-primary-foreground/70 max-w-md">
-            موجودی به‌طور خودکار به سفارش بعدی شما اعمال می‌شود. شارژ کیف پول پس از اتصال درگاه‌های پرداخت در دسترس خواهد بود.
+            موجودی به‌طور خودکار به سفارش بعدی شما اعمال می‌شود.
           </p>
 
           <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-md">
