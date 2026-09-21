@@ -40,6 +40,7 @@ const Wallet = lazy(() => import("./pages/account/Wallet"));
 const Orders = lazy(() => import("./pages/account/Orders"));
 const Messages = lazy(() => import("./pages/account/Messages"));
 const ReturnRequest = lazy(() => import("./pages/account/ReturnRequest"));
+const WalletVerify = lazy(() => import("./pages/account/WalletVerify"));
 const CheckoutAddress = lazy(() => import("./pages/checkout/CheckoutAddress"));
 const CheckoutPayment = lazy(() => import("./pages/checkout/CheckoutPayment"));
 const CheckoutVerify = lazy(() => import("./pages/checkout/CheckoutVerify"));
@@ -97,6 +98,7 @@ const App = () => {
                 <Route path="/account" element={<PersonalInformation />} />
                 <Route path="/account/addresses" element={<Addresses />} />
                 <Route path="/account/wallet" element={<Wallet />} />
+                <Route path="/account/wallet/verify" element={<WalletVerify />} />
                 <Route path="/account/orders" element={<Orders />} />
                 <Route path="/account/messages" element={<Messages />} />
                 <Route path="/account/returns/new" element={<ReturnRequest />} />
