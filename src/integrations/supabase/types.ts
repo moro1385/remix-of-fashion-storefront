@@ -221,7 +221,10 @@ export type Database = {
           shipping_method: string | null
           payment_method: string | null
           user_id: string
-        }
+                  payment_ref: string | null
+          payment_trans_id: string | null
+          shipping_address: string | null
+}
         Insert: {
           created_at?: string
           id?: string
@@ -231,7 +234,10 @@ export type Database = {
           shipping_method?: string | null
           payment_method?: string | null
           user_id: string
-        }
+                  payment_ref?: string | null
+          payment_trans_id?: string | null
+          shipping_address?: string | null
+}
         Update: {
           created_at?: string
           id?: string
@@ -241,7 +247,10 @@ export type Database = {
           shipping_method?: string | null
           payment_method?: string | null
           user_id?: string
-        }
+                  payment_ref?: string | null
+          payment_trans_id?: string | null
+          shipping_address?: string | null
+}
         Relationships: []
       }
       product_images: {

@@ -53,7 +53,7 @@ export default function CheckoutPayment() {
           shipping_cost: shippingCost,
           shipping_method: shippingMethod,
           payment_method: method,
-          status: "confirmed",
+          status: method === "gateway" ? "pending_payment" : "confirmed",
           shipping_address: shippingAddressStr,
         })
         .select()
@@ -79,6 +79,21 @@ export default function CheckoutPayment() {
 
       if (itemsError) throw itemsError;
 
+      if (method === "gateway") {
+        // Init Bitpay
+        const { data: bitpayData, error: bitpayError } = await supabase.functions.invoke("bitpay-init", {
+          body: { orderId: orderData.id }
+        });
+
+        if (bitpayError || !bitpayData?.redirectUrl) {
+          throw new Error(bitpayData?.error || bitpayError?.message || "Failed to initialize payment gateway");
+        }
+
+        // Redirect to Bitpay
+        window.location.href = bitpayData.redirectUrl;
+        return; // Halt further execution, user is redirecting
+      }
+
       // 3. Deduct wallet balance if used
       if (method === "wallet") {
         const newBalance = walletBalance - finalTotal;
@@ -93,7 +108,7 @@ export default function CheckoutPayment() {
         useAuthStore.getState().bootstrap();
       }
 
-      // 4. Clear carts
+      // 4. Clear carts (only for wallet, gateway handles it after return/success)
       clearCart();
       clearCheckout();
 
