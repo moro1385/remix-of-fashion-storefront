@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { formatPrice, productImage, type CatalogProduct } from "@/services/products";
 import { categoryNames } from "@/lib/translations";
+import { cn } from "@/lib/utils";
 
 export default function ProductCard({ product }: { product: CatalogProduct }) {
   const { title, handle, productType, priceRange, variants } = product.node;
@@ -10,10 +11,15 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
   return (
     <Link to={`/product/${handle}`} className="group relative block">
       <div className="relative overflow-hidden rounded-2xl bg-[hsl(var(--warm-bg))]">
+        {!inStock && (
+          <span className="absolute top-2 right-2 bg-white/90 text-red-600 text-xs font-bold px-2 py-1 rounded-md z-10">
+            ناموجود
+          </span>
+        )}
         <img
           src={productImage(product)}
           alt={title}
-          className="w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105"
+          className={cn("w-full aspect-[4/5] object-cover transition-transform duration-500 group-hover:scale-105", !inStock && "grayscale opacity-75")}
           loading="lazy"
           width={400}
           height={500}
@@ -47,7 +53,6 @@ export default function ProductCard({ product }: { product: CatalogProduct }) {
       <div className="mt-4">
         <div className="flex items-baseline justify-between gap-2">
           <h3 className="text-base font-medium text-foreground">{title}</h3>
-          {!inStock && <span className="text-xs text-accent font-medium">ناموجود</span>}
         </div>
         {productType && (
           <p className="text-xs text-muted-foreground mt-1">{categoryNames[productType.toLowerCase()] || productType}</p>
