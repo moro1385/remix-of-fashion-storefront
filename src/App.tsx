@@ -1,6 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { lazy, Suspense } from "react";
+import { Loader2 } from "lucide-react";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -22,32 +24,32 @@ import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import CoreCollection from "./pages/CoreCollection";
 import SetsAndPairs from "./pages/SetsAndPairs";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import OtpRequest from "./pages/OtpRequest";
-import OtpVerify from "./pages/OtpVerify";
-import PersonalInformation from "./pages/account/PersonalInformation";
-import Addresses from "./pages/account/Addresses";
-import Wallet from "./pages/account/Wallet";
-import Orders from "./pages/account/Orders";
-import Messages from "./pages/account/Messages";
-import CheckoutAddress from "./pages/checkout/CheckoutAddress";
-import CheckoutPayment from "./pages/checkout/CheckoutPayment";
-import ReturnRequest from "./pages/account/ReturnRequest";
 import RequireAuth from "./components/auth/RequireAuth";
 import RedirectIfAuthenticated from "./components/auth/RedirectIfAuthenticated";
 import RequireAdmin from "./components/auth/RequireAdmin";
 import NotFound from "./pages/NotFound";
-
-import AdminLayout from "./pages/admin/AdminLayout";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import AdminProducts from "./pages/admin/AdminProducts";
-import AdminOrders from "./pages/admin/AdminOrders";
-import AdminUsers from "./pages/admin/AdminUsers";
-import AdminTickets from "./pages/admin/AdminTickets";
-import AdminMessages from "./pages/admin/AdminMessages";
-import AdminReturnRequests from "./pages/admin/AdminReturnRequests";
 import CartSync from "./components/CartSync";
+
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const OtpRequest = lazy(() => import("./pages/OtpRequest"));
+const OtpVerify = lazy(() => import("./pages/OtpVerify"));
+const PersonalInformation = lazy(() => import("./pages/account/PersonalInformation"));
+const Addresses = lazy(() => import("./pages/account/Addresses"));
+const Wallet = lazy(() => import("./pages/account/Wallet"));
+const Orders = lazy(() => import("./pages/account/Orders"));
+const Messages = lazy(() => import("./pages/account/Messages"));
+const ReturnRequest = lazy(() => import("./pages/account/ReturnRequest"));
+const CheckoutAddress = lazy(() => import("./pages/checkout/CheckoutAddress"));
+const CheckoutPayment = lazy(() => import("./pages/checkout/CheckoutPayment"));
+const AdminLayout = lazy(() => import("./pages/admin/AdminLayout"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminProducts = lazy(() => import("./pages/admin/AdminProducts"));
+const AdminOrders = lazy(() => import("./pages/admin/AdminOrders"));
+const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
+const AdminTickets = lazy(() => import("./pages/admin/AdminTickets"));
+const AdminMessages = lazy(() => import("./pages/admin/AdminMessages"));
+const AdminReturnRequests = lazy(() => import("./pages/admin/AdminReturnRequests"));
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,7 @@ const App = () => {
         <Toaster />
         <Sonner position="top-center" />
         <BrowserRouter>
+          <Suspense fallback={<div className="flex justify-center items-center h-screen"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>}>
           <Routes>
             <Route element={<Layout />}>
               <Route path="/" element={<Index />} />
@@ -113,6 +116,7 @@ const App = () => {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
