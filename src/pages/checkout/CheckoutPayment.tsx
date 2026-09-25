@@ -81,9 +81,17 @@ export default function CheckoutPayment() {
 
       if (method === "gateway") {
         // Init Bitpay
-        const { data: bitpayData, error: bitpayError } = await supabase.functions.invoke("bitpay-init", {
-          body: { orderId: orderData.id }
+        const { data: sessionData } = await supabase.auth.getSession();
+        const response = await fetch("/api/bitpay/init", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionData.session?.access_token}`
+          },
+          body: JSON.stringify({ orderId: orderData.id })
         });
+        const bitpayData = await response.json();
+        const bitpayError = !response.ok ? new Error(bitpayData.error || 'Fetch error') : null;
 
         if (bitpayError || bitpayData?.error || !bitpayData?.redirectUrl) {
           const errMsg = bitpayData?.error || bitpayError?.message || "مشکلی در اتصال به درگاه پرداخت رخ داد.";

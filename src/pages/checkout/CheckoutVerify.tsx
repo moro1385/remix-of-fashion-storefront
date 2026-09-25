@@ -23,9 +23,17 @@ export default function CheckoutVerify() {
 
     async function verifyPayment() {
       try {
-        const { data, error } = await supabase.functions.invoke("bitpay-verify", {
-          body: { order_id, trans_id, id_get }
+        const { data: sessionData } = await supabase.auth.getSession();
+        const response = await fetch("/api/bitpay/verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionData.session?.access_token}`
+          },
+          body: JSON.stringify({ order_id, trans_id, id_get })
         });
+        const data = await response.json();
+        const error = !response.ok ? new Error('Fetch error') : null;
 
         if (error) {
           navigate(`/checkout/failed?order=${order_id}&reason=error`, { replace: true });
