@@ -55,9 +55,17 @@ export default function Wallet() {
       if (topupError) throw topupError;
 
       // Init payment gateway
-      const { data: bitpayData, error: bitpayError } = await supabase.functions.invoke("bitpay-wallet-init", {
-        body: { topupId: topupData.id }
+      const { data: sessionData } = await supabase.auth.getSession();
+      const response = await fetch("/api/bitpay/wallet-init", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${sessionData.session?.access_token}`
+        },
+        body: JSON.stringify({ topupId: topupData.id })
       });
+      const bitpayData = await response.json();
+      const bitpayError = !response.ok ? new Error(bitpayData.error || 'Fetch error') : null;
 
       if (bitpayError || bitpayData?.error || !bitpayData?.redirectUrl) {
         const errMsg = bitpayData?.error || bitpayError?.message || "مشکلی در اتصال به درگاه پرداخت رخ داد.";

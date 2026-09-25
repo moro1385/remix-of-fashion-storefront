@@ -23,9 +23,17 @@ export default function WalletVerify() {
 
     async function verifyPayment() {
       try {
-        const { data, error } = await supabase.functions.invoke("bitpay-wallet-verify", {
-          body: { topup_id, trans_id, id_get }
+        const { data: sessionData } = await supabase.auth.getSession();
+        const response = await fetch("/api/bitpay/wallet-verify", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${sessionData.session?.access_token}`
+          },
+          body: JSON.stringify({ topup_id, trans_id, id_get })
         });
+        const data = await response.json();
+        const error = !response.ok ? new Error('Fetch error') : null;
 
         if (error) {
           navigate(`/account/wallet?topup=failed`, { replace: true });

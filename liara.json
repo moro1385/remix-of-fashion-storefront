@@ -1,6 +1,7 @@
 {
   "app": "jami-mode",
   "port": 80,
+  "platform": "node",
   "build": {
     "location": "iran"
   },
