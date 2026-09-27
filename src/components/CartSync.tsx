@@ -42,25 +42,7 @@ export default function CartSync() {
           const localItems = useCartStore.getState().items;
           const serverItems: CartItem[] = data?.items ? (data.items as unknown as CartItem[]) : [];
 
-          if (serverItems.length > 0 && localItems.length > 0) {
-            // MERGE
-            const mergedMap = new Map<string, CartItem>();
-            serverItems.forEach(item => mergedMap.set(item.id, item));
-
-            localItems.forEach(localItem => {
-              if (mergedMap.has(localItem.id)) {
-                const existing = mergedMap.get(localItem.id)!;
-                mergedMap.set(localItem.id, {
-                  ...existing,
-                  quantity: existing.quantity + localItem.quantity
-                });
-              } else {
-                mergedMap.set(localItem.id, localItem);
-              }
-            });
-
-            useCartStore.getState().setItems(Array.from(mergedMap.values()));
-          } else if (serverItems.length > 0) {
+          if (serverItems.length > 0) {
             // REPLACE WITH SERVER ITEMS
             useCartStore.getState().setItems(serverItems);
           }

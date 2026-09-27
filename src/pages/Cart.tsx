@@ -4,6 +4,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/services/products";
 import QuantitySelector from "@/components/QuantitySelector";
 import SEO from "@/components/SEO";
+import { colorNames } from "@/lib/translations";
 
 export default function Cart() {
 const navigate = useNavigate();
@@ -65,7 +66,7 @@ const navigate = useNavigate();
                   </h3>
                   {(item.selectedSize || item.selectedColor) && (
                     <p className="text-xs text-muted-foreground mt-1">
-                      {[item.selectedSize, item.selectedColor].filter(Boolean).join(" • ")}
+                      {[item.selectedSize, item.selectedColor ? (colorNames[item.selectedColor] || item.selectedColor) : null].filter(Boolean).join(" • ")}
                     </p>
                   )}
                   <p className="text-sm text-muted-foreground mt-1">

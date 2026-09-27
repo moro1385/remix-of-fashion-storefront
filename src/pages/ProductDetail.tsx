@@ -78,7 +78,7 @@ export default function ProductDetail() {
       price,
       quantity,
 selectedSize: activeOptions["Size"] ?? null,
-      selectedColor: activeOptions["Color"] ?? null,
+      selectedColor: activeOptions["Color"] ? (colorNames[activeOptions["Color"]] || activeOptions["Color"]) : null,
     });
     toast.success("محصول به سبد خرید اضافه شد");
     setQuantity(1);

@@ -22,6 +22,8 @@ const statusTranslations: Record<string, string> = {
   shipped: "ارسال شده",
   delivered: "تحویل داده شده",
   cancelled: "لغو شده",
+  pending_payment: "ناموفق",
+  payment_failed: "ناموفق",
 };
 
 interface OrderLine {
@@ -159,9 +161,9 @@ export default function Orders() {
                     </p>
                   </div>
                 </header>
-                <ul className="divide-y divide-border">
+                <ul className="flex flex-col gap-2 p-4">
                   {order.lines.map((line, i) => (
-                    <li key={i} className="flex items-center justify-between gap-4 px-6 py-4">
+                    <li key={i} className="flex items-center justify-between gap-4 px-4 py-3 border border-border rounded-xl">
                       <div>
                         <p className="text-sm text-foreground">{line.title}</p>
                         <p className="text-xs text-muted-foreground">

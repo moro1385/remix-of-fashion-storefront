@@ -76,6 +76,8 @@ export function OrderDetailsDialog({ open, onOpenChange, orderId }: OrderDetails
     shipped: "ارسال شده",
     delivered: "تحویل داده شده",
     cancelled: "لغو شده",
+    pending_payment: "ناموفق",
+    payment_failed: "ناموفق",
   };
 
   return (
