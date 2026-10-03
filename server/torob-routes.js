@@ -1,0 +1,77 @@
+import { Router } from "express";
+import multer from "multer";
+import { createClient } from "@supabase/supabase-js";
+
+const upload = multer().none(); // parses form-data fields into req.body
+const router = Router();
+const PRODUCTS_PER_PAGE = 100;
+const BASE_URL = "https://jamimode.ir";
+
+router.post("/products", upload, async (req, res) => {
+  try {
+    const supabaseUrl = process.env.SUPABASE_URL ?? '';
+    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ?? '';
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    const { page, page_unique, page_url } = req.body;
+
+    let query = supabase
+      .from("products")
+      .select("id, name, slug, description, price, is_out_of_stock, images, categories:category_id(name), product_images(image_url, sort_order)")
+      .eq("is_active", true);
+
+    if (page_unique) {
+      query = query.eq("slug", page_unique);
+    } else if (page_url) {
+      // strip query params and extract the slug from the end of the path
+      const cleanUrl = page_url.split("?")[0];
+      const slug = decodeURIComponent(cleanUrl.split("/").filter(Boolean).pop() || "");
+      query = query.eq("slug", slug);
+    }
+
+    const { data: allMatching, error: countError } = await query;
+    if (countError) throw countError;
+
+    const mapProduct = (p) => {
+      const images = p.images?.length
+        ? p.images
+        : (p.product_images || [])
+            .sort((a, b) => a.sort_order - b.sort_order)
+            .map((img) => img.image_url);
+      return {
+        title: p.name,
+        page_unique: p.slug,
+        current_price: String(Math.round(Number(p.price))),
+        availability: p.is_out_of_stock ? "outofstock" : "instock",
+        category_name: p.categories?.name || "",
+        image_link: images[0] || "",
+        image_links: images,
+        page_url: `${BASE_URL}/product/${p.slug}`,
+        short_desc: (p.description || "").slice(0, 200),
+      };
+    };
+
+    if (page_unique || page_url) {
+      return res.json({
+        count: String(allMatching.length),
+        max_pages: "1",
+        products: allMatching.map(mapProduct),
+      });
+    }
+
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const start = (pageNum - 1) * PRODUCTS_PER_PAGE;
+    const pageItems = allMatching.slice(start, start + PRODUCTS_PER_PAGE);
+
+    res.json({
+      count: String(allMatching.length),
+      max_pages: String(Math.max(1, Math.ceil(allMatching.length / PRODUCTS_PER_PAGE))),
+      products: pageItems.map(mapProduct),
+    });
+  } catch (error) {
+    console.error("torob-routes error:", error.message);
+    res.status(500).json({ count: "0", max_pages: "0", products: [] });
+  }
+});
+
+export default router;
