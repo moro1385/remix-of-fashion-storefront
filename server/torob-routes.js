@@ -53,7 +53,7 @@ router.post("/products", upload, async (req, res) => {
 
     if (page_unique || page_url) {
       return res.json({
-        api_version: "1.0",
+        api_version: "torob_api_v3",
         count: String(allMatching.length),
         current_page: 1,
         max_pages: 1,
@@ -66,7 +66,7 @@ router.post("/products", upload, async (req, res) => {
     const pageItems = allMatching.slice(start, start + PRODUCTS_PER_PAGE);
 
     res.json({
-      api_version: "1.0",
+      api_version: "torob_api_v3",
       count: String(allMatching.length),
       current_page: pageNum,
       max_pages: Math.max(1, Math.ceil(allMatching.length / PRODUCTS_PER_PAGE)),
@@ -74,7 +74,7 @@ router.post("/products", upload, async (req, res) => {
     });
   } catch (error) {
     console.error("torob-routes error:", error.message);
-    res.status(500).json({ api_version: "1.0", count: "0", current_page: 1, max_pages: 0, products: [] });
+    res.status(500).json({ api_version: "torob_api_v3", count: "0", current_page: 1, max_pages: 0, products: [] });
   }
 });
 
