@@ -17,7 +17,7 @@ router.post("/products", upload, async (req, res) => {
 
     let query = supabase
       .from("products")
-      .select("id, name, slug, description, price, is_out_of_stock, images, categories:category_id(name), product_images(image_url, sort_order)")
+      .select("id, name, slug, description, price, is_out_of_stock, images, categories:category_id(name), product_images(image_url, sort_order), created_at")
       .eq("is_active", true);
 
     if (page_unique) {
@@ -41,13 +41,15 @@ router.post("/products", upload, async (req, res) => {
       return {
         title: p.name,
         page_unique: p.slug,
-        current_price: String(Math.round(Number(p.price))),
-        availability: p.is_out_of_stock ? "outofstock" : "instock",
+        current_price: Math.round(Number(p.price)),
+        availability: !p.is_out_of_stock,
         category_name: p.categories?.name || "",
         image_link: images[0] || "",
         image_links: images,
         page_url: `${BASE_URL}/product/${p.slug}`,
         short_desc: (p.description || "").slice(0, 200),
+        spec: p.categories?.name ? [{ name: "دسته‌بندی", value: p.categories.name }] : [],
+        date_added: p.created_at ? new Date(p.created_at).toISOString().slice(0, 10) : null,
       };
     };
 
