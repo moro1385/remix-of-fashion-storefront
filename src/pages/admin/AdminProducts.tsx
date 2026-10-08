@@ -7,8 +7,106 @@ import { toast } from "sonner";
 import type { Database } from "@/integrations/supabase/types";
 import { ProductFormDialog } from "@/components/admin/ProductFormDialog";
 import { slugify } from "@/lib/slugify";
+import { Input } from "@/components/ui/input";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
+
+function EditablePriceCell({ product, onSuccess }: { product: Product, onSuccess: () => void }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentPrice, setCurrentPrice] = useState(product.price);
+  const [editValue, setEditValue] = useState(currentPrice?.toString() || "");
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    setCurrentPrice(product.price);
+    setEditValue(product.price?.toString() || "");
+  }, [product.price]);
+
+  const handleSave = async () => {
+    if (isSaving) return;
+
+    if (!editValue || editValue.trim() === "") {
+      setEditValue(currentPrice?.toString() || "");
+      setIsEditing(false);
+      return;
+    }
+
+    const numericPrice = parseFloat(editValue);
+    if (isNaN(numericPrice)) {
+      toast.error("لطفاً یک قیمت معتبر وارد کنید");
+      setEditValue(currentPrice?.toString() || "");
+      setIsEditing(false);
+      return;
+    }
+
+    if (numericPrice === currentPrice) {
+      setIsEditing(false);
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const { error } = await supabase
+        .from("products")
+        .update({ price: numericPrice })
+        .eq("id", product.id);
+
+      if (error) throw error;
+      toast.success("قیمت با موفقیت بروزرسانی شد");
+      setCurrentPrice(numericPrice);
+      onSuccess();
+    } catch (err: unknown) {
+      console.error("Error updating price:", err);
+      toast.error((err as Error).message || "بروزرسانی قیمت با شکست مواجه شد");
+      setEditValue(currentPrice?.toString() || "");
+    } finally {
+      setIsSaving(false);
+      setIsEditing(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSave();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setEditValue(currentPrice?.toString() || "");
+      setIsEditing(false);
+    }
+  };
+
+  if (isEditing) {
+    return (
+      <TableCell className="min-w-[120px]">
+        <Input
+          type="number"
+          value={editValue}
+          onChange={(e) => setEditValue(e.target.value)}
+          onBlur={handleSave}
+          onKeyDown={handleKeyDown}
+          disabled={isSaving}
+          autoFocus
+          className="h-8"
+          dir="ltr"
+        />
+      </TableCell>
+    );
+  }
+
+  return (
+    <TableCell
+      className="cursor-pointer group hover:bg-muted/50 transition-colors"
+      onClick={() => setIsEditing(true)}
+      title="برای ویرایش کلیک کنید"
+    >
+      <div className="flex items-center gap-2">
+        <span>{new Intl.NumberFormat('fa-IR').format(currentPrice ?? 0)} ریال</span>
+        <Edit className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+      </div>
+    </TableCell>
+  );
+}
 
 export default function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -66,9 +164,9 @@ export default function AdminProducts() {
         toast.success("محصول با موفقیت کپی شد");
         fetchProducts();
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error duplicating product:", err);
-      toast.error(err.message || "کپی محصول با شکست مواجه شد");
+      toast.error((err as Error).message || "کپی محصول با شکست مواجه شد");
     }
   };
 
@@ -142,7 +240,7 @@ export default function AdminProducts() {
                 <TableRow key={product.id}>
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell className="text-muted-foreground">{product.slug}</TableCell>
-                  <TableCell>{new Intl.NumberFormat('fa-IR').format(product.price)} ریال</TableCell>
+                  <EditablePriceCell product={product} onSuccess={fetchProducts} />
                   <TableCell>
                     {product.is_active ? (
                       <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
