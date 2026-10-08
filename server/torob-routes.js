@@ -48,8 +48,8 @@ router.post("/products", upload, async (req, res) => {
         image_links: images,
         page_url: `${BASE_URL}/product/${p.slug}`,
         short_desc: (p.description || "").slice(0, 200),
-        spec: p.categories?.name ? [{ name: "دسته‌بندی", value: p.categories.name }] : [],
-        date_added: p.created_at ? new Date(p.created_at).toISOString().slice(0, 10) : null,
+        spec: p.categories?.name ? { "دسته‌بندی": p.categories.name } : {},
+        date_added: p.created_at ? new Date(p.created_at).toISOString().replace(/\.\d{3}Z$/, "+00:00") : undefined,
       };
     };
 
