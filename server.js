@@ -7,6 +7,7 @@ import torobRoutes from "./server/torob-routes.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/bitpay", bitpayRoutes);
 app.use("/torob_api/v3", torobRoutes);

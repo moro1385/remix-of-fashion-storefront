@@ -12,8 +12,13 @@ router.post("/products", upload, async (req, res) => {
     const supabaseUrl = process.env.SUPABASE_URL ?? '';
     const supabaseAnonKey = process.env.SUPABASE_ANON_KEY ?? '';
     const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-    const { page, page_unique, page_url } = req.body;
+    
+const params = { ...(req.query || {}), ...(req.body || {}) };
+const safeDecode = (v) => { try { return decodeURIComponent(v); } catch { return v; } };
+const page = params.page;
+const page_unique = params.page_unique ? safeDecode(String(params.page_unique).trim()) : undefined;
+const page_url = params.page_url ? String(params.page_url).trim() : undefined;
+console.log("torob request:", req.headers["content-type"], Object.keys(params));
 
     let query = supabase
       .from("products")
