@@ -26,7 +26,7 @@ export default function Index() {
           type="newest"
           eyebrow="تازه ترین ها"
           title="جدید ترین محصولات"
-          count={4}
+          count={12}
           className="py-20 bg-background"
         />
       </FadeIn>
@@ -40,7 +40,7 @@ export default function Index() {
           type="featured"
           eyebrow="محبوب ها"
           title="محصولات ویژه و خاص"
-          count={4}
+          count={12}
           className="py-20 bg-background"
         />
       </FadeIn>
